@@ -215,7 +215,7 @@ export default function Home() {
       <div className='categoriesCon3'>
       <div className='categories'>
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH2.jpg' alt='blog Categ'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
           <h3>Content Writinkujyhtgrfegrvthbyjnukmilmkunjybhtgvrfthbjynukmil,o;limkunjyhg</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -236,7 +236,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -257,7 +257,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -278,7 +278,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -299,7 +299,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -320,7 +320,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -341,7 +341,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH2.jpg' alt='blog Categ'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -362,7 +362,7 @@ export default function Home() {
         </Link>
 
         <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><img src='/OTOTECH2.jpg' alt='blog Categ'/></div>
+          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
           <h3>Content Writing</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -400,7 +400,7 @@ export default function Home() {
 
 
 
-
+img
 
 
       <div className='blogAdsCon'>
@@ -410,7 +410,7 @@ export default function Home() {
       <Link href='#'>OUR SERVICES</Link>
     </div>
     <div className='blogAdsImg'>
-      <img src='/OTOTECH3.png' alt='blog Ads'/>
+      <picture><img src='/OTOTECH3.png' alt='blog Ads'/></picture>
     </div>
   </div>
 
@@ -422,7 +422,7 @@ export default function Home() {
   <div className='blogSliderCon'>
     <div className='blogSlider'>
     <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -442,7 +442,7 @@ export default function Home() {
       </a>
     </Link>
     <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -462,7 +462,7 @@ export default function Home() {
       </a>
     </Link>
     <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -482,7 +482,7 @@ export default function Home() {
       </a>
     </Link>
     <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -502,7 +502,7 @@ export default function Home() {
       </a>
     </Link>
     <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -522,7 +522,7 @@ export default function Home() {
       </a>
     </Link>
             <Link href='#' ><a className='blogCon'>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
@@ -542,7 +542,7 @@ export default function Home() {
       </a>
     </Link>
     <Link href='#' ><a className='blogCon' style={{width: "300px"}}>
-      <div className='blogImg'><img src='/OTOTECH1.jpg'/></div>
+      <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
       <div className='blogInfo'>
       <h3>Content Writing</h3>
       <p>by <span>STEVEN JOSEPH</span></p>
