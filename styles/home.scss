@@ -79,7 +79,7 @@ header{
 	justify-content: flex-start;
 	align-content: center;
 	position: relative;
-    box-shadow: 1px 2px 0px rgba(0,0,0,0.1);
+    box-shadow: 1px 2px 0px rgba(0,0,0,0.1) inset;
 	padding-top: 78px;
 }
 
@@ -137,6 +137,12 @@ i{
     background: $color5;
     padding: 15px;
     font-family: poppinsLight;
+    display: flex;
+
+    a{
+        width: 100%;
+    }
+    
 }
 }
 
@@ -158,6 +164,11 @@ i{
         padding: 25px 15px;
         font-family: poppinsLight;
         border: 1px solid $color5;
+        display: flex;
+
+        a{
+            width: 100%;
+        }
 }
 }
 
@@ -228,7 +239,7 @@ padding-bottom: 30px;
 
 .main4{
 	position: absolute;
-    width: calc(100vw - 72px);
+    width: calc(100vw - 76px);
 	box-sizing: border-box;
     display: none;
 }
@@ -239,6 +250,11 @@ padding-bottom: 30px;
     padding: 15px;
     font-family: poppinsLight;
     box-sizing: border-box;
+    display: flex;
+
+    a{
+        width:100% !important;
+    }
 }
 
 .categoriesCon2{
@@ -278,6 +294,12 @@ padding-bottom: 30px;
     padding: 30px;
     margin:12px;
     box-sizing: content-box;
+
+    i{
+        padding-bottom: 30px;
+        font-size: 19px;
+        color: $color9;
+    }
 }
 
 .emailRegisterCon{
