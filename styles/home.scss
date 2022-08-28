@@ -73,7 +73,7 @@ header{
 
 
 .barCon{
-	background: $color5;
+	background: $color10;
 	padding: 0px 80px;
 	display: flex;
 	justify-content: flex-start;
@@ -113,6 +113,7 @@ input{
     padding: 11px 8px;
     width: 100%;
     background: transparent;
+    color:$color9;
 }
 
 input:hover{
@@ -239,7 +240,7 @@ padding-bottom: 30px;
 
 .main4{
 	position: absolute;
-    width: calc(100vw - 76px);
+    width: calc(100vw - 60px);
 	box-sizing: border-box;
     display: none;
 }

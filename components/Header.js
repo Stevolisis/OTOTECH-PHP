@@ -1,9 +1,33 @@
 import Link from "next/link";
+import { useEffect } from "react";
 import CategorydropDown from './CategorydropDown'
 import Navbar from './Navbar'
 import NavbarController from './NavbarController'
+import $ from 'jquery';
 
 export default function Header(){
+
+  function dropdown2(){
+    $('.filterSearch2').on('focus',function(){
+      $('.filterCon').css('display','block')
+      $('.filterCon2').css('display','none')
+    });
+    $('.filterSearch2').on('focusout',function(){
+      $(document).on('click',function(e){
+        if(e.target.className=='filterCon div'||e.target.className=='filterSearch2'){
+          return
+        }else{
+          $('.filterCon').css('display','none')
+        }
+      })
+    });
+    }
+
+    
+  useEffect(()=>{
+    dropdown2();  
+  })
+
 
     return(
         <>
