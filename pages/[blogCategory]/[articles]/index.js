@@ -12,6 +12,6 @@ export default function Article(){
     //alert(category)     
     })
     return(
-        <>Blog Topic 1 <Link href={`${window.location.href}/3`}>Page 3</Link></>
+        <>Blog Topic 1 <Link href={`/3`}>Page 3</Link></>
     )
 }
