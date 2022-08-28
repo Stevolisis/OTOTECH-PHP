@@ -3,6 +3,7 @@ import Link from 'next/link'
 import $ from 'jquery';
 import { useEffect } from 'react'
 import SlidingArticles from '../components/SlidingArticles';
+import BlogList from '../components/BlogList';
 
 export default function Home() {
   function dropdown1(){
@@ -20,30 +21,11 @@ export default function Home() {
   });
   }
 
-  function dropdown2(){
-    $('.filterSearch2').on('focus',function(){
-      $('.filterCon').css('display','block')
-      $('.filterCon2').css('display','none')
-    });
-    $('.filterSearch2').on('focusout',function(){
-      $(document).on('click',function(e){
-        if(e.target.className=='filterCon'||e.target.className=='filterSearch2'){
-          return
-        }else{
-          $('.filterCon').css('display','none')
-        }
-      })
-    });
-    }
-
 
   useEffect(()=>{
     dropdown1();  
   })
 
-  useEffect(()=>{
-    dropdown2();  
-  })
 
 
   return (
@@ -66,7 +48,7 @@ export default function Home() {
       <div className="mainScreen">
       <div className="main1"><h3>OTOTECH BLOG</h3></div>
       <div className="main2"> <p>
-      The Toptal Blog is the top hub for developers, designers, finance experts, executives, and entrepreneurs, featuring key technology updates, tutorials, freelancer resources, and management insights.
+      The Ototech Blog is the top hub for developers, designers, finance experts, executives, and entrepreneurs, featuring key technology updates, tutorials, freelancer resources, and management insights.
       </p></div>
 
       </div>
@@ -101,7 +83,7 @@ export default function Home() {
 
       <div className='categoriesCon2'>
         <div className='categories'>
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/enginneering'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-globe'/></div>
           <div className='categoryInfo'>
             <h2>Enginneering</h2>
@@ -112,7 +94,7 @@ export default function Home() {
           </a>
         </Link>
 
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/graphics'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-paint-brush'/></div>
           <div className='categoryInfo'>
             <h2>Graphics</h2>
@@ -123,7 +105,7 @@ export default function Home() {
           </a>
         </Link>
 
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/web-development'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-desktop'/></div>
           <div className='categoryInfo'>
             <h2>Web Development</h2>
@@ -134,7 +116,7 @@ export default function Home() {
           </a>
         </Link>
       
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/ui-ux'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-rocket'/></div>
           <div className='categoryInfo'>
             <h2>UI/UX Design</h2>
@@ -145,7 +127,7 @@ export default function Home() {
           </a>
         </Link>
 
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/app-development'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-mobile'/></div>
           <div className='categoryInfo'>
             <h2>App Development</h2>
@@ -156,7 +138,7 @@ export default function Home() {
           </a>
         </Link>
 
-        <Link href='/categories'><a className='categoryCon'>
+        <Link href='/content-writing'><a className='categoryCon'>
           <div className='categoryIcon'><i className='fa fa-pencil'/></div>
           <div className='categoryInfo'>
             <h2>Content Writing</h2>
@@ -206,175 +188,14 @@ export default function Home() {
 
 
       <div className='categoriesCon3'>
-      <div className='categories'>
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writinkujyhtgrfghjkjhgf</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
+      
 
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
 
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
 
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
+      <BlogList/>
 
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
 
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
 
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-      </div>
 
       <div className='blogNavCon'>
         <div className='blogNav'>
