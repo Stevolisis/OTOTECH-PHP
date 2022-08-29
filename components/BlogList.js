@@ -32,7 +32,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/react-hooks`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>React Hooks</h3>
@@ -53,7 +53,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/php-fundamentals`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Php Fundamentals</h3>
@@ -74,7 +74,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/content-creation`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Single Page Applications</h3>
@@ -95,7 +95,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/Introduction-to-adobe-XD-and-figma`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>Introduction to Adobe XD and Figma</h3>
@@ -116,7 +116,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/react-native`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
           <h3>React Native</h3>
@@ -137,7 +137,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/backend-development`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
           <h3>Backend Development</h3>
@@ -158,7 +158,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/nodejs-libraries`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
           <h3>Nodejs Libraries</h3>

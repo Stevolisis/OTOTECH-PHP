@@ -13,6 +13,7 @@
     $color12:#5A360E;
     $color13:#c9c5c5;
     $color14:#343434;
+    $color15:#aaaaaa;
 
     $gradient1:linear-gradient(30deg,orangered,orange);
     $gradient2:linear-gradient(30deg,#0C7BB3,#F2BAE8);
@@ -20,30 +21,36 @@
 
     @font-face {
     font-family: poppinsExtraBold;
-    src: url("../fonts/Poppins-ExtraBold.ttf");
+    src: url("../fonts/Poppins/Poppins-ExtraBold.ttf");
     
     }
     @font-face {
     font-family: poppinsBold;
-    src: url("../fonts/Poppins-Bold.ttf");
+    src: url("../fonts/Poppins/Poppins-Bold.ttf");
     
     }
     @font-face {
     font-family: poppinsMedium;
-    src: url("../fonts/Poppins-Medium.ttf");
+    src: url("../fonts/Poppins/Poppins-Medium.ttf");
     
     }
     @font-face {
     font-family: poppinsRegular;
-    src: url("../fonts/Poppins-Regular.ttf");
+    src: url("../fonts/Poppins/Poppins-Regular.ttf");
     
     }
     @font-face {
     font-family: poppinsLight;
-    src: url("../fonts/Poppins-Light.ttf");
+    src: url("../fonts/Poppins/Poppins-Light.ttf");
     
     }
 
+    @font-face {
+        font-family: metropolisBold;
+        src: url("../fonts/Metropolis/Metropolis-Bold.otf");
+        
+    }
+    
 
 
     

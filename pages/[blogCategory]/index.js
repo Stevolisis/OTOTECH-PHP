@@ -37,7 +37,7 @@ export default function BlogCategory(){
     
     return(
         <>
-              <Head>
+      <Head>
         <title>OTOTECH {blogCategory}</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
