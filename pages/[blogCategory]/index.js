@@ -4,8 +4,9 @@ import {useRouter} from 'next/router'
 import { useEffect } from "react";
 import BlogList from "../../components/BlogList";
 import SlidingArticles from "../../components/SlidingArticles";
-import '../../styles/blogCategory.module.css'
+import styles from '../../styles/blogCategory.module.css'
 import $ from 'jquery';
+import Mainscreen from "../../components/Mainscreen";
 
 export default function BlogCategory(){
     const router=useRouter();
@@ -48,33 +49,25 @@ export default function BlogCategory(){
 
 
 
-
-
-      <div className="mainScreenCon">
-      <div className="mainScreen">
-      <div className="main1"><h3>Web Development</h3></div>
-      <div className="main2"> <p>
-      The Ototch Blog is the top hub for developers, designers, finance experts, executives, and entrepreneurs, featuring key technology updates, tutorials, freelancer resources, and management insights.
-      </p></div>
-
-      </div>
-
-      <div className="submain">
-      <div className="main3">
-      <i className="fa fa-search"></i>
-      <input className='filterSearch1' type="text" name="search" placeholder="Search category, blogs, products ..."/>
-      </div>
-      <div className="main4">
-      <div><Link href='/op'>Blog 1</Link></div>
-      <div><Link href='#'>Blog 2</Link></div>
-      <div><Link href='#'>Blog 3</Link></div>
-      <div><Link href='#'>Blog 7</Link></div>			
-      </div>
-      </div>
-      </div>
+      <Mainscreen heading={blogCategory} description='The Ototech Blog is the top hub for developers, designers,
+     finance experts, executives, and entrepreneurs,
+     featuring key technology updates, tutorials, freelancer resources, and management insights.'
+     imgLink='/OTOTECH2.jpg'/>
 
 
 
+
+
+<div className={styles.categorySliderCon}>
+<div className={styles.categorySlider}>
+<Link href='/engineering'><a className={styles.categorySlide}>Engineering</a></Link>
+<Link href='/graphics'><a className={styles.categorySlide}>Graphics</a></Link>
+<Link href='/web-development'><a className={styles.categorySlide}>Web Development</a></Link>
+<Link href='/ui-ux'><a className={styles.categorySlide}>UI/UX Design</a></Link>
+<Link href='/app-development'><a className={styles.categorySlide}>App Development</a></Link>
+<Link href='/content-writing'><a className={styles.categorySlide}>Content Writing</a></Link>
+  </div>
+</div>
 
 
 
@@ -87,7 +80,6 @@ export default function BlogCategory(){
 
      <div className='categoriesCon3'>
       
-
       <BlogList/>
 
 

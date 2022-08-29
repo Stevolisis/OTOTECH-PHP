@@ -1,14 +1,20 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function BlogList(){
+  const [link, setLink]=useState('');
+
+  useEffect(()=>{
+    setLink(window.location.href);
+  },[]);
 
     return(
         <>
         <div className='categories'>
-        <Link href='#' ><a className='blogCon'>
+        <Link href={`${link}/content-creation`} ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
-          <h3>Content Writinkujyhtgrfghjkjhgf</h3>
+          <h3>Content Creation</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -29,7 +35,7 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>React Hooks</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -50,7 +56,7 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>Php Fundamentals</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -71,7 +77,7 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>Single Page Applications</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -92,7 +98,7 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>Introduction to Adobe XD and Figma</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -113,28 +119,7 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='#' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
-          <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>React Native</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
@@ -155,7 +140,28 @@ export default function BlogList(){
         <Link href='#' ><a className='blogCon'>
           <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
           <div className='blogInfo'>
-          <h3>Content Writing</h3>
+          <h3>Backend Development</h3>
+          <p>by <span>STEVEN JOSEPH</span></p>
+            <p>Explore in-depth developer tutorials and new technology 
+              announcements created by professional engineers in the Toptal 
+              network. Read engineering articles
+            </p> 
+          </div>
+
+          <div className='blogDataCon'>
+            <div className='blogData'>
+            <i className='fa fa-eye'><p>32</p></i>
+            <i className='fa fa-thumbs-up'><p>22</p></i>
+            </div>
+            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
+          </div>
+          </a>
+        </Link>
+
+        <Link href='#' ><a className='blogCon'>
+          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
+          <div className='blogInfo'>
+          <h3>Nodejs Libraries</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
             <p>Explore in-depth developer tutorials and new technology 
               announcements created by professional engineers in the Toptal 
