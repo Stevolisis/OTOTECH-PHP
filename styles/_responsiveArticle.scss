@@ -12,7 +12,9 @@
             font-size: 11px !important;
         }
     }
-
+    .articleImg{
+        height: 55vw !important;
+    }
     .articleCreditCon{
         flex-wrap: wrap;
         padding: 20px 5% !important;
@@ -50,13 +52,6 @@
     a{
         padding: 6px 20px !important;
     }
-    }
-
-    .articleContentCon{
-    
-        p{
-            font-size: 13px !important;
-        }
     }
 
     .likeArticleCon{

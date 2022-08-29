@@ -151,7 +151,7 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
 
      <div className='commentBoxCon'>
 
-        <form>
+        <form onSubmit={(e)=>e.preventDefault()}>
             <h3>Leave a Comment</h3>
         <input type='text' name='Full Name' placeholder="Full Name"/>
         <input type='email' name='email' placeholder="E-mail Address"/>

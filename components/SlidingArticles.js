@@ -1,7 +1,12 @@
 import Link from "next/link";
-
+import { useEffect, useState } from "react";
 
 export default function SlidingArticles(){
+  const [link, setLink]=useState('');
+
+  useEffect(()=>{
+    setLink((window.location.href).split('/')[1]);
+  },[]);
 
     return(
         <>
@@ -10,7 +15,7 @@ export default function SlidingArticles(){
 
 <div className='blogSliderCon'>
   <div className='blogSlider'>
-  <Link href='#' ><a className='blogCon'>
+  <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -30,7 +35,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-  <Link href='#' ><a className='blogCon'>
+  <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -50,7 +55,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-  <Link href='#' ><a className='blogCon'>
+  <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -70,7 +75,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-  <Link href='#' ><a className='blogCon'>
+  <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -90,7 +95,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-  <Link href='#' ><a className='blogCon'>
+  <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -110,7 +115,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-          <Link href='#' ><a className='blogCon'>
+          <Link href='/engineering/content-creation' ><a className='blogCon'>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
@@ -130,7 +135,7 @@ export default function SlidingArticles(){
     </div>
     </a>
   </Link>
-  <Link href='#' ><a className='blogCon' style={{width: "300px"}}>
+  <Link href='/engineering/content-creation' ><a className='blogCon' style={{width: "300px"}}>
     <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>

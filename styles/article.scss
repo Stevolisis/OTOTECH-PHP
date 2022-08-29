@@ -21,9 +21,9 @@
 }
 
 .articleImg{
-    height: 80vh;
+    height: 34vw;
     width: 100%;
-    background: url('../public/OTOTECH2.jpg');
+    background: url('../public/OTOTECH4.jpg');
     box-sizing: border-box;
 	background-position: center;
 	background-repeat: no-repeat;
@@ -168,7 +168,7 @@
             line-height: 40px;
             background: $color3;
             border: 1px solid $color15;
-            font-family: poppinsMedium;
+            font-family: poppinsRegular;
             margin-bottom: 15px;
             box-sizing: border-box;
             width: 100%;
@@ -185,7 +185,7 @@
             font-size: 13px;
             line-height: 40px;
             background: $color3;
-            font-family: poppinsMedium;
+            font-family: poppinsRegular;
             margin-bottom: 15px; 
             border: 1px solid $color15;
         }
