@@ -3,6 +3,6 @@
 export default function BlogCategories(){
 
     return(
-        <>Hi</>
+        <>Admin Page</>
     )
 }

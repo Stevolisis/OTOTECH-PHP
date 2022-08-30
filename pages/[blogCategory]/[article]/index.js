@@ -161,6 +161,39 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
 
      </div>
 
+
+<div className="articleCommentsCon">
+<h3>Comments</h3>
+
+<div className='articleAuthorCon' style={{width:'100%'}}>
+    <div className='authorImg'>
+        <img src="/OTOTECH1.jpg"/>
+    </div>
+
+    <div className="articleAuthor" >
+        <p>STEVEN JOSEPH</p>
+        <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
+             companiess. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
+    </div>
+</div>
+
+<div className='articleAuthorCon' style={{width:'100%'}}>
+    <div className='authorImg'>
+        <img src="/OTOTECH1.jpg"/>
+    </div>
+
+    <div className="articleAuthor" >
+        <p>STEVEN JOSEPH</p>
+        <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
+             companiess. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
+    </div>
+</div>
+
+
+
+
+</div>
+
      <SlidingArticles/>
 
     </>
