@@ -35,8 +35,8 @@ export default function Header(){
 <header>
       <div className="logoCon"><h3>OTOTECH</h3></div>
       <div className="linksCon">
+      <Link href='/'>Home</Link>
       <Link href='#'>About Us</Link>
-      <Link href='#'>Learn More</Link>
       <Link href='#'>Our Services</Link>
       <Link href='#'>Contact</Link>
       </div>
