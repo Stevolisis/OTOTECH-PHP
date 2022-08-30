@@ -7,13 +7,13 @@ export default function AdminCategories(){
         <>
         <div className='mainHeading'>
             <p>Categories</p>
-            <Link href='addCategory'>ADD</Link>
+            <Link href='categories/addCategory'>ADD</Link>
             </div>
 
 
 
 
-            <div className='admincategcon'>
+<div className='admincategcon'>
 
 <div className='adminfilterscon'>
 <div className='adminfilters'>
@@ -47,6 +47,31 @@ export default function AdminCategories(){
 
 
 
+<tbody>
+
+<tr>
+<th>Img</th>
+<th>Name</th>
+<th>Slug</th>
+<th>icon</th>
+<th>Date</th>
+<th>Edit</th>
+<th>Delete</th>
+<th>Status</th>
+</tr>
+
+<tr>
+    <td><img src='/OTOTECH11.jpg'/></td>
+    <td>Engineering</td>
+    <td>engineering</td>
+    <td>globe</td>
+    <td>12th June 2022</td>
+    <td><Link href='/admin/categories/editCategory'><i className='fa fa-edit'/></Link></td>
+    <td><button>Delete</button></td>
+    <td>Active</td>
+</tr>
+
+</tbody>
 
 
 

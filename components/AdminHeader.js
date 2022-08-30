@@ -61,7 +61,7 @@ export default function AdminHeader({children}){
 <div><Link href='/admin/users'>Users</Link></div>
 <div><Link href='/admin/staff'>Staffs</Link></div>
 <div><Link href='/admin/analytics'>Analytics</Link></div>
-<div><Link href='/admin/'>Customer Support System</Link></div>
+<div><Link href='/'>Customer Support System</Link></div>
 </div>
 </div>
 

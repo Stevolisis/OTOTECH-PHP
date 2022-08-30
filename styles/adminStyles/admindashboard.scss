@@ -152,57 +152,6 @@ height: auto;
     box-sizing: border-box;
 }
 
-.adminstat3con{
-    box-shadow: $color17;
-    background: $color3;
-  //  margin-top: 18px;
-    padding-bottom: 18px;
-}
-
-.adminstat3{
-    padding: 0 15px;
-}
-
-.adminstat3info{
-    overflow-x: scroll;
-
-    table{
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    tr{
-        border: 0;
-        border: 1px solid $color15;
-    }
-    td{
-        padding: 10px 14px;
-        font-size: 13px;
-    }
-
-    img{
-        width: 100px;
-        height: 90px;
-    }
-    
-}
-
-.adminmorebtn{
-    padding: 0 15px;
-    display: flex;
-    justify-content: flex-end;
-    button{
-        color: $color5;
-        padding: 10px;
-        border: 0;
-        background: $color6;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
-        cursor: pointer;
-
-    }
-}
-
 .chartfilterscon{
 display: flex;
 justify-content: center;

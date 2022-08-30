@@ -8,13 +8,13 @@ export default function Navbar({section}){
             <div className="subNav1">
             {section==='Admin' ? <>
             <div><Link href='/'>Home</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/about.html'>Dashboard</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/#service'>Categories</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/'>Articles</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/contact.html'>Users</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/contact.html'>Staffs</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/contact.html'>Analytics</Link></div>
-            <div><Link href='https://ototech22.github.io/OTOTECH-website/contact.html'>Customer Care</Link></div>
+            <div><Link href='/admin'>Dashboard</Link></div>
+            <div><Link href='/admin/categories'>Categories</Link></div>
+            <div><Link href='/admin/articles'>Articles</Link></div>
+            <div><Link href='/admin/users'>Users</Link></div>
+            <div><Link href='/admin/staffs'>Staffs</Link></div>
+            <div><Link href='/admin/analytics'>Analytics</Link></div>
+            <div><Link href='/'>Customer Care</Link></div>
             </>
             : 
             <>
