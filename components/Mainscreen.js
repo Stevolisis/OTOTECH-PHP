@@ -1,10 +1,10 @@
 import Link from "next/link";
 
-export default function Mainscreen({heading,description,imgLink}){
+export default function Mainscreen({heading,description,imgLink,page}){
 
     return(
     <>
-      <div className="mainScreenCon" style={{backgroundImage:`url('${imgLink}')`}}>
+      <div className="mainScreenCon" style={{backgroundImage:`${page==='blogCategory' ? 'linear-gradient(30deg,rgba(0,0,0,0.5),rgba(0,0,0,0.5))' : ''},url('${imgLink}') `}}>
       <div className="mainScreen">
       <div className="main1"><h3>{heading}</h3></div>
       <div className="main2"> <p>

@@ -140,7 +140,7 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
      <div className="likeArticleCon">
     <button onClick={()=>setLiked(!liked)} style={{background:`${liked==true ? '#9c9a9a' : '#ec9735'}`,
      boxShadow:`${liked==true ? 'none' : '-1px 2px 4px rgba(0, 0, 0, 0.2)'}`}}>
-        <i className='fa fa-thumbs-up'><p> 0 </p></i>
+        <i className='fa fa-thumbs-up'><p> {liked===true ? 1 : 0} </p></i>
         </button>
      </div>
 
