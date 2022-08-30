@@ -1,12 +1,18 @@
+import { useLayoutEffect, useState } from "react";
 import AdminHeader from "../components/AdminHeader";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 export default function Layout({children}){
-    console.log(children.type)
+    const [admin,setAdmin]=useState('');
+
+    useLayoutEffect(()=>{
     const childrenName=children.type.name;
-    const admin=childrenName.split('n')[0];
-    console.log(admin)
+    setAdmin(childrenName.split('n')[0]);  
+    console.log(children);     
+    console.log(childrenName.split('n')[0]);     
+    })
+
     return(
         <>
         {admin==='Admi' ? 
