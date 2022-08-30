@@ -3,6 +3,7 @@ import Layout from './Layout'
 import '../styles/home.scss'
 import '../styles/article.scss'
 import '../styles/adminStyles/admindashboard.scss'
+import '../styles/adminStyles/adminDataDisplay.scss'
 import 'font-awesome/css/font-awesome.min.css';
 
 function MyApp({ Component, pageProps }) {

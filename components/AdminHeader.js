@@ -1,38 +1,12 @@
+import Navbar from "./Navbar";
 import Link from "next/link";
-import { useEffect } from "react";
-import CategorydropDown from './CategorydropDown'
-import Navbar from './Navbar'
 import NavbarController from './NavbarController'
-import $ from 'jquery';
 
-export default function Header(){
-
-  function dropdown2(){
-    $('.filterSearch2').on('focus',function(){
-      $('.filterCon').css('display','block')
-      $('.filterCon2').css('display','none')
-    });
-    $('.filterSearch2').on('focusout',function(){
-      $(document).on('click',function(e){
-        if(e.target.className=='filterCon div'||e.target.className=='filterSearch2'){
-          return
-        }else{
-          $('.filterCon').css('display','none')
-        }
-      })
-    });
-    }
-
-    
-  useEffect(()=>{
-    dropdown2();  
-  })
-
+export default function AdminHeader({children}){
 
     return(
         <>
-
-<header>
+        <header>
       <div className="logoCon"><h3>OTOTECH</h3></div>
       <div className="linksCon">
       <Link href='/'>Home</Link>
@@ -48,19 +22,17 @@ export default function Header(){
       </header>
 
 
-      <Navbar section='blog'/>
 
 
 
 
-              <div className="barCon">
-        <CategorydropDown/>
+      <Navbar section='Admin'/>
+      
 
-      <div className="searchCon">
-      <i className="fa fa-search"></i>
-      <input className='filterSearch2' type="text" name="search" placeholder="search topics, fields ..."/>
-      </div>
-      </div>
+
+
+
+
 
       <div className="filterCon">
 			<div><Link href='/op'>Blog 1</Link></div>
@@ -77,6 +49,39 @@ export default function Header(){
 			<div><Link href='#'>Blog 5</Link></div>
 			<div><Link href='#'>Blog 6</Link></div>
 		  </div>
-        </>
+
+      <div className='adminAllCon'>
+
+<div className='navbar2'>
+<div className="subNav3">
+<div className='navusername'><i className='fa fa-user-circle'/><span>Admin Steven</span></div>
+<div><Link href='/admin'>Dashboard</Link></div>
+<div><Link href='/admin/categories'>Categories</Link></div>
+<div><Link href='/admin/articles'>Articles</Link></div>
+<div><Link href='/admin/users'>Users</Link></div>
+<div><Link href='/admin/staff'>Staffs</Link></div>
+<div><Link href='/admin/analytics'>Analytics</Link></div>
+<div><Link href='/admin/'>Customer Support System</Link></div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+<div className='mainBody'>
+{children}
+</div>
+
+
+
+
+
+</div>
+          </>
     )
 }

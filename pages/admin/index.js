@@ -1,8 +1,7 @@
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
-import Link from "next/link";
 
-export default function BlogCategories(){
+export default function Admin(){
     const options = {
         title: {
           text: ''
@@ -53,23 +52,6 @@ export default function BlogCategories(){
     return(
         <>
 
-        <div className='adminAllCon'>
-
-            <div className='navbar2'>
-            <div className="subNav3">
-            <div className='navusername'><i className='fa fa-user-circle'/><span>Admin Steven</span></div>
-            <div><Link href='/admin'>Dashboard</Link></div>
-            <div><Link href='/admin/categories'>Categories</Link></div>
-            <div><Link href='/admin/articles'>Articles</Link></div>
-            <div><Link href='/admin/users'>Users</Link></div>
-            <div><Link href='/admin/staff'>Staffs</Link></div>
-            <div><Link href='/admin/analytics'>Analytics</Link></div>
-            <div><Link href='/admin/'>Customer Support System</Link></div>
-            </div>
-            </div>
-
-
-            <div className='mainBody'>
             <div className='mainHeading'><p>Dashboard</p></div>
 
 
@@ -189,8 +171,6 @@ export default function BlogCategories(){
                 </div>
             </div>
 
-        </div>
-            </div>
         </div>
         </>
     )

@@ -1,0 +1,66 @@
+@import '../variables';
+
+
+.adminstat3info2{
+    overflow-x: auto;
+    padding: 15px 0;
+   // margin-top: -20px;
+
+    table{
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    tr{
+        border: 0;
+        border: 1px solid $color13;
+    }
+    th{
+        padding: 10px 14px;
+        font-size: 11px;
+        text-align: left;
+    }
+    td{
+        padding: 10px 14px;
+        font-size: 13px;
+        // display: inline-flex;
+    }
+
+    i{
+        color: $color9;
+        cursor: pointer;
+    }
+    button{
+        color: $color3;
+        padding: 10px;
+        border: 0;
+        background: $color1;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+        cursor: pointer;
+        font-family: font3;
+    }
+
+    img{
+        width: 100px;
+        height: 90px;
+        object-fit: contain;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:780px) {
+    .adminstat3info2{
+        overflow-x: scroll;
+    }
+}
