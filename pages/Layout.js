@@ -1,25 +1,23 @@
-import { useLayoutEffect, useState } from "react";
-import AdminHeader from "../components/AdminHeader";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+// import { useLayoutEffect, useState } from "react";
+// import AdminHeader from "../components/AdminHeader";
+// import Footer from "../components/Footer";
+// import Header from "../components/Header";
 
 export default function Layout({children}){
-    const [admin,setAdmin]=useState('');
+    // const [admin,setAdmin]=useState('');
 
-    useLayoutEffect(()=>{
-    const childrenName=children.type.name;
-    setAdmin(childrenName.split('n')[0]);  
-    console.log(children);     
-    console.log(childrenName.split('n')[0]);     
-    })
+    // useLayoutEffect(()=>{
+    // const childrenName=window.location.href;
+    // setAdmin(childrenName.split('/')[3]);  
+    // })
 
     return(
         <>
-        {admin==='Admi' ? 
+        {/* {admin==='admin' ? 
         <>
-        <AdminHeader>
-        {children}        
-        </AdminHeader> 
+            <AdminHeader>
+            {children}        
+            </AdminHeader> 
         <Footer/>
         </>
         :
@@ -28,7 +26,8 @@ export default function Layout({children}){
          {children}
          <Footer/>
          </>
-         }
+         } */}
+         {children}
 
         </>
     )

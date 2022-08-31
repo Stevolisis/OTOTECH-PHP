@@ -52,6 +52,7 @@ export default function Admin(){
     return(
         <>
 
+<div className='mainBody'>
             <div className='mainHeading'><p>Dashboard</p></div>
 
 
@@ -171,6 +172,7 @@ export default function Admin(){
                 </div>
             </div>
 
+        </div>
         </div>
         </>
     )

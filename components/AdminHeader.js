@@ -73,9 +73,7 @@ export default function AdminHeader({children}){
 
 
 
-<div className='mainBody'>
 {children}
-</div>
 
 
 

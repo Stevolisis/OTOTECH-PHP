@@ -5,10 +5,12 @@ export default function AdminCategories(){
 
     return(
         <>
+        
+<div className='mainBody'>
         <div className='mainHeading'>
             <p>Categories</p>
             <Link href='categories/addCategory'>ADD</Link>
-            </div>
+        </div>
 
 
 
@@ -86,6 +88,7 @@ export default function AdminCategories(){
 </div>
 </div>
 
+</div>
 </div>
         </>
     )

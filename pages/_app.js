@@ -5,11 +5,40 @@ import '../styles/article.scss'
 import '../styles/adminStyles/admindashboard.scss'
 import '../styles/adminStyles/adminDataDisplay.scss'
 import 'font-awesome/css/font-awesome.min.css';
+import { useLayoutEffect, useState } from "react";
+import AdminHeader from "../components/AdminHeader";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import {useRouter} from 'next/router';
 
 function MyApp({ Component, pageProps }) {
+  // const [admin,setAdmin]=useState('');
+
+  // useLayoutEffect(()=>{
+  // const childrenName=window.location.href;
+  // setAdmin(childrenName.split('/')[3]);  
+  // })
+  const router=useRouter()
+  const childrenName=router.pathname;
+  const admin=childrenName.split('/')[1]; 
+  console.log(admin) 
+
   return(
     <Layout>
-       <Component {...pageProps} />
+       {admin==='admin' ? 
+        <>
+            <AdminHeader>
+                  <Component {...pageProps} />        
+            </AdminHeader> 
+        <Footer/>
+        </>
+        :
+         <>
+         <Header/>
+               <Component {...pageProps} />
+         <Footer/>
+         </>
+         }
     </Layout>
   )
 }
