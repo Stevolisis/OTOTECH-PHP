@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 
-export default function AdminCategories(){
+export default function AdminArticles(){
 
     return(
         <>
         
         <div className='mainHeading'>
-            <p>Categories</p>
-            <Link href='categories/addCategory'>ADD</Link>
+            <p>Articles</p>
+            <Link href='articles/addArticle'>ADD</Link>
         </div>
 
 
@@ -51,9 +51,7 @@ export default function AdminCategories(){
 
 <tr>
 <th>Img</th>
-<th>Name</th>
-<th>Slug</th>
-<th>icon</th>
+<th>Title</th>
 <th>Date</th>
 <th>Edit</th>
 <th>Delete</th>
@@ -61,12 +59,12 @@ export default function AdminCategories(){
 </tr>
 
 <tr>
-    <td><img src='/OTOTECH9.jpg'/></td>
-    <td>Engineering</td>
-    <td>engineering</td>
-    <td>globe</td>
-    <td>12th June 2022</td>
-    <td><Link href='/admin/categories/editCategory'><i className='fa fa-edit'/></Link></td>
+    <td><img src='/OTOTECH4.jpg'/></td>
+    <td style={{width:'290px',maxWidth:'290px'}}>
+        <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
+        </td>
+    <td>15th June 2022</td>
+    <td><Link href='/admin/articles/editArticle/'><i className='fa fa-edit'/></Link></td>
     <td><button>Delete</button></td>
     <td>Active</td>
 </tr>

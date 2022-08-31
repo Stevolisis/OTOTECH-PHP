@@ -1,14 +1,16 @@
-import { useState } from "react"
+import { useState,useRef } from "react"
 import Swal from 'sweetalert2';
+import {Editor} from '@tinymce/tinymce-react';
 
-export default function AddCategory(){
+export default function AddArticle(){
     const [imgpreview,setImgpreview]=useState('');
+    const editorRef=useRef();
 
     function handleSubmit(e){
         e.preventDefault();
         Swal.fire(
             'Successful!',
-            'Category Added',
+            'Article Added',
             'success'
           )
     }
@@ -17,11 +19,14 @@ export default function AddCategory(){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
     }
 
+    function show(){
+        console.log(editorRef.current.getContent())
+     }
 
     return(
         <>
         <div className='mainHeading'>
-            <p>Add Category</p>
+            <p>Add Article</p>
         </div>
 
 
@@ -29,7 +34,7 @@ export default function AddCategory(){
         <div className='addcategcon'>
         <div className='admineditnamecon'>
             <div className='admineditname'>
-            <p>Name</p>
+            <p>Title</p>
             <input type='text' name='name'/>
             </div>
         </div>
@@ -44,26 +49,31 @@ export default function AddCategory(){
 
         <div className='admineditnamecon'>
             <div className='admineditname'>
-            <p>Description</p>
-            <textarea type='text' name='decription'/><p>description should not be more than 150 words</p>
+            <p>Author</p>
+            <select name='status'>
+            <option defaultValue>James Rodrick</option>
+            <option>Mike Slensor</option>
+            <option>Rita Bwala</option>
+            <option>Ridwan Ahmed</option>
+            <option>Hadiza Jotinga</option>
+            <option>Randy Jordan</option>
+            <option>Helen Romans</option>
+            </select>
+            </div>
         </div>
-        </div>
-
 
         <div className='admineditnamecon'>
             <div className='admineditname'>
-            <p>Icon</p>
-            <select name='icon'>
-            <option defaultValue>art</option>
-            <option>rocket</option>
-            <option>pencil</option>
-            <option>globe</option>
-            <option>user</option>
-            <option>phone</option>
-            <option>desktop</option>
-            <option>brush</option>
-            </select>
-            <p>Icon Selected: <i className="fa fa-rocket"/></p>
+            <p>Description</p>
+            <Editor
+            onInit={(evt,editor)=> editorRef.current=editor}
+            init={{
+                menubar:false,
+                skin:false,
+                content_css:false,
+            }}
+            onChange={show}
+            />
             </div>
         </div>
 
@@ -90,6 +100,7 @@ export default function AddCategory(){
             </select>
             </div>
         </div>
+
         <div className='admineditbtn'>
         <button >ADD</button>
         </div>

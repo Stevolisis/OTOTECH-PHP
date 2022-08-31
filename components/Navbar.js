@@ -27,7 +27,11 @@ export default function Navbar({section}){
             }
             </div>
             <div className="subNav2">
+            {section==='Admin' ? 
+                <Link href='#'>Logout</Link>
+                :
                 <Link href='#'>Lets Build your Project</Link>
+            }
             </div>
         </div>
         </>
