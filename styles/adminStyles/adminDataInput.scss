@@ -85,10 +85,67 @@ font-family: poppinsRegular;
 color: $color8;
 }
 
+
+.adminLinkscon{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+}
+
+.adminLinks{
+    width: 48%;
+    display: flex;
+    align-items: center;
+    padding: 13px 0;
+
+        p{
+        font-size: 10px !important;
+        color:$color14;
+        margin-left: 0px;
+        font-family: poppinsLight;
+        }
+
+}
+
+.adminLinksPrefix{
+    width: 20%;
+        p{
+            font-size: 10px !important;
+            color:$color14;
+            margin-left: 0px !important;
+            font-family: poppinsLight;
+        }
+    select{
+        border: 1px solid $color9;
+        padding: 11px 8px;
+        border-radius: 5px;
+        width: 90%;
+
+        
+
+    }
+
+
+}
+.adminLinksInput{
+    width: 80%;
+
+    input{
+        border: 1px solid $color9;
+        padding: 11px 8px;
+        border-radius: 5px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+}
+
+
 .dropdown-container{
     border-color: $color9 !important;
-    color: $color9;
+    color: $color14 !important;
 }
+
 
 .previewimg2{
 display: flex;
@@ -134,4 +191,25 @@ overflow-x: auto;
 
 .css-1s2u09g-control{
 border: 1px solid $color9 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width:780px){
+    .adminLinks{
+
+            p{
+            margin-left: 5px;
+            }
+    
+    }
 }

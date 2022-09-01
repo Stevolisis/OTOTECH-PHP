@@ -25,12 +25,12 @@ header{
 .logoCon{
 	width: auto;
 	color: $color1;
-	font-family: poppinsExtraBold;
 	display: flex;
 	justify-content: center;
 	align-content: center;
 
     h3{
+	font-family: poppinsExtraBold;
         font-size: 21px;
     }
 }

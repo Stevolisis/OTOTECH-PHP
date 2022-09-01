@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 
-export default function AdminCategories(){
+export default function AdminStaffs(){
 
     return(
         <>
         
         <div className='mainHeading'>
-            <p>Categories</p>
-            <Link href='categories/addCategory'>ADD</Link>
+            <p>Staffs</p>
+            <Link href='staffs/addStaff'>ADD</Link>
         </div>
 
 
@@ -21,11 +21,11 @@ export default function AdminCategories(){
     </div>
     <div className='adminfilters'>
         <select>
-        <option defaultValue='All Category'>Recent Added</option>
-        <option>Most Articles</option>
-        <option>Most Viewed</option>
-        <option>Most Liked</option>
-        <option>Most Commented</option>
+        <option defaultValue='All Staff'>Recent Added</option>
+        <option>Email</option>
+        <option>Position</option>
+        <option>Most Posted</option>
+        <option>Date</option>
         </select>
     </div>
 </div>
@@ -44,23 +44,23 @@ export default function AdminCategories(){
 <tbody>
 
 <tr>
-<th>Img</th>
-<th>Name</th>
-<th>Slug</th>
-<th>icon</th>
-<th>Date</th>
+<th>Profile Image</th>
+<th>Full Name</th>
+<th>Email</th>
+<th>Position</th>
+<th>Opened Date</th>
 <th>Edit</th>
 <th>Delete</th>
 <th>Status</th>
 </tr>
 
 <tr>
-    <td><img src='/OTOTECH9.jpg'/></td>
-    <td>Engineering</td>
-    <td>engineering</td>
-    <td>globe</td>
+    <td><img src='/OTOTECH2.jpg'/></td>
+    <td>James Miller</td>
+    <td>james@gmail.com</td>
+    <td>Software Engineer</td>
     <td>12th June 2022</td>
-    <td><Link href='/admin/categories/editCategory/1'><i className='fa fa-edit'/></Link></td>
+    <td><Link href='/admin/staffs/editStaff/1'><i className='fa fa-edit'/></Link></td>
     <td><button>Delete</button></td>
     <td>Active</td>
 </tr>

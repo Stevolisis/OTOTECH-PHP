@@ -59,12 +59,14 @@ height: auto;
 .mainHeading{
     padding: 16px;
     background: $color16;
-    font-family: poppinsRegular;
     color:$color3;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
+    p{
+    font-family: poppinsRegular;
+    }
     a{
         margin: 0 3px;
         color: $color0;

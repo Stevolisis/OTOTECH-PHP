@@ -15,7 +15,6 @@ export default function AdminHeader({children}){
       <Link href='#'>Contact</Link>
       </div>
       <div className="buttonCon">
-      <Link href='#'>HIRE A TALENT</Link>
             <NavbarController/>
       </div>
 
@@ -58,10 +57,11 @@ export default function AdminHeader({children}){
 <div><Link href='/admin'>Dashboard</Link></div>
 <div><Link href='/admin/categories'>Categories</Link></div>
 <div><Link href='/admin/articles'>Articles</Link></div>
+<div><Link href='/admin/comments'>Comments</Link></div>
 <div><Link href='/admin/users'>Users</Link></div>
-<div><Link href='/admin/staff'>Staffs</Link></div>
+<div><Link href='/admin/staffs'>Staffs</Link></div>
 <div><Link href='/admin/analytics'>Analytics</Link></div>
-<div><Link href='/'>Customer Support System</Link></div>
+<div><Link href='/customerCares'>Customer Support System</Link></div>
 </div>
 </div>
 

@@ -95,6 +95,7 @@
 .adminfilters{
     width: 40%;
     display: flex;
+    justify-content: flex-end;
     
         input{
             border: 1px solid $color13;

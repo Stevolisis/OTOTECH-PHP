@@ -20,18 +20,12 @@ export default function AdminArticles(){
         <input type='text' placeholder='Search...'/>
     </div>
     <div className='adminfilters'>
-        <select>
-        <option defaultValue='All Category'>All Category</option>
-        <option>Phones</option>
-        <option>Shirts</option>
-        <option>Home Appliances</option>
-        <option>Underwears</option>
-        </select>
-        <select>
+    <select>
         <option defaultValue='All Category'>Recent Added</option>
-        <option>High product</option>
-        <option>Desc</option>
-        <option>Home Appliances</option>
+        <option>Most Articles</option>
+        <option>Most Viewed</option>
+        <option>Most Liked</option>
+        <option>Most Commented</option>
         </select>
     </div>
 </div>
@@ -64,7 +58,7 @@ export default function AdminArticles(){
         <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
         </td>
     <td>15th June 2022</td>
-    <td><Link href='/admin/articles/editArticle/'><i className='fa fa-edit'/></Link></td>
+    <td><Link href='/admin/articles/editArticle/1'><i className='fa fa-edit'/></Link></td>
     <td><button>Delete</button></td>
     <td>Active</td>
 </tr>
