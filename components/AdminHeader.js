@@ -1,8 +1,10 @@
 import Navbar from "./Navbar";
 import Link from "next/link";
 import NavbarController from './NavbarController'
+import { useState } from "react";
 
 export default function AdminHeader({children}){
+  const [navStatus,setnavStatus]=useState(false);
 
     return(
         <>
@@ -15,7 +17,7 @@ export default function AdminHeader({children}){
       <Link href='#'>Contact</Link>
       </div>
       <div className="buttonCon">
-            <NavbarController/>
+            <NavbarController navStatus={navStatus} setnavStatus={setnavStatus}/>
       </div>
 
       </header>
@@ -25,7 +27,7 @@ export default function AdminHeader({children}){
 
 
 
-      <Navbar section='Admin'/>
+      <Navbar section='Admin' navStatus={navStatus} setnavStatus={setnavStatus}/>
       
 
 
@@ -54,14 +56,14 @@ export default function AdminHeader({children}){
 <div className='navbar2'>
 <div className="subNav3">
 <div className='navusername'><i className='fa fa-user-circle'/><span>Admin Steven</span></div>
-<div><Link href='/admin'>Dashboard</Link></div>
-<div><Link href='/admin/categories'>Categories</Link></div>
-<div><Link href='/admin/articles'>Articles</Link></div>
-<div><Link href='/admin/comments'>Comments</Link></div>
-<div><Link href='/admin/users'>Users</Link></div>
-<div><Link href='/admin/staffs'>Staffs</Link></div>
-<div><Link href='/admin/analytics'>Analytics</Link></div>
-<div><Link href='/admin/support_system'>Support System</Link></div>
+<div className='navlinks'><Link href='/admin' >Dashboard</Link></div>
+<div className='navlinks'><Link href='/admin/categories' >Categories</Link></div>
+<div className='navlinks'><Link href='/admin/articles' >Articles</Link></div>
+<div className='navlinks'><Link href='/admin/comments' >Comments</Link></div>
+<div className='navlinks'><Link href='/admin/users' >Users</Link></div>
+<div className='navlinks'><Link href='/admin/staffs' >Staffs</Link></div>
+<div className='navlinks'><Link href='/admin/analytics' >Analytics</Link></div>
+<div className='navlinks'><Link href='/admin/support_system' >Support System</Link></div>
 </div>
 </div>
 

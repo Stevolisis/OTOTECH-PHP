@@ -1,8 +1,6 @@
 import $ from 'jquery';
-import { useState } from 'react';
 
-export default function NavbarController(){
-    const [navStatus,setnavStatus]=useState(false);
+export default function NavbarController({navStatus,setnavStatus}){
 
     function navbaring(){
         if(navStatus===false){
@@ -11,6 +9,9 @@ export default function NavbarController(){
             $('.navbar').css('margin-left','-80%');
         }
     }
+
+
+
     return(
         <>
         <div className='navbarController' onClick={()=>(setnavStatus(!navStatus),navbaring())}>

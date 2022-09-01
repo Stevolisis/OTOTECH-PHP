@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import CategorydropDown from './CategorydropDown'
 import Navbar from './Navbar'
 import NavbarController from './NavbarController'
 import $ from 'jquery';
 
 export default function Header(){
+  const [navStatus,setnavStatus]=useState(false);
 
   function dropdown2(){
     $('.filterSearch2').on('focus',function(){
@@ -42,13 +43,13 @@ export default function Header(){
       </div>
       <div className="buttonCon">
       <Link href='#'>HIRE A TALENT</Link>
-            <NavbarController/>
+            <NavbarController navStatus={navStatus} setnavStatus={setnavStatus}/>
       </div>
 
       </header>
 
 
-      <Navbar section='blog'/>
+      <Navbar section='blog' navStatus={navStatus} setnavStatus={setnavStatus}/>
 
 
 

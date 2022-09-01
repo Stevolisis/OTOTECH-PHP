@@ -8,7 +8,6 @@ export default function AdminUsers(){
         
         <div className='mainHeading'>
             <p>Users</p>
-            <Link href='users/addUser'>ADD</Link>
         </div>
 
 
