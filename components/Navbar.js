@@ -14,7 +14,7 @@ export default function Navbar({section}){
             <div><Link href='/admin/users'>Users</Link></div>
             <div><Link href='/admin/staffs'>Staffs</Link></div>
             <div><Link href='/admin/analytics'>Analytics</Link></div>
-            <div><Link href='/'>Customer Care</Link></div>
+            <div><Link href='/admin/support_system'>Support System</Link></div>
             </>
             : 
             <>
