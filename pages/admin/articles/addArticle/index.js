@@ -1,10 +1,19 @@
 import { useState,useRef } from "react"
 import Swal from 'sweetalert2';
-import {Editor} from '@tinymce/tinymce-react';
+import dynamic from "next/dynamic";
+ 
+const TextEditor = dynamic(() =>
+import("../../../../components/TextEditor"), {   ssr: false });
+
 
 export default function AddArticle(){
     const [imgpreview,setImgpreview]=useState('');
     const editorRef=useRef();
+
+    function show(){
+        console.log(editorRef.current.getContent())
+     }
+
 
     function handleSubmit(e){
         e.preventDefault();
@@ -19,9 +28,7 @@ export default function AddArticle(){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
     }
 
-    function show(){
-        console.log(editorRef.current.getContent())
-     }
+
 
     return(
         <>
@@ -65,15 +72,7 @@ export default function AddArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <Editor
-            onInit={(evt,editor)=> editorRef.current=editor}
-            init={{
-                menubar:false,
-                skin:false,
-                content_css:false,
-            }}
-            onChange={show}
-            />
+            <TextEditor editorRef={editorRef} show={show}/>
             </div>
         </div>
 
