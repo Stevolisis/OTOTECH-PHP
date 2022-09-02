@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from 'next/image'
 
 export default function AdminArticles(){
 
@@ -53,7 +53,23 @@ export default function AdminArticles(){
 </tr>
 
 <tr>
-    <td><img src='/OTOTECH4.jpg'/></td>
+    {/* <td><img src='/OTOTECH4.jpg'/> */}
+    <td>
+    {/* <div style={{width:'100px',height:'90px',boxSizing:'border-box !important'}}> */}
+    <Image
+      src="/OTOTECH4.jpg"
+      alt="Picture of the author"
+      width={500}
+      height={500}
+    // sizes="(min-width: 100px) 100px,
+    // (min-width: 200px) 200px,
+    // 100px"
+    objectPosition='relative'
+    objectFit={"contain"}
+    priority
+    />
+    {/* </div> */}
+     </td>
     <td style={{width:'290px',maxWidth:'290px'}}>
         <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
         </td>
