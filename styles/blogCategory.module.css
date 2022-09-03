@@ -33,3 +33,16 @@
     font-size: 13px;
     white-space: nowrap;
 }
+
+
+
+
+
+
+@media (prefers-color-scheme: dark) {
+
+    .categorySlide{
+        background: #1b1b1b !important;
+    }
+    
+    }

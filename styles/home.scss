@@ -1,6 +1,7 @@
 @import './variables';
 @import './responsiveHome';
 @import './Navbar';
+@import './darkThemeHome';
 // @import './responsiveHome';
 
 *{
@@ -616,6 +617,7 @@ footer{
             justify-content: center;
             align-items: center;
             transition: 0.5s;
+            cursor: pointer;
         }
 
         li:hover{
@@ -685,11 +687,6 @@ footer{
     color:$color3;
     font-size: 14px;
 }
-
-
-
-
-
 
 
 

@@ -1,6 +1,7 @@
     *{
         font-family: poppinsLight;
     }
+    
     $color0:#181818;
     $color1:#ec9735;
     $color2:#945f0f;
@@ -20,8 +21,17 @@
     $color16:linear-gradient(40deg,$color2,$color1);
     $color17:0 1px 2px 0 rgba(0,0,0,.2);
 
+
+    //Dark Theme
+    $color18:#1b1b1b;
+    $color19:#141414;
+
     $gradient1:linear-gradient(30deg,orangered,orange);
     $gradient2:linear-gradient(30deg,#0C7BB3,#F2BAE8);
+
+
+    
+
 
 
     @font-face {
