@@ -10,7 +10,7 @@ export default function Admin(){
         type:'column'
         },
         xAxis:{
-        categories:['January','February','March']
+        categories:['Week 1','Week2','Week 3','Week 4']
         },
         yAxis:{
         title:{
@@ -20,6 +20,9 @@ export default function Admin(){
         series: [{
           data: [1, 2, 7,6]
         }],
+        accessibility: {
+        enabled: false
+      },
         credits:false
       }
 
@@ -31,7 +34,7 @@ export default function Admin(){
         type:'pie'
         },
         xAxis:{
-        categories:['January','February','March']
+        categories:['Week 1','Week 2','Week 3','Week 4']
         },
         yAxis:{
         title:{
@@ -41,6 +44,9 @@ export default function Admin(){
         series: [{
           data: [1, 2, 7,6]
         }],
+        accessibility: {
+        enabled: false
+      },
         credits:false
       }
 

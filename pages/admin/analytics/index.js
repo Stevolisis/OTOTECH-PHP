@@ -20,6 +20,9 @@ export default function AdminAnalytics(){
         series: [{
           data: [1, 2, 7,6]
         }],
+        accessibility:{
+            enabled:false
+        },        
         credits:false
       }
 
@@ -41,6 +44,9 @@ export default function AdminAnalytics(){
         series: [{
           data: [1, 2, 7,6]
         }],
+        accessibility:{
+            enabled:false
+       },        
         credits:false
       }
 
@@ -63,6 +69,9 @@ export default function AdminAnalytics(){
         series: [{
           data: [3, 9, 7,6]
         }],
+        accessibility:{
+        enabled:false
+        },        
         credits:false
       }
 
