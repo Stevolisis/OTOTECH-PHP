@@ -38,13 +38,15 @@
    }
 
    .articleContentCon{
-
+    background: #0f0f0f !important;
     p{
         color: $color4 !important;
     }
 }
 
-
+.likeArticleCon{
+   background:#0f0f0f !important;
+}
 .commentBoxCon{
     background: $color18 !important;
 
