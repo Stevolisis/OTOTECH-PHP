@@ -22,7 +22,7 @@ export default function AdminAnalytics(){
         }],
         accessibility:{
             enabled:false
-        },        
+        },
         credits:false
       }
 
@@ -46,7 +46,7 @@ export default function AdminAnalytics(){
         }],
         accessibility:{
             enabled:false
-       },        
+        },
         credits:false
       }
 
@@ -70,8 +70,8 @@ export default function AdminAnalytics(){
           data: [3, 9, 7,6]
         }],
         accessibility:{
-        enabled:false
-        },        
+            enabled:false
+        },
         credits:false
       }
 

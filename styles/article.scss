@@ -24,11 +24,9 @@
 .articleImg{
     height: 34vw;
     width: 100%;
-    background: url('../public/OTOTECH4.jpg');
     box-sizing: border-box;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+
+
 }
 
 
@@ -49,12 +47,6 @@
 
 .authorImg{
      padding: 0 10px 0 0;
-
-    img{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
 }
 
 .articleAuthor{

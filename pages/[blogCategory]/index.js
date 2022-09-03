@@ -52,7 +52,7 @@ export default function BlogCategory(){
       <Mainscreen heading={blogCategory} description='The Ototech Blog is the top hub for developers, designers,
      finance experts, executives, and entrepreneurs,
      featuring key technology updates, tutorials, freelancer resources, and management insights.'
-     imgLink='/OTOTECH9.jpg' page='blogCategory'/>
+     imgLink='/OTOTECH11.jpg' page='blogCategory'/>
 
 
 

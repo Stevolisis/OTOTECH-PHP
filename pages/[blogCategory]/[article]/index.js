@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from 'next/router'
 import { useEffect,useState } from "react";
@@ -35,7 +36,18 @@ export default function Article(){
         <div className='articleHead'><h1>Introduction to Frontend Development</h1>
         <p>Posed on August 29, 2022.</p>
         </div>
-        <div className="articleImg"></div>
+        <div className="articleImg">
+        <div style={{width:'100%',height:'100%',position:'relative'}}>
+            <Image 
+            src='/OTOTECH4.jpg'
+            layout="fill"
+            objectFit="cover"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+        </div>
+        </div>
 
      </div>
      
@@ -50,14 +62,21 @@ export default function Article(){
 
         <div className='articleAuthorCon'>
             <div className='authorImg'>
-                <img src="/OTOTECH1.jpg"/>
+                <Image
+                src='/OTOTECH1.jpg'
+                width={40}
+                height={40}
+                style={{borderRadius:'50%'}}
+                placeholder='blur'
+                blurDataURL="/favicon.io"
+                />
             </div>
 
             <div className="articleAuthor">
                 <p>AUTHOR</p>
                 <p>STEVEN JOSEPH</p>
                 <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
-                     companiess. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
+                     companies. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
             </div>
         </div>
 
@@ -167,7 +186,14 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
 
 <div className='articleAuthorCon' style={{width:'100%'}}>
     <div className='authorImg'>
-        <img src="/OTOTECH1.jpg"/>
+        <Image
+        src='/OTOTECH1.jpg'
+        width={40}
+        height={40}
+        style={{borderRadius:'50%'}}
+        placeholder='blur'
+        blurDataURL="/favicon.io"
+        />
     </div>
 
     <div className="articleAuthor" >
@@ -179,7 +205,14 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
 
 <div className='articleAuthorCon' style={{width:'100%'}}>
     <div className='authorImg'>
-        <img src="/OTOTECH1.jpg"/>
+        <Image
+        src='/OTOTECH1.jpg'
+        width={40}
+        height={40}
+        style={{borderRadius:'50%'}}
+        placeholder='blur'
+        blurDataURL="/favicon.io"
+        />
     </div>
 
     <div className="articleAuthor" >

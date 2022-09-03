@@ -10,19 +10,19 @@ export default function Admin(){
         type:'column'
         },
         xAxis:{
-        categories:['Week 1','Week2','Week 3','Week 4']
+        categories:['Week 1','Week 2','Week 3','Week 4']
         },
         yAxis:{
         title:{
-            text:'Clicks per Sales'
+            text:'Views per week'
         }
         },
         series: [{
           data: [1, 2, 7,6]
         }],
-        accessibility: {
-        enabled: false
-      },
+        accessibility:{
+            enabled:false
+        },
         credits:false
       }
 
@@ -38,15 +38,15 @@ export default function Admin(){
         },
         yAxis:{
         title:{
-            text:'Clicks per Sales'
+            text:'Views per week'
         }
         },
         series: [{
           data: [1, 2, 7,6]
         }],
-        accessibility: {
-        enabled: false
-      },
+        accessibility:{
+            enabled:false
+        },
         credits:false
       }
 

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function BlogList(){
   const [link, setLink]=useState('');
@@ -12,7 +13,15 @@ export default function BlogList(){
         <>
         <div className='categories'>
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
+          <div className='blogImg'>
+                <Image 
+                src='/OTOTECH10.jpg'
+                layout="fill"
+                blurDataURL="/favicon.io"
+                placeholder="blur"
+                priority
+                />
+   </div>
           <div className='blogInfo'>
           <h3>Content Creation</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -33,7 +42,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+          <div className='blogImg'>
+            <Image 
+            src='/OTOTECH1.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+          </div>
           <div className='blogInfo'>
           <h3>React Hooks</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -54,7 +71,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+          <div className='blogImg'>
+            <Image 
+            src='/OTOTECH1.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+          </div>
           <div className='blogInfo'>
           <h3>Php Fundamentals</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -75,7 +100,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+          <div className='blogImg'>
+            <Image 
+            src='/OTOTECH1.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+          </div>
           <div className='blogInfo'>
           <h3>Single Page Applications</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -96,7 +129,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+          <div className='blogImg'>
+            <Image 
+            src='/OTOTECH1.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+          </div>
           <div className='blogInfo'>
           <h3>Introduction to Adobe XD and Figma</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -117,7 +158,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+          <div className='blogImg'>
+            <Image 
+            src='/OTOTECH1.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+          </div>
           <div className='blogInfo'>
           <h3>React Native</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -138,7 +187,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
+          <div className='blogImg'>
+                <Image 
+    src='/OTOTECH10.jpg'
+    layout="fill"
+    blurDataURL="/favicon.io"
+    placeholder="blur"
+    priority
+    />
+   </div>
           <div className='blogInfo'>
           <h3>Backend Development</h3>
           <p>by <span>STEVEN JOSEPH</span></p>
@@ -159,7 +216,15 @@ export default function BlogList(){
         </Link>
 
         <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'><picture><img src='/OTOTECH2.jpg' alt='blog Categ'/></picture></div>
+          <div className='blogImg'>
+                <Image 
+    src='/OTOTECH10.jpg'
+    layout="fill"
+    blurDataURL="/favicon.io"
+    placeholder="blur"
+    priority
+    />
+   </div>
           <div className='blogInfo'>
           <h3>Nodejs Libraries</h3>
           <p>by <span>STEVEN JOSEPH</span></p>

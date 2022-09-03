@@ -1,12 +1,9 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export default function SlidingArticles(){
-  const [link, setLink]=useState('');
 
-  useEffect(()=>{
-    setLink((window.location.href).split('/')[1]);
-  },[]);
 
     return(
         <>
@@ -16,7 +13,15 @@ export default function SlidingArticles(){
 <div className='blogSliderCon'>
   <div className='blogSlider'>
   <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+    <Image 
+    src='/OTOTECH10.jpg'
+    layout="fill"
+    blurDataURL="/favicon.io"
+    placeholder="blur"
+    priority
+    />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -36,7 +41,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
   <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -56,7 +69,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
   <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -76,7 +97,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
   <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -96,7 +125,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
   <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -116,7 +153,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
           <Link href='/engineering/content-creation' ><a className='blogCon'>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>
@@ -136,7 +181,15 @@ export default function SlidingArticles(){
     </a>
   </Link>
   <Link href='/engineering/content-creation' ><a className='blogCon' style={{width: "300px"}}>
-    <div className='blogImg'><picture><img src='/OTOTECH1.jpg'/> </picture></div>
+    <div className='blogImg'>
+                  <Image 
+            src='/OTOTECH10.jpg'
+            layout="fill"
+            blurDataURL="/favicon.io"
+            placeholder="blur"
+            priority
+            />
+    </div>
     <div className='blogInfo'>
     <h3>Content Writing</h3>
     <p>by <span>STEVEN JOSEPH</span></p>

@@ -17,6 +17,7 @@ export default function Navbar({section,navStatus,setnavStatus}){
             <div onClick={navbaring2}><Link href='/admin'>Dashboard</Link></div>
             <div onClick={navbaring2}><Link href='/admin/categories'>Categories</Link></div>
             <div onClick={navbaring2}><Link href='/admin/articles'>Articles</Link></div>
+            <div onClick={navbaring2}><Link href='/admin/comments' >Comments</Link></div>
             <div onClick={navbaring2}><Link href='/admin/users'>Users</Link></div>
             <div onClick={navbaring2}><Link href='/admin/staffs'>Staffs</Link></div>
             <div onClick={navbaring2}><Link href='/admin/analytics'>Analytics</Link></div>

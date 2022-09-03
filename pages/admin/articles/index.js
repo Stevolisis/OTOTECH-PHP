@@ -53,22 +53,18 @@ export default function AdminArticles(){
 </tr>
 
 <tr>
-    {/* <td><img src='/OTOTECH4.jpg'/> */}
-    <td>
-    {/* <div style={{width:'100px',height:'90px',boxSizing:'border-box !important'}}> */}
+    <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
+    <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
-      src="/OTOTECH4.jpg"
+      src="/OTOTECH8.jpg"
       alt="Picture of the author"
-      width={500}
-      height={500}
-    // sizes="(min-width: 100px) 100px,
-    // (min-width: 200px) 200px,
-    // 100px"
-    objectPosition='relative'
-    objectFit={"contain"}
-    priority
+        layout="fill" 
+        objectFit="contain"
+        placeholder="blur"
+        blurDataURL="/favicon.io"
+        priority
     />
-    {/* </div> */}
+    </div>
      </td>
     <td style={{width:'290px',maxWidth:'290px'}}>
         <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
@@ -79,6 +75,54 @@ export default function AdminArticles(){
     <td>Active</td>
 </tr>
 
+
+
+<tr>
+    <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
+    <div style={{width:'100%',height:'100%',position:'relative',}}>
+    <Image
+      src="/OTOTECH7.jpg"
+      alt="Picture of the author"
+        layout="fill" 
+        objectFit="contain"
+        placeholder="blur"
+        blurDataURL="/favicon.io"
+        priority
+    />
+    </div>
+     </td>
+    <td style={{width:'290px',maxWidth:'290px'}}>
+        <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
+        </td>
+    <td>15th June 2022</td>
+    <td><Link href='/admin/articles/editArticle/1'><i className='fa fa-edit'/></Link></td>
+    <td><button>Delete</button></td>
+    <td>Active</td>
+</tr>
+
+
+<tr>
+    <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
+    <div style={{width:'100%',height:'100%',position:'relative',}}>
+    <Image
+      src="/OTOTECH6.jpg"
+      alt="Picture of the author"
+        layout="fill" 
+        objectFit="contain"
+        placeholder="blur"
+        blurDataURL="/favicon.io"
+        priority
+    />
+    </div>
+     </td>
+    <td style={{width:'290px',maxWidth:'290px'}}>
+        <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>Introduction to Frontend Development</div>
+        </td>
+    <td>15th June 2022</td>
+    <td><Link href='/admin/articles/editArticle/1'><i className='fa fa-edit'/></Link></td>
+    <td><button>Delete</button></td>
+    <td>Active</td>
+</tr>
 </tbody>
 
 
