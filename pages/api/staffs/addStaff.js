@@ -1,8 +1,9 @@
-import Categories from "../../../db/Model/categorySchema";
+import Staffs from "../../../db/Model/staffSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import path from "path";
 import fs from 'fs';
+import bcrypt from 'bcryptjs';
 
 export const config = {
     api: {
@@ -17,7 +18,7 @@ export default async function handler(req,res){
     const form = new formidable.IncomingForm();
     
     form.parse(req,async function(err, fields, files) {
-        if (err) return reject(err);
+        if (err) return err;
 
         if(req.method==='POST'){
 
@@ -31,50 +32,55 @@ export default async function handler(req,res){
            console.log(fields)
 
 
+           let oldPath=files.img_link.filepath;
+           let imgNewName=Date.now()+files.img_link.originalFilename;
+           let newPath=path.join(path.resolve('public') ,imgNewName);
 
             try{
+              let password=await bcrypt.hash(fields.password,10);
 
-
-           
-              // for (var i = 0; i < expectedFields.length; i++) {
-              //   console.log(fields[`${i}`])
-              //   if(fields[`${i}`]===''){
-              //     res.status(200).json({data:'Incomplete Fields'});
-              //     return;
-              //   } 
-              // }
-
-
-              let oldPath=files.img_link.filepath;
-              let imgNewName=Date.now()+files.img_link.originalFilename;
-              let newPath=path.join(path.resolve('media') ,imgNewName);
-
-                fs.rename(oldPath,newPath,function(err){
+              if(files.size===0){
+                imgNewName='';
+              }else{
+              fs.rename(oldPath,newPath,function(err){
                 if(err) console.log(err);
-              });
+              });                
+              }
+
  
               
               
-             const category=new Categories({
-             name:fields.name,
-             slug:fields.slug,
+             const staff=new Staffs({
+             full_name:fields.full_name,
+             email:fields.email,
+             position:fields.position,
              description:fields.description,
-             icon:fields.icon,
+             priveldges:JSON.parse(fields.priveldges),
+             password:password,
+             whatsapp:JSON.parse(fields.whatsapp),
+             dribble:JSON.parse(fields.dribble),
+             github:JSON.parse(fields.github),
+             linkedin:JSON.parse(fields.linkedin),
+             twitter:JSON.parse(fields.twitter),
+             instagram:JSON.parse(fields.instagram),
              img_link:imgNewName,
              status:fields.status
              })
+
+             console.log(staff)
       
-             await category.save();
-              res.status(200).json({data:'success'})                
+             await staff.save();
+              res.status(200).json({status:'success'})                
 
              
             }catch(err){
-              res.status(404).json({data:err.message})
+              fs.unlinkSync(newPath);
+              res.status(404).json({status:err.message})
             console.log(err.message)
             }
 
           }else{
-              res.status(404).json({data:'error'})
+              res.status(404).json({status:'error'})
           }
 
       });

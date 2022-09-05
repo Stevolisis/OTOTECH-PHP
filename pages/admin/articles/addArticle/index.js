@@ -1,4 +1,4 @@
-import { useState,useRef } from "react"
+import { useState,useRef, useEffect } from "react"
 import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
 import axios from "axios";
@@ -9,16 +9,41 @@ import("../../../../components/TextEditor"), {   ssr: false });
 
 export default function AddArticle(){
     const [imgpreview,setImgpreview]=useState('');
+    const [authors,setAuthors]=useState([]);
     const editorRef=useRef();
+
+    function loadAuthors(){
+        axios.get('/api/staffs/getStaffs')
+        .then(res=>{
+            let data=res.data.data;
+            if(res.data.status==='success'){
+                setAuthors(data)
+            }else{
+                Swal.fire(
+                    'Error',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });
+    }
+
 
     function handleSubmit(e){
         e.preventDefault();
         const formData=new FormData(e.target);
+        formData.append('content',editorRef.current.getContent())
         console.log(formData)
         axios.post('/api/articles/addArticle',formData,{withCredentials:true})
         .then(res=>{
-            let data=res.data.data;
-            if(data==='success'){
+            let data=res.data.status;
+            if(status==='success'){
                 Swal.fire(
                     'Successful!',
                     'Article Added',
@@ -27,7 +52,7 @@ export default function AddArticle(){
             }else{
                 Swal.fire(
                     'Error!',
-                    data,
+                    status,
                     'warning'
                 )  
             }
@@ -44,6 +69,10 @@ export default function AddArticle(){
     function imgPreview(e){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
     }
+
+    useEffect(()=>{
+        loadAuthors()
+    },[])
 
 
 
@@ -75,20 +104,16 @@ export default function AddArticle(){
             <div className='admineditname'>
             <p>Author</p>
             <select name='author'>
-            <option defaultValue>James Rodrick</option>
-            <option>Mike Slensor</option>
-            <option>Rita Bwala</option>
-            <option>Ridwan Ahmed</option>
-            <option>Hadiza Jotinga</option>
-            <option>Randy Jordan</option>
-            <option>Helen Romans</option>
+            {authors.map(author=>{
+                return <option value={author._id} key={author._id}>{author.full_name} ({author.position})</option>
+            })}
             </select>
             </div>
         </div>
 
         <div className='admineditnamecon'>
             <div className='admineditname'>
-            <p>Description</p>
+            <p>Content</p>
             <TextEditor editorRef={editorRef} show={show}/>
             </div>
         </div>

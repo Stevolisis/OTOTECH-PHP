@@ -17,9 +17,56 @@ const staffSchema=new mongoose.Schema({
     type:String,
     required:true
   },
-  sociakLinks:{
-
+  priveldges:{
+    type:Array,
+    required:true
   },
+  password:{
+    type:String,
+    required:true
+  },
+  whatsapp:{
+   status:{
+    type:String,
+    required:true
+   },
+   link:String
+  },
+  dribble:{
+    status:{
+     type:String,
+     required:true
+    },
+    link:String
+   },
+  github:{
+  status:{
+    type:String,
+    required:true
+  },
+  link:String
+  },
+  linkedin:{
+    status:{
+     type:String,
+     required:true
+    },
+    link:String
+   },
+   twitter:{
+    status:{
+     type:String,
+     required:true
+    },
+    link:String
+   },
+   instagram:{
+    status:{
+     type:String,
+     required:true
+    },
+    link:String
+   },
   img_link:String,
   status:{
     type:String,

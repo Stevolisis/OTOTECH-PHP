@@ -6,7 +6,18 @@ import axios from "axios";
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
     const [selectedOption,setselectedOption]=useState([])
-
+    const [whatsapp,setwhatsapp]=useState({status:'active',link:''})
+    const [dribble,setdribble]=useState({status:'active',link:''})
+    const [github,setgithub]=useState({status:'active',link:''})
+    const [linkedin,setlinkedin]=useState({status:'active',link:''})
+    const [twitter,settwitter]=useState({status:'active',link:''})
+    const [instagram,setinstagram]=useState({status:'active',link:''})
+//     console.log(whatsapp)
+//     console.log(dribble)
+//     console.log(github)
+//  console.log(linkedin)
+//  console.log(twitter)
+//  console.log(instagram)
 
     
 const options = [
@@ -17,7 +28,6 @@ const options = [
     { value: 'Staffs', label: 'Staffs' },
     { value: 'Analytics', label: 'Analytics' },
     { value: 'Customer Care Sysytem', label: 'Customer Care Sysytem' },
-    { value: 'EditCatgeory', label: 'EditCatgeory' },
   ];
 
   
@@ -25,15 +35,21 @@ const options = [
   function handleSubmit(e){
     e.preventDefault();
     const formData=new FormData(e.target);
-    formData.append('priveldges',selectedOption);
+    formData.append('whatsapp',JSON.stringify(whatsapp));
+    formData.append('dribble',JSON.stringify(dribble));
+    formData.append('github',JSON.stringify(github));
+    formData.append('linkedin',JSON.stringify(linkedin));
+    formData.append('twitter',JSON.stringify(twitter));
+    formData.append('instagram',JSON.stringify(instagram));
+    formData.append('priveldges',JSON.stringify(selectedOption));
     
     axios.post('/api/staffs/addStaff',formData,{withCredentials:true})
     .then(res=>{
-        let data=res.data.data;
+        let data=res.data.status;
         if(data==='success'){
             Swal.fire(
                 'Successful!',
-                'Article Added',
+                'Staff Added',
                 'success'
             )
         }else{
@@ -79,6 +95,13 @@ const options = [
         </div>
 
         <div className='admineditnamecon'>
+        <div className='admineditname'>
+            <p>Password</p>
+            <input type='password' name='password'/>
+        </div>
+        </div>
+
+        <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Position</p>
             <input type='text' name='position'/>
@@ -88,7 +111,7 @@ const options = [
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <textarea type='text' name='decription'/><p>description should not be more than 150 words</p>
+            <textarea type='text' name='description'/><p>description should not be more than 150 words</p>
         </div>
         </div>
 
@@ -98,28 +121,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='whatsappStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select value={whatsapp.status} onChange={(e)=>setwhatsapp({status:e.target.value,link:whatsapp.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Whatsapp Link</p>
-            <input type='text' name='whatsappLink'/>
+            <input type='text' value={whatsapp.link} onChange={(e)=>setwhatsapp({status:whatsapp.status,link:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='dribbleStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select value={dribble.status} onChange={(e)=>setdribble({status:e.target.value,link:dribble.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Dribble Link</p>
-            <input type='text' name='dribbleLink' />
+            <input type='text' value={dribble.link} onChange={(e)=>setdribble({status:dribble.status,link:e.target.value})}/>
         </div>
         </div>
         </div>
@@ -130,28 +153,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='githubStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select value={github.status} onChange={(e)=>setgithub({status:e.target.value,link:github.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Github Link</p>
-            <input type='text' name='githubLink'/>
+            <input type='text' value={github.link} onChange={(e)=>setgithub({status:github.status,link:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='linkedinStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select  value={linkedin.status} onChange={(e)=>setlinkedin({status:e.target.value,link:linkedin.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>LinkedIn Link</p>
-            <input type='text' name='linkedinLink' />
+            <input type='text' value={linkedin.link} onChange={(e)=>setlinkedin({status:linkedin.status,link:e.target.value})}/>
         </div>
         </div>
         </div>
@@ -163,28 +186,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='twitterStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select value={twitter.status} onChange={(e)=>settwitter({status:e.target.value,link:twitter.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Twitter Link</p>
-            <input type='text' name='twitterLink'/>
+            <input type='text' value={twitter.link} onChange={(e)=>settwitter({status:twitter.status,link:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='instagramStatus'>
-                <option defaultValue='selected' value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+            <select value={instagram.status} onChange={(e)=>setinstagram({status:e.target.value,link:instagram.link})}>
+                <option defaultValue='selected' value='active'>Active</option>
+                <option value='inactive'>Inactive</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Instagram Link</p>
-            <input type='text' name='instagramLink' />
+            <input type='text' value={instagram.link} onChange={(e)=>setinstagram({status:instagram.status,link:e.target.value})}/>
         </div>
         </div>
         </div>
