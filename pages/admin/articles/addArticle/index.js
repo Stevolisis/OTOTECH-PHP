@@ -39,11 +39,10 @@ export default function AddArticle(){
         e.preventDefault();
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent())
-        console.log(formData)
         axios.post('/api/articles/addArticle',formData,{withCredentials:true})
         .then(res=>{
             let data=res.data.status;
-            if(status==='success'){
+            if(data==='success'){
                 Swal.fire(
                     'Successful!',
                     'Article Added',

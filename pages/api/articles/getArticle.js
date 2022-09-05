@@ -1,4 +1,4 @@
-import Staffs from "../../../db/Model/staffSchema";
+import Article from "../../../db/Model/articleSchema";
 import dbConnect from "../../../db/dbConnect";
 
   
@@ -8,7 +8,7 @@ export default async function handler(req,res){
 
         if(req.method==='GET'){
             try{
-            let data=await Staffs.find({}).select('full_name position');
+            let data=await Article.find({});
 
             res.status(200).json({data:data,status:'success'})
             }catch(err){

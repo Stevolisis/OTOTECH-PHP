@@ -12,7 +12,7 @@ export default function AddCategory(){
         console.log(formData)
         axios.post('/api/categories/addCategory',formData,{withCredentials:true})
         .then(res=>{
-            let data=res.data.data;
+            let data=res.data.status;
             if(data==='success'){
                 Swal.fire(
                     'Successful!',

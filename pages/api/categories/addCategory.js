@@ -18,37 +18,26 @@ export default async function handler(req,res){
     const form = new formidable.IncomingForm();
     
     form.parse(req,async function(err, fields, files) {
-        if (err) return reject(err);
+        if (err) return err;
 
         if(req.method==='POST'){
 
            if(files.img_link.size===0){
-            res.status(200).json({data:'No Img Link Why Bro?'})
+            res.status(200).json({status:'No Img Link Why Bro?'})
             return;
            } else if(!validImagetype.includes(files.img_link.mimetype.split('/')[1],0)) {
-            res.status(200).json({data:'Invalid Image Type'});
+            res.status(200).json({status:'Invalid Image Type'});
             return;
            }
            console.log(fields)
 
-
+           let oldPath=files.img_link.filepath;
+           let imgNewName=Date.now()+files.img_link.originalFilename;
+           let newPath=path.join(path.resolve('public') ,imgNewName);
 
             try{
 
 
-           
-              // for (var i = 0; i < expectedFields.length; i++) {
-              //   console.log(fields[`${i}`])
-              //   if(fields[`${i}`]===''){
-              //     res.status(200).json({data:'Incomplete Fields'});
-              //     return;
-              //   } 
-              // }
-
-
-              let oldPath=files.img_link.filepath;
-              let imgNewName=Date.now()+files.img_link.originalFilename;
-              let newPath=path.join(path.resolve('media') ,imgNewName);
 
                 fs.rename(oldPath,newPath,function(err){
                 if(err) console.log(err);
@@ -66,16 +55,17 @@ export default async function handler(req,res){
              })
       
              await category.save();
-              res.status(200).json({data:'success'})                
+              res.status(200).json({status:'success'})                
 
              
             }catch(err){
-              res.status(404).json({data:err.message})
+              fs.unlinkSync(imgNewName);
+              res.status(404).json({status:err.message})
             console.log(err.message)
             }
 
           }else{
-              res.status(404).json({data:'error'})
+              res.status(404).json({status:'error'})
           }
 
       });

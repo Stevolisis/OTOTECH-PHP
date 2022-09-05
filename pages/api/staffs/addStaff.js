@@ -23,10 +23,10 @@ export default async function handler(req,res){
         if(req.method==='POST'){
 
            if(files.img_link.size===0){
-            res.status(200).json({data:'No Img Link Why Bro?'})
+            res.status(200).json({status:'No Img Link Why Bro?'})
             return;
            } else if(!validImagetype.includes(files.img_link.mimetype.split('/')[1],0)) {
-            res.status(200).json({data:'Invalid Image Type'});
+            res.status(200).json({status:'Invalid Image Type'});
             return;
            }
            console.log(fields)

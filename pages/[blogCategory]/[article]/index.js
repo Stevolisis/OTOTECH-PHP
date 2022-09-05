@@ -1,21 +1,47 @@
+import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from 'next/router'
 import { useEffect,useState } from "react";
+import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
 
 export default function Article(){
     const router=useRouter();
+    const months=['January','February','March','April','May','June','July',
+    'August','September','October','November','December'];
     const {article} =router.query;
     const [liked, setLiked]=useState(false);
+    const [content, setContent]=useState([]);
 
+    console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
+
+
+    function loadContent(){
+    axios.get('/api/articles/getArticle')
+    .then(res=>{
+        let data=res.data.data;
+        let status=res.data.status;
+        
+        if(status==='success'){
+            setContent(data);
+            console.log(content);
+        }else{
+            Swal(
+                'Error Occured',
+                status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+    }
 
     useEffect(()=>{
-    const link=window.location.href;
-    const category=link.split('/')[3];   
-    //alert(category)     
-    })
+    loadContent() 
+    },[])
 
 
     return(
@@ -35,6 +61,7 @@ export default function Article(){
      <div className='articleHeadCon'>
         <div className='articleHead'><h1>Introduction to Frontend Development</h1>
         <p>Posed on August 29, 2022.</p>
+        {/* <p>{dateNow}</p> */}
         </div>
         <div className="articleImg">
         <div style={{width:'100%',height:'100%',position:'relative'}}>
@@ -127,16 +154,7 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
                Adipiscing doloribus sit quo etiam. Parturient! Parturient assumenda ut, porta 
                quisquam arcu alias assumenda, voluptas? Aenean labore cras porro facilisis,
                 eius placerat quis primis ante.
-Litora pariatur, anim integer. Facere fugit proin sagittis curabitur torquent beatae, eget 
-tenetur adipisci. Egestas, eget eum, fringilla augue, montes ultricies cupiditate. Curae 
-inventore, venenatis, massa officiis. Laboris mauris elementum turpis nonummy montes hac
- condimentum odio mattis ridiculus aliquip nostrum reiciendis mollitia! Expedita purus, debitis.
-  Egestas! Qui nostrud? Consectetuer iusto unde, labore porro consectetur ornare volutpat, 
-  aliqua porta cras cubilia. Accumsan incidunt, omnis dolorum dignissimos! Aliquet mauris quam 
-  omnis tempor, pulvinar proident explicabo sociosqu corporis do quisquam mauris voluptate
-   incidunt, viverra senectus commodi orci beatae cupidatat ad, provident, deserunt occaecati,
-    quaerat dui, cumque pellentesque adipiscing! Perferendis mollit risus, elementum, habitasse.
-Inceptos tempore, sapiente porta! Exercitation cras minima cubilia sit eius scelerisque 
+it eius scelerisque 
 iusto, nibh dicta imperdiet montes eaque, sit molestias turpis turpis placerat. Pede hymenaeos
  consectetur temporibus impedit? Totam, vero, elementum? Suspendisse hic! Tenetur commodi
   nisl dolores magna temporibus urna, placeat gravida nascetur volutpat blandit recusandae
