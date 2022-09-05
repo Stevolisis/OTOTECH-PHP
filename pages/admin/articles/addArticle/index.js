@@ -1,7 +1,8 @@
 import { useState,useRef } from "react"
 import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
- 
+import axios from "axios";
+
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false });
 
@@ -10,19 +11,35 @@ export default function AddArticle(){
     const [imgpreview,setImgpreview]=useState('');
     const editorRef=useRef();
 
+    function handleSubmit(e){
+        e.preventDefault();
+        const formData=new FormData(e.target);
+        console.log(formData)
+        axios.post('/api/articles/addArticle',formData,{withCredentials:true})
+        .then(res=>{
+            let data=res.data.data;
+            if(data==='success'){
+                Swal.fire(
+                    'Successful!',
+                    'Article Added',
+                    'success'
+                )
+            }else{
+                Swal.fire(
+                    'Error!',
+                    data,
+                    'warning'
+                )  
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
+    }
+
     function show(){
         console.log(editorRef.current.getContent())
      }
 
-
-    function handleSubmit(e){
-        e.preventDefault();
-        Swal.fire(
-            'Successful!',
-            'Article Added',
-            'success'
-          )
-    }
     
     function imgPreview(e){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
@@ -42,7 +59,7 @@ export default function AddArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Title</p>
-            <input type='text' name='name'/>
+            <input type='text' name='title'/>
             </div>
         </div>
         
@@ -57,7 +74,7 @@ export default function AddArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Author</p>
-            <select name='status'>
+            <select name='author'>
             <option defaultValue>James Rodrick</option>
             <option>Mike Slensor</option>
             <option>Rita Bwala</option>

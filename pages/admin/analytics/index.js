@@ -84,7 +84,6 @@ export default function AdminAnalytics(){
 
     return(
         <>
-            <div className='mainHeading'><p>Blog Analytics</p></div>
 
         <div className='adminstat2con'>
             <div className='adminstat2'>

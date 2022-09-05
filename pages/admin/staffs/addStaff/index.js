@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
+import axios from "axios";
 
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
@@ -18,21 +19,39 @@ const options = [
     { value: 'Customer Care Sysytem', label: 'Customer Care Sysytem' },
     { value: 'EditCatgeory', label: 'EditCatgeory' },
   ];
-    function handleSubmit(e){
-        e.preventDefault();
-        Swal.fire(
-            'Successful!',
-            'Staff Added',
-            'success'
-          )
-    }
+
+  
+
+  function handleSubmit(e){
+    e.preventDefault();
+    const formData=new FormData(e.target);
+    formData.append('priveldges',selectedOption);
+    
+    axios.post('/api/staffs/addStaff',formData,{withCredentials:true})
+    .then(res=>{
+        let data=res.data.data;
+        if(data==='success'){
+            Swal.fire(
+                'Successful!',
+                'Article Added',
+                'success'
+            )
+        }else{
+            Swal.fire(
+                'Error!',
+                data,
+                'warning'
+            )  
+        }
+    }).catch(err=>{
+        console.log(err);
+    })
+}
+
+
     
     function imgPreview(e){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
-    }
-
-    function show(){
-        console.log(selectedOption);
     }
 
 
@@ -93,14 +112,14 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='facebookStatus'>
+            <select name='dribbleStatus'>
                 <option defaultValue='selected' value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Dribble Link</p>
-            <input type='text' name='facebookLink' />
+            <input type='text' name='dribbleLink' />
         </div>
         </div>
         </div>
@@ -111,28 +130,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='whatsappStatus'>
+            <select name='githubStatus'>
                 <option defaultValue='selected' value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Github Link</p>
-            <input type='text' name='whatsappLink'/>
+            <input type='text' name='githubLink'/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='facebookStatus'>
+            <select name='linkedinStatus'>
                 <option defaultValue='selected' value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>LinkedIn Link</p>
-            <input type='text' name='facebookLink' />
+            <input type='text' name='linkedinLink' />
         </div>
         </div>
         </div>
@@ -144,28 +163,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='whatsappStatus'>
+            <select name='twitterStatus'>
                 <option defaultValue='selected' value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Twitter Link</p>
-            <input type='text' name='whatsappLink'/>
+            <input type='text' name='twitterLink'/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select name='facebookStatus'>
+            <select name='instagramStatus'>
                 <option defaultValue='selected' value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Instagram Link</p>
-            <input type='text' name='facebookLink' />
+            <input type='text' name='instagramLink' />
         </div>
         </div>
         </div>

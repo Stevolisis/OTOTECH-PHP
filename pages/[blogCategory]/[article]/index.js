@@ -21,7 +21,7 @@ export default function Article(){
     return(
     <>
     <Head>
-        <title>{article}</title>
+        <title>article</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
     </Head>
