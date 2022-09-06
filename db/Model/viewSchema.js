@@ -1,26 +1,15 @@
 import mongoose from 'mongoose';
-import staffs from './staffSchema';
 
-const articleSchema=new mongoose.Schema({
-  title:{
+const viewSchema=new mongoose.Schema({
+  page_link:{
     type:String,
     required:true
   },
-  slug:{
+  category:{
     type:String,
     required:true
   },
-  author:{
-    type:mongoose.Schema.Types.ObjectId,
-    ref:staffs,
-    required:true
-  },
-  content:{
-    type:String,
-    required:true
-  },
-  img_link:String,
-  status:{
+  article:{
     type:String,
     required:true
   },
@@ -39,4 +28,4 @@ const articleSchema=new mongoose.Schema({
 
 
 //---------------------------------------------------
-module.exports=mongoose.models.articles || mongoose.model('articles',articleSchema);
+module.exports=mongoose.models.views || mongoose.model('views',viewSchema);

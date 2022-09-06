@@ -3,19 +3,36 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import {useRouter} from 'next/router'
-import { useEffect,useState } from "react";
+import { useEffect,useRef,useState } from "react";
 import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
+import parse from 'html-react-parser';
+import { RWebShare } from "react-web-share";
 
 export default function Article(){
     const router=useRouter();
+    const cancelalert=useRef(true);
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
     const {article} =router.query;
     const [liked, setLiked]=useState(false);
     const [content, setContent]=useState([]);
+    const [windowLink, setwindowLink]=useState('');
 
     console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
+
+
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+      })
 
 
     function loadContent(){
@@ -39,8 +56,121 @@ export default function Article(){
     })
     }
 
+    function checkLike(){
+        let checkTracker=localStorage.getItem('likeTracker');
+
+        if(checkTracker){
+
+        let likeTracker =JSON.parse(localStorage.getItem('likeTracker'));
+        if(likeTracker.includes(window.location.href)){
+            setLiked(true)
+        }else{
+        setLiked(false)                         
+        } 
+
+        }else{
+            return;
+        }
+          
+    }
+
+    function handleLikeBtn(){
+        console.log(window.location.href);
+        if(liked===false){
+            axios.post('/api/likes/addLike',{page_link:window.location.href})
+            .then(res=>{
+                let status=res.data.status;
+
+
+                if(status==='success'){
+                if (typeof window !== 'undefined') {
+                    let item = localStorage.getItem('likeTracker');
+                    console.log(item)
+
+
+                if(item){
+                    let likeTracker =JSON.parse(localStorage.getItem('likeTracker'));
+
+                    if(likeTracker.includes(window.location.href)){
+                        return;
+                    }else{
+                    likeTracker.push(`${window.location.href}`);
+                    localStorage.setItem('likeTracker',JSON.stringify(likeTracker));                          
+                    }
+                    
+                    Toast.fire({
+                    icon: 'success',
+                    title: `You like this page on ${item}`
+                    });
+
+                }else{
+                    localStorage.setItem('likeTracker',JSON.stringify([]));
+                    let likeTracker =JSON.parse(localStorage.getItem('likeTracker'));
+                    likeTracker.push(`${window.location.href}`);
+                    localStorage.setItem('likeTracker',JSON.stringify(likeTracker));
+
+                    Toast.fire({
+                    icon: 'success',
+                    title: `You like this page on ${item}`
+                });                
+                    }
+
+
+
+                    
+                }
+
+
+
+
+                }else{
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'You Unlike this page'
+                    })
+                }
+            }).catch(err=>{
+                console.log(err)
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'Error Occured'
+                })
+            })
+        }else{
+            let likeTracker =JSON.parse(localStorage.getItem('likeTracker'));
+            let indexTracker=likeTracker.indexOf(window.location.href);
+            likeTracker.splice(indexTracker,indexTracker+1);
+            localStorage.setItem('likeTracker',JSON.stringify(likeTracker));  
+            
+            console.log(indexTracker)
+        }
+    }
+
+
+     function setView(){
+        axios.post('/api/views/addView',{page_link:window.location.href})
+        .then(res=>{
+            return;
+        }).catch(err=>{
+            return;
+        })
+     }
+
+
+
     useEffect(()=>{
+    setwindowLink(window.location.href)
     loadContent() 
+    checkLike()
+    },[])
+
+    useEffect(()=>{
+        if(cancelalert.current){
+        setTimeout(() => {
+            setView();
+        }, 2000);
+        cancelalert.current=false;
+    }
     },[])
 
 
@@ -59,14 +189,14 @@ export default function Article(){
 
      
      <div className='articleHeadCon'>
-        <div className='articleHead'><h1>Introduction to Frontend Development</h1>
-        <p>Posed on August 29, 2022.</p>
+        <div className='articleHead'><h1>{content[0] && content[0].title}</h1>
+        <p> {content[0] && `Posed on ${months[new Date(content[0].createdAt).getMonth()]} ${new Date(content[0].createdAt).getDay()}, ${new Date(content[0].createdAt).getFullYear()}`}</p>
         {/* <p>{dateNow}</p> */}
         </div>
         <div className="articleImg">
         <div style={{width:'100%',height:'100%',position:'relative'}}>
             <Image 
-            src='/OTOTECH4.jpg'
+            src={`/${content[0] && content[0].img_link}`}
             layout="fill"
             objectFit="cover"
             blurDataURL="/favicon.io"
@@ -90,7 +220,7 @@ export default function Article(){
         <div className='articleAuthorCon'>
             <div className='authorImg'>
                 <Image
-                src='/OTOTECH1.jpg'
+                src={`/${content[0] && content[0].author.img_link}`}
                 width={40}
                 height={40}
                 style={{borderRadius:'50%'}}
@@ -101,20 +231,29 @@ export default function Article(){
 
             <div className="articleAuthor">
                 <p>AUTHOR</p>
-                <p>STEVEN JOSEPH</p>
-                <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
-                     companies. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
-            </div>
+                <p>{content[0] && parse(content[0].author.full_name)}</p>
+                <p>{content[0] && parse(content[0].author.description)}</p>
+                <p><Link href={`${content[0] && parse(content[0].author.whatsapp.link)}`}>Whatsapp</Link> </p>
+                <p><Link href={`${content[0] && parse(content[0].author.github.link)}`}>Github</Link> </p>
+                <p><Link href={`${content[0] && parse(content[0].author.linkedin.link)}`}>Linkedin</Link> </p>
+                </div>
         </div>
 
 
         <div className="articleShareCon">
             <div className="articleShare">
-                <button>Share <i className="fa fa-share"/></button>
-                <Link href='#'><a><i className="fa fa-linkedin"/></a></Link>
-                <Link href='#'><a><i className="fa fa-twitter"/></a></Link>
-                <Link href='#'><a><i className="fa fa-github"/></a></Link>
-                <Link href='#'><a><i className="fa fa-facebook"/></a></Link>
+            <RWebShare
+            data={{
+            text: "Like humans, flamingos make friends for life",
+            url: `${windowLink}`,
+            title: `${content[0] && content[0].title}`,
+            }}
+            onClick={() => console.log("shared successfully!")}>
+            <button onClick={()=>navigator.share({title:`${content[0] && content[0].title}`,text:'OTOTCH BLOG',url:`${windowLink}}`})}>Share <i className="fa fa-share"/></button>
+            </RWebShare>
+                <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}}i&title=${content[0] && content[0].title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>
+                <Link href={`https://twitter.com/intent/tweet?text=${windowLink}}`}><a><i className="fa fa-twitter"/></a></Link>
+                <Link href={`https://www.facebook.com/sharer/sharer.php?u=${windowLink}}`}><a><i className="fa fa-facebook"/></a></Link>
             </div>
         </div>
 
@@ -127,43 +266,7 @@ export default function Article(){
 
 
      <div className="articleContentCon">
-        <p>
-        Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consectetur, ea labore aut sollicitudin facilis ligula ornare etiam odio. Justo cumque ratione, porro sociis dolore! Fugiat duis, laoreet, esse urna laoreet diam per, dicta nec. Laborum, sequi volutpat cumque urna cupiditate, duis sollicitudin voluptas nibh voluptatibus? Adipiscing dapibus urna, beatae ullam conubia vulputate placeat molestie excepteur cillum mus torquent vero odio? Enim habitasse vitae? Maxime, sapiente integer posuere volutpat, harum risus? A felis, sint odio conubia. Adipiscing doloribus sit quo etiam. Parturient! Parturient assumenda ut, porta quisquam arcu alias assumenda, voluptas? Aenean labore cras porro facilisis, eius placerat quis primis ante.
-Litora pariatur, anim integer. Facere fugit proin sagittis curabitur torquent beatae, eget tenetur adipisci. Egestas, eget eum, fringilla augue, montes ultricies cupiditate. Curae inventore, venenatis, massa officiis. Laboris mauris elementum turpis nonummy montes hac condimentum odio mattis ridiculus aliquip nostrum reiciendis mollitia! Expedita purus, debitis. Egestas! Qui nostrud? Consectetuer iusto unde, labore porro consectetur ornare volutpat, aliqua porta cras cubilia. Accumsan incidunt, omnis dolorum dignissimos! Aliquet mauris quam omnis tempor, pulvinar proident explicabo sociosqu corporis do quisquam mauris voluptate incidunt, viverra senectus commodi orci beatae cupidatat ad, provident, deserunt occaecati, quaerat dui, cumque pellentesque
- adipiscing! Perferendis mollit risus, elementum, habitasse.
-Inceptos tempore, sapiente porta! Exercitation cras minima cubilia sit eius scelerisque iusto, 
-nibh dicta imperdiet montes eaque, sit molestias turpis turpis placerat. Pede hymenaeos 
-consectetur temporibus impedit? Totam, vero, elementum? Suspendisse hic! Tenetur commodi nisl
- dolores magna temporibus urna, placeat gravida nascetur volutpat blandit recusandae ad assumenda
-  pede? Optio quidem repudiandae sapien ad et, vestibulum! Molestias veritatis. Massa quae 
-  dignissimos condimentum blandit repellendus, elementum, placeat laboriosam maecenas? Fringilla,
-   quam. Nihil reiciendis sapien adipisicing molestias euismod harum, scelerisque? Convallis
-    vulputate dapibus nullam ligula, expedita fusce metus morbi vestibulum minus consectetur
-     montes, vivamus! Voluptates? Potenti, hymenaeos? Explicabo, earum eos saepe malesuada? Aperiam.
-Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consectetur,
- ea labore aut sollicitudin facilis ligula ornare etiam odio. Justo cumque ratione, porro
-  sociis dolore! Fugiat duis, laoreet, esse urna laoreet diam per, dicta nec. Laborum, sequi
-   volutpat cumque urna cupiditate, duis sollicitudin voluptas nibh voluptatibus? Adipiscing
-    dapibus urna, beatae ullam conubia vulputate placeat molestie excepteur cillum mus torquent
-     vero odio? Enim habitasse vitae? Maxime, sapiente integer posuere volutpat, harum risus?
-      A felis, sint odio conubia. Adipiscing doloribus sit quo etiam. Parturient! Parturient
-       assumenda ut, porta quisquam arcu alias assumenda, voluptas? Aenean labore cras porro 
-            voluptatibus? Adipiscing dapibus urna, beatae ullam conubia vulputate placeat
-             molestie excepteur cillum mus torquent vero odio? Enim habitasse vitae? Maxime,
-              sapiente integer posuere volutpat, harum risus? A felis, sint odio conubia.
-               Adipiscing doloribus sit quo etiam. Parturient! Parturient assumenda ut, porta 
-               quisquam arcu alias assumenda, voluptas? Aenean labore cras porro facilisis,
-                eius placerat quis primis ante.
-it eius scelerisque 
-iusto, nibh dicta imperdiet montes eaque, sit molestias turpis turpis placerat. Pede hymenaeos
- consectetur temporibus impedit? Totam, vero, elementum? Suspendisse hic! Tenetur commodi
-  nisl dolores magna temporibus urna, placeat gravida nascetur volutpat blandit recusandae
-   ad assumenda pede? Optio quidem repudiandae sapien ad et, vestibulum! Molestias veritatis.
-    Massa quae dignissimos condimentum blandit repellendus, elementum, placeat laboriosam maecenas? Fringilla, quam. Nihil reiciendis sapien adipisicing molestias euismod harum, scelerisque? Convallis vulputate dapibus nullam ligula, expedita fusce metus morbi vestibulum minus consectetur montes, vivamus! Voluptates? Potenti, hymenaeos? Explicabo, earum eos saepe malesuada? Aperiam.
-Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consectetur,
- ea labore aut sollicitudin facilis ligula ornare etiam odio. Justo cumque ratione, porro
-  sociis dolore! Fugiat duis, laoreet, esse urna laoreet diam per, dicta nec. Laborum, sequi volutpat cumque urna cupiditate, duis sollicitudin voluptas nibh voluptatibus? Adipiscing dapibus urna, beatae ullam conubia vulputate placeat molestie excepteur cillum mus torquent vero odio? Enim habitasse vitae? Maxime, sapiente integer posuere volutpat, harum risus? A felis, sint odio conubia. Adipiscing doloribus sit quo etiam. Parturient! Parturient assumenda ut, porta quisquam arcu alias assumenda, voluptas? Aenean labore cras porro facilisis, eius placerat quis primis ante.
-</p>
+        <div>{content[0] && parse(content[0].content)}</div>
      </div>
 
 
@@ -175,9 +278,9 @@ Reprehenderit pretium ultrices taciti, aspernatur ullamco, pretium etiam consect
 
 
      <div className="likeArticleCon">
-    <button onClick={()=>setLiked(!liked)} style={{background:`${liked==true ? '#9c9a9a' : '#ec9735'}`,
+    <button onClick={()=>{setLiked(!liked),handleLikeBtn()}} style={{background:`${liked==true ? '#9c9a9a' : '#ec9735'}`,
      boxShadow:`${liked==true ? 'none' : '-1px 2px 4px rgba(0, 0, 0, 0.2)'}`}}>
-        <i className='fa fa-thumbs-up'><p> {liked===true ? 1 : 0} </p></i>
+        <i className='fa fa-thumbs-up'></i>
         </button>
      </div>
 

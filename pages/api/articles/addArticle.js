@@ -17,7 +17,7 @@ export default async function handler(req,res){
     const form = new formidable.IncomingForm();
     
     form.parse(req,async function(err, fields, files) {
-        if (err) return err;
+      if (err) throw new Error('Error at Parsing');
 
         if(req.method==='POST'){
 
