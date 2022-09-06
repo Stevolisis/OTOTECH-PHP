@@ -68,6 +68,24 @@
     color: $color14;
 }
 
+.authorSocialLinks{
+display: flex;
+
+      i{
+        margin: 0 5px;
+        width:21px;
+        height: 21px;
+        background: $color14;
+        border-radius: 50%;
+        color:$color3;
+        font-size: 11px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+}
+
 .articleShareCon{
     width: 50%;
     display: flex;

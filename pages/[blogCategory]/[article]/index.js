@@ -233,10 +233,12 @@ export default function Article(){
                 <p>AUTHOR</p>
                 <p>{content[0] && parse(content[0].author.full_name)}</p>
                 <p>{content[0] && parse(content[0].author.description)}</p>
-                <p><Link href={`${content[0] && parse(content[0].author.whatsapp.link)}`}>Whatsapp</Link> </p>
-                <p><Link href={`${content[0] && parse(content[0].author.github.link)}`}>Github</Link> </p>
-                <p><Link href={`${content[0] && parse(content[0].author.linkedin.link)}`}>Linkedin</Link> </p>
-                </div>
+            <div className="authorSocialLinks">
+            <Link href={`${content[0] && parse(content[0].author.whatsapp.link)}`}><i className='fa fa-whatsapp'/></Link>
+            <Link href={`${content[0] && parse(content[0].author.github.link)}`}><i className='fa fa-github'/></Link>
+            <Link href={`${content[0] && parse(content[0].author.linkedin.link)}`}><i className='fa fa-linkedin'/></Link>
+            </div>
+               </div>
         </div>
 
 
