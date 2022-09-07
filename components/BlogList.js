@@ -41,7 +41,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
+        <Link href='/engineering/content-creation2' ><a className='blogCon'>
           <div className='blogImg'>
             <Image 
             src='/OTOTECH1.jpg'
@@ -99,7 +99,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
+        <Link href='/engineering/content-creation2' ><a className='blogCon'>
           <div className='blogImg'>
             <Image 
             src='/OTOTECH1.jpg'
@@ -157,7 +157,7 @@ export default function BlogList(){
           </a>
         </Link>
 
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
+        <Link href='/engineering/content-creation2' ><a className='blogCon'>
           <div className='blogImg'>
             <Image 
             src='/OTOTECH1.jpg'

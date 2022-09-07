@@ -41,7 +41,7 @@ export default async function handler(req,res){
                 imgNewName='';
               }else{
               fs.rename(oldPath,newPath,function(err){
-                if(err) console.log(err);
+                if(err) throw new Error(err.message);
               });                
               }
 

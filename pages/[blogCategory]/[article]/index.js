@@ -16,8 +16,16 @@ export default function Article(){
     'August','September','October','November','December'];
     const {article} =router.query;
     const [liked, setLiked]=useState(false);
-    const [content, setContent]=useState([]);
+    const [content, setContent]=useState(null);
     const [windowLink, setwindowLink]=useState('');
+    const [img_link, setimg_link]=useState('');
+    const [img_link2, setimg_link2]=useState('');
+    const [whatsapp, setwhatsapp]=useState({status:'',link:''});
+    const [dribble, setdribble]=useState({status:'',link:''});
+    const [github, setgithub]=useState({status:'',link:''});
+    const [linkedin, setlinkedin]=useState({status:'',link:''});
+    const [twitter, settwitter]=useState({status:'',link:''});
+    const [instagram, setinstagram]=useState({status:'',link:''});
 
     console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
 
@@ -40,9 +48,17 @@ export default function Article(){
     .then(res=>{
         let data=res.data.data;
         let status=res.data.status;
-        
+
         if(status==='success'){
             setContent(data);
+            setimg_link(`/${data.img_link}`)
+            setimg_link2(`/${data.author.img_link}`)
+            setwhatsapp(data.author.whatsapp)
+            setdribble(data.author.dribble)
+            setgithub(data.author.github)
+            setlinkedin(data.author.linkedin)
+            settwitter(data.author.twitter)
+            setinstagram(data.author.instagram);
             console.log(content);
         }else{
             Swal(
@@ -80,7 +96,7 @@ export default function Article(){
             axios.post('/api/likes/addLike',{page_link:window.location.href})
             .then(res=>{
                 let status=res.data.status;
-
+            
 
                 if(status==='success'){
                 if (typeof window !== 'undefined') {
@@ -189,14 +205,15 @@ export default function Article(){
 
      
      <div className='articleHeadCon'>
-        <div className='articleHead'><h1>{content[0] && content[0].title}</h1>
-        <p> {content[0] && `Posed on ${months[new Date(content[0].createdAt).getMonth()]} ${new Date(content[0].createdAt).getDay()}, ${new Date(content[0].createdAt).getFullYear()}`}</p>
+        <div className='articleHead'><h1>{content && content.title}</h1>
+        <p> {content && `Posed on ${months[new Date(content.createdAt).getMonth()]} ${new Date(content.createdAt).getDay()}, ${new Date(content.createdAt).getFullYear()}`}</p>
         {/* <p>{dateNow}</p> */}
         </div>
         <div className="articleImg">
         <div style={{width:'100%',height:'100%',position:'relative'}}>
             <Image 
-            src={`/${content[0] && content[0].img_link}`}
+            src={img_link}
+            alt='Cover Image'
             layout="fill"
             objectFit="cover"
             blurDataURL="/favicon.io"
@@ -220,7 +237,7 @@ export default function Article(){
         <div className='articleAuthorCon'>
             <div className='authorImg'>
                 <Image
-                src={`/${content[0] && content[0].author.img_link}`}
+                src={img_link2}
                 width={40}
                 height={40}
                 style={{borderRadius:'50%'}}
@@ -231,12 +248,15 @@ export default function Article(){
 
             <div className="articleAuthor">
                 <p>AUTHOR</p>
-                <p>{content[0] && parse(content[0].author.full_name)}</p>
-                <p>{content[0] && parse(content[0].author.description)}</p>
+                <p>{content && content.author.full_name}</p>
+                <p>{content && content.author.description}</p>
             <div className="authorSocialLinks">
-            <Link href={`${content[0] && parse(content[0].author.whatsapp.link)}`}><i className='fa fa-whatsapp'/></Link>
-            <Link href={`${content[0] && parse(content[0].author.github.link)}`}><i className='fa fa-github'/></Link>
-            <Link href={`${content[0] && parse(content[0].author.linkedin.link)}`}><i className='fa fa-linkedin'/></Link>
+            {whatsapp.status==='inactive'|| ''? '' :<Link href={`${whatsapp.link}`}><a><i className='fa fa-whatsapp'/></a></Link>}
+            {dribble.status==='inactive'|| ''? '' :<Link href={`${dribble.link}`}><a><i className='fa fa-dribble'/></a></Link>}
+            {github.status==='inactive'|| ''? '' :<Link href={`${github.link}`}><a><i className='fa fa-github'/></a></Link>}
+            {linkedin.status==='inactive'|| ''? '' :<Link href={`${linkedin.link}`}><a><i className='fa fa-linkedin'/></a></Link>}
+            {twitter.status==='inactive'|| ''? '' :<Link href={`${twitter.link}`}><a><i className='fa fa-twitter'/></a></Link>}
+            {instagram.status==='inactive'|| ''? '' :<Link href={`${instagram.link}`}><a><i className='fa fa-instagram'/></a></Link>}
             </div>
                </div>
         </div>
@@ -248,12 +268,12 @@ export default function Article(){
             data={{
             text: "Like humans, flamingos make friends for life",
             url: `${windowLink}`,
-            title: `${content[0] && content[0].title}`,
+            title: `${content && content.title}`,
             }}
             onClick={() => console.log("shared successfully!")}>
-            <button onClick={()=>navigator.share({title:`${content[0] && content[0].title}`,text:'OTOTCH BLOG',url:`${windowLink}}`})}>Share <i className="fa fa-share"/></button>
+            <button onClick={()=>navigator.share({title:`${content && content.title}`,text:'OTOTCH BLOG',url:`${windowLink}}`})}>Share <i className="fa fa-share"/></button>
             </RWebShare>
-                <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}}i&title=${content[0] && content[0].title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>
+                <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}}i&title=${content && content.title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>
                 <Link href={`https://twitter.com/intent/tweet?text=${windowLink}}`}><a><i className="fa fa-twitter"/></a></Link>
                 <Link href={`https://www.facebook.com/sharer/sharer.php?u=${windowLink}}`}><a><i className="fa fa-facebook"/></a></Link>
             </div>
@@ -268,7 +288,7 @@ export default function Article(){
 
 
      <div className="articleContentCon">
-        <div>{content[0] && parse(content[0].content)}</div>
+        <div>{content && parse(content.content)}</div>
      </div>
 
 

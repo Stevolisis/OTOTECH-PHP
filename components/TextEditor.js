@@ -21,7 +21,7 @@ export default function TextEditor({editorRef,show}){
             init={{
                 menubar:false,
                 skin:false,
-                content_css:false,
+                content_css:false
             }}
             onChange={show}
             />

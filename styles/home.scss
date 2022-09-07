@@ -135,6 +135,8 @@ i{
 	padding: 0 80px 0 205px;
 	box-sizing: border-box;
 	display: none;
+    z-index:4;
+
  div{
     background: $color5;
     padding: 15px;
@@ -160,6 +162,7 @@ i{
     margin-top: -100%;
     transition: 1s !important;
 	display: none;
+    z-index:4;
     
     div{
         width:50% ;
@@ -246,6 +249,7 @@ padding-bottom: 30px;
     width: calc(100vw - 60px);
 	box-sizing: border-box;
     display: none;
+    z-index:4;
 }
 
 .main4 div{
