@@ -35,6 +35,7 @@ export default async function handler(req,res){
            let oldPath=files.img_link.filepath;
            let imgNewName=Date.now()+files.img_link.originalFilename;
            let newPath=path.join(path.resolve('public') ,imgNewName);
+           let date=new Date();
 
             try{
               let password=await bcrypt.hash(fields.password,10);
@@ -64,7 +65,10 @@ export default async function handler(req,res){
              twitter:JSON.parse(fields.twitter),
              instagram:JSON.parse(fields.instagram),
              img_link:imgNewName,
-             status:fields.status
+             status:fields.status,
+             day:date.getDay(),
+             month:date.getMonth(),
+             year:date.getFullYear()
              })
 
              console.log(staff)

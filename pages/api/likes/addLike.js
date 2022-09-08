@@ -13,6 +13,8 @@ export default async function handler(req,res){
 
     if(req.method==='POST'){
     const form = new formidable.IncomingForm();
+    const date=new Date();
+    
     try{
     form.parse(req,async function(err, fields, files) {
         if (err) throw new Error('Error at Parsing');
@@ -21,8 +23,10 @@ export default async function handler(req,res){
         
         const like=new Likes({
             page_link:fields.page_link,
-            category:subDiv[1],
-            article:subDiv[2]
+            pageId:fields.pageId,
+            day:date.getDay(),
+            month:date.getMonth(),
+            year:date.getFullYear()
         })
 
         await like.save().then(

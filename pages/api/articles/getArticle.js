@@ -4,12 +4,14 @@ import dbConnect from "../../../db/dbConnect";
   
 export default async function handler(req,res){
     await dbConnect();
-     let route=req.rawHeaders[13].split('//')[1].split('/');
 
-    if(typeof window !=='undefined') console.log(window.location.href);
-    console.log(route)
+    if(req.method==='GET'){
+    const url = req.headers.referer;
+    let route=url.split('//')[1].split('/');
+    console.log(route);    
 
-        if(req.method==='GET'){
+
+
             try{
             let data=await Article.find({}).populate({ path: 'author',select:'full_name description img_link whatsapp dribble github linkedin twitter instagram' });
                

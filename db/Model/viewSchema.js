@@ -1,28 +1,30 @@
 import mongoose from 'mongoose';
+import articles from '../Model/articleSchema'
 
 const viewSchema=new mongoose.Schema({
   page_link:{
     type:String,
     required:true
   },
-  category:{
-    type:String,
+  pageId:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:articles,
     required:true
   },
-  article:{
+  day:{
     type:String,
-    required:true
+    required:true,
+    immutable:true
   },
-  createdAt:{
-  type:Date,
-  default:()=>Date.now(),
-  required:true,
-  immutable:true
+  month:{
+    type:String,
+    required:true,
+    immutable:true
   },
-  updatedAt:{
-  type:Date,
-    default:()=>Date.now(),
-    required:true,  
+  year:{
+    type:String,
+    required:true,
+    immutable:true
   }
 })
 

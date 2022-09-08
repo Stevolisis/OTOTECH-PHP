@@ -5,24 +5,24 @@ const likeSchema=new mongoose.Schema({
     type:String,
     required:true
   },
-  category:{
+  pageId:{
     type:String,
-    required:true
+    required:true,    
   },
-  article:{
+  day:{
     type:String,
-    required:true
+    required:true,
+    immutable:true
   },
-  createdAt:{
-  type:Date,
-  default:()=>Date.now(),
-  required:true,
-  immutable:true
+  month:{
+    type:String,
+    required:true,
+    immutable:true
   },
-  updatedAt:{
-  type:Date,
-    default:()=>Date.now(),
-    required:true,  
+  year:{
+    type:String,
+    required:true,
+    immutable:true
   }
 })
 

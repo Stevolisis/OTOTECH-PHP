@@ -10,6 +10,7 @@ import("../../../../components/TextEditor"), {   ssr: false });
 export default function AddArticle(){
     const [imgpreview,setImgpreview]=useState('');
     const [authors,setAuthors]=useState([]);
+    const [categories,setCategories]=useState([]);
     const editorRef=useRef();
 
     function loadAuthors(){
@@ -18,6 +19,29 @@ export default function AddArticle(){
             let data=res.data.data;
             if(res.data.status==='success'){
                 setAuthors(data)
+            }else{
+                Swal.fire(
+                    'Error',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });
+    }
+
+    function loadCategories(){
+        axios.get('/api/categories/getCategories')
+        .then(res=>{
+            let status=res.data.status;
+            let data=res.data.data;
+            if(status==='success'){
+                setCategories(data)
             }else{
                 Swal.fire(
                     'Error',
@@ -71,6 +95,7 @@ export default function AddArticle(){
 
     useEffect(()=>{
         loadAuthors()
+        loadCategories()
     },[])
 
 
@@ -93,10 +118,13 @@ export default function AddArticle(){
         
         <div className='admineditnamecon'>
             <div className='admineditname'>
-            <p>Slug</p>
-            <input type='text' name='slug'/><p>the 'slug is the URL-friendly version of the 
-                name. It should contain only lowercase letters, numbers and hyphens'</p>
-        </div>
+            <p>Category</p>
+            <select name='category'>
+            {categories.map(category=>{
+                return <option value={category._id} key={category._id}>{category.name}</option>
+            })}
+            </select>
+            </div>
         </div>
 
         <div className='admineditnamecon'>

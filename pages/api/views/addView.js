@@ -16,18 +16,20 @@ export default async function handler(req,res){
     try{
     form.parse(req,async function(err, fields, files) {
         if (err) throw new Error('Error at Parsing');
-        let subDiv=fields.page_link.split('//')[1].split('/');
+        let date=new Date();
         console.log(fields);
         
         const like=new Views({
             page_link:fields.page_link,
-            category:subDiv[1],
-            article:subDiv[2]
+            pageId:fields.pageId,
+            day:date.getDay(),
+            month:date.getMonth(),
+            year:date.getFullYear()
         })
 
-        await like.save().then(
-            res.status(200).json({status:'success'})
-        )
+        await like.save()
+        res.status(200).json({status:'success'})
+        
               
     });
 

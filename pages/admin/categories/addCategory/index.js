@@ -52,13 +52,6 @@ export default function AddCategory(){
             </div>
         </div>
         
-        <div className='admineditnamecon'>
-            <div className='admineditname'>
-            <p>Slug</p>
-            <input type='text' name='slug'/><p>the 'slug is the URL-friendly version of the 
-                name. It should contain only lowercase letters, numbers and hyphens'</p>
-        </div>
-        </div>
 
         <div className='admineditnamecon'>
             <div className='admineditname'>

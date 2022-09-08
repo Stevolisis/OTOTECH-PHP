@@ -41,7 +41,7 @@
 .articleAuthorCon{
     width: 50%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     font-family: poppinsLight;
 }
 
@@ -86,6 +86,9 @@ margin-top:5px;
       }
 
 }
+.authorSocialLinks i:nth-of-type(1){
+    margin-left:0;
+}
 
 .articleShareCon{
     width: 50%;
@@ -121,10 +124,11 @@ margin-top:5px;
         word-spacing: 4px;
         line-height: 1.9;
         overflow-x: auto;
+        word-break: break-word;
 
         code{
             color:blueviolet;
-            
+            word-break: break-word;
         }
 
         img{
@@ -248,5 +252,6 @@ margin-top:5px;
         font-size: 10px;
         color: $color14;
         font-family: poppinsLight;
+        word-wrap:break-word;
     }
 }

@@ -16,7 +16,8 @@ export default function Article(){
     'August','September','October','November','December'];
     const {article} =router.query;
     const [liked, setLiked]=useState(false);
-    const [content, setContent]=useState(null);
+    const [content, setContent]=useState('');
+    const [pageId, setpageId]=useState('');
     const [windowLink, setwindowLink]=useState('');
     const [img_link, setimg_link]=useState('');
     const [img_link2, setimg_link2]=useState('');
@@ -26,6 +27,7 @@ export default function Article(){
     const [linkedin, setlinkedin]=useState({status:'',link:''});
     const [twitter, settwitter]=useState({status:'',link:''});
     const [instagram, setinstagram]=useState({status:'',link:''});
+    const [comments, setcomments]=useState('');
 
     console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
 
@@ -51,6 +53,7 @@ export default function Article(){
 
         if(status==='success'){
             setContent(data);
+            setpageId(data._id);
             setimg_link(`/${data.img_link}`)
             setimg_link2(`/${data.author.img_link}`)
             setwhatsapp(data.author.whatsapp)
@@ -59,7 +62,6 @@ export default function Article(){
             setlinkedin(data.author.linkedin)
             settwitter(data.author.twitter)
             setinstagram(data.author.instagram);
-            console.log(content);
         }else{
             Swal(
                 'Error Occured',
@@ -93,7 +95,7 @@ export default function Article(){
     function handleLikeBtn(){
         console.log(window.location.href);
         if(liked===false){
-            axios.post('/api/likes/addLike',{page_link:window.location.href})
+            axios.post('/api/likes/addLike',{page_link:window.location.href,pageId:pageId})
             .then(res=>{
                 let status=res.data.status;
             
@@ -164,14 +166,59 @@ export default function Article(){
 
 
      function setView(){
-        axios.post('/api/views/addView',{page_link:window.location.href})
+        if(pageId===''){
+            return;
+        }else{
+            axios.post('/api/views/addView',{page_link:window.location.href,pageId:content && pageId})
         .then(res=>{
             return;
         }).catch(err=>{
             return;
         })
+        }
      }
 
+     function setComment(e){
+        e.preventDefault();
+        const formData=new FormData(e.target);
+        formData.append('page_link',window.location.href);
+        formData.append('pageId',pageId);
+
+        axios.post('/api/comments/addComment',formData)
+        .then(res=>{
+            let status=res.data.status;
+            let data=res.data.data;
+            if(status==='success') alert(status)
+            loadComments();
+            console.log(data,status)
+           
+        }).catch(err=>{
+            console.log(err)
+            
+        })
+     }
+
+
+
+     function loadComments(){
+       if(pageId===''){
+       return;
+       }else{
+        axios.get(`/api/comments/getComments?pageId=${content && pageId}`)
+        .then(res=>{
+            let data=res.data.data;
+            let status=res.data.status;
+    
+            if(status==='success'){
+                setcomments(data);
+            }else{
+                console.log('commentsSec',data);
+            }
+        }).catch(err=>{
+            console.log('commentsErr',err);
+        })
+       }
+    }
 
 
     useEffect(()=>{
@@ -181,14 +228,12 @@ export default function Article(){
     },[])
 
     useEffect(()=>{
-        if(cancelalert.current){
-        setTimeout(() => {
-            setView();
-        }, 2000);
-        cancelalert.current=false;
-    }
-    },[])
+    loadComments()
+    setView()
+    },[pageId])
 
+
+console.log( new Date(Date()).getFullYear())
 
     return(
     <>
@@ -206,11 +251,11 @@ export default function Article(){
      
      <div className='articleHeadCon'>
         <div className='articleHead'><h1>{content && content.title}</h1>
-        <p> {content && `Posed on ${months[new Date(content.createdAt).getMonth()]} ${new Date(content.createdAt).getDay()}, ${new Date(content.createdAt).getFullYear()}`}</p>
-        {/* <p>{dateNow}</p> */}
+        <p> {content && `Posed on ${months[content.month]} ${content.day}, ${content.year}`}</p>
         </div>
         <div className="articleImg">
         <div style={{width:'100%',height:'100%',position:'relative'}}>
+           {img_link && 
             <Image 
             src={img_link}
             alt='Cover Image'
@@ -219,7 +264,7 @@ export default function Article(){
             blurDataURL="/favicon.io"
             placeholder="blur"
             priority
-            />
+            />}
         </div>
         </div>
 
@@ -236,14 +281,14 @@ export default function Article(){
 
         <div className='articleAuthorCon'>
             <div className='authorImg'>
-                <Image
+               {img_link2 && <Image
                 src={img_link2}
                 width={40}
                 height={40}
                 style={{borderRadius:'50%'}}
                 placeholder='blur'
                 blurDataURL="/favicon.io"
-                />
+                />}
             </div>
 
             <div className="articleAuthor">
@@ -313,9 +358,9 @@ export default function Article(){
 
      <div className='commentBoxCon'>
 
-        <form onSubmit={(e)=>e.preventDefault()}>
+        <form onSubmit={setComment}>
             <h3>Leave a Comment</h3>
-        <input type='text' name='Full Name' placeholder="Full Name"/>
+        <input type='text' name='full_name' placeholder="Full Name"/>
         <input type='email' name='email' placeholder="E-mail Address"/>
         <textarea placeholder="Your Comment" name='comment'/>
         <button>Submit</button>
@@ -327,46 +372,32 @@ export default function Article(){
 <div className="articleCommentsCon">
 <h3>Comments</h3>
 
-<div className='articleAuthorCon' style={{width:'100%'}}>
-    <div className='authorImg'>
+{comments && 
+    comments.map((comment,id)=>{
+        return(
+            <>
+        <div className='articleAuthorCon' style={{width:'100%'}} key={id}>
+        <div className='authorImg'>
         <Image
-        src='/OTOTECH1.jpg'
+        src='/user.png'
         width={40}
         height={40}
         style={{borderRadius:'50%'}}
         placeholder='blur'
         blurDataURL="/favicon.io"
         />
-    </div>
+        </div>
 
-    <div className="articleAuthor" >
-        <p>STEVEN JOSEPH</p>
-        <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
-             companiess. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
-    </div>
-</div>
+        <div className="articleAuthor" >
+        <p>{comment.user.full_name} ({`${comment.day}/${comment.month}/${comment.year}`})</p>
+        <p>{comment.comment}</p>
+        </div>
+        </div>
+            </>
+        )
+    })
 
-<div className='articleAuthorCon' style={{width:'100%'}}>
-    <div className='authorImg'>
-        <Image
-        src='/OTOTECH1.jpg'
-        width={40}
-        height={40}
-        style={{borderRadius:'50%'}}
-        placeholder='blur'
-        blurDataURL="/favicon.io"
-        />
-    </div>
-
-    <div className="articleAuthor" >
-        <p>STEVEN JOSEPH</p>
-        <p>Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for
-             companiess. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p>
-    </div>
-</div>
-
-
-
+}
 
 </div>
 

@@ -21,16 +21,20 @@ const categSchema=new mongoose.Schema({
     type:String,
     required:true
   },
-  createdAt:{
-  type:Date,
-  default:()=>Date.now(),
-  required:true,
-  immutable:true
+  day:{
+    type:String,
+    required:true,
+    immutable:true
   },
-  updatedAt:{
-  type:Date,
-    default:()=>Date.now(),
-    required:true,  
+  month:{
+    type:String,
+    required:true,
+    immutable:true
+  },
+  year:{
+    type:String,
+    required:true,
+    immutable:true
   }
 })
 

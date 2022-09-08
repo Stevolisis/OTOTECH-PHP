@@ -1,8 +1,10 @@
 import Articles from "../../../db/Model/articleSchema";
+import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import path from "path";
 import fs from 'fs';
+const url_slugify=require('slugify');
 
 export const config = {
     api: {
@@ -33,7 +35,11 @@ export default async function handler(req,res){
 
            let oldPath=files.img_link.filepath;
            let imgNewName=Date.now()+files.img_link.originalFilename;
-           let newPath=path.join(path.resolve('public') ,imgNewName);
+           let newPath=path.join(path.resolve('public'),imgNewName);
+           let date=new Date();
+           let slug=fields.title;
+           let categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
+           let stripSlug=url_slugify(slug.replace(/[^\w\s']|_/g,' ').replaceAll("'",' '));
 
             try{
 
@@ -50,11 +56,15 @@ export default async function handler(req,res){
               
              const article=new Articles({
              title:fields.title,
-             slug:fields.slug,
+             slug:`${categorySlug.slug}/${stripSlug}`,
+             category:fields.category,
              author:fields.author,
              content:fields.content,
              img_link:imgNewName,
-             status:fields.status
+             status:fields.status,
+             day:date.getDay(),
+             month:date.getMonth(),
+             year:date.getFullYear()
              })
 
              console.log(article)
@@ -70,8 +80,7 @@ export default async function handler(req,res){
             }
 
           }else{
-              res.status(404).json({status
-                :'error'})
+              res.status(404).json({status:'error'})
           }
 
       });
