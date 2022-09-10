@@ -36,7 +36,7 @@ export default async function handler(req,res){
 
            let oldPath=files.img_link.filepath;
            let imgNewName=Date.now()+files.img_link.originalFilename;
-           let newPath=path.join(process.cwd(),'public',imgNewName);
+           let newPath=path.join(path.resolve(process.cwd()),'public',imgNewName);
            let date=new Date();
            let slug=fields.title;
            let categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
