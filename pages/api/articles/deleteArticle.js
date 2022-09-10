@@ -27,7 +27,7 @@ export default async function handler(req,res){
 
             try{
             await Articles.deleteOne({id:fields.id});
-            fs.unlinkSync(imgPath);
+            // fs.unlinkSync(imgPath);
             res.status(200).json({status:'success'});
 
             }catch(err){
