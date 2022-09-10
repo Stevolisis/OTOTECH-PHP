@@ -65,8 +65,8 @@ export default function AddArticle(){
         formData.append('content',editorRef.current.getContent())
         axios.post('/api/articles/addArticle',formData,{withCredentials:true})
         .then(res=>{
-            let data=res.data.status;
-            if(data==='success'){
+            let status=res.data.status;
+            if(status==='success'){
                 Swal.fire(
                     'Successful!',
                     'Article Added',
@@ -81,6 +81,11 @@ export default function AddArticle(){
             }
         }).catch(err=>{
             console.log(err);
+            Swal.fire(
+                'Error!',
+                err.message,
+                'error'
+            )
         })
     }
 

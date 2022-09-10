@@ -1,33 +1,123 @@
-import { useState,useRef } from "react"
+import { useState,useRef, useEffect } from "react"
 import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
- 
+import axios from "axios";
+import { useRouter } from "next/router";
+
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false });
 
 
 export default function EditArticle(){
     const [imgpreview,setImgpreview]=useState('');
+    const [title,settitle]=useState('');
+    const [author,setauthor]=useState('');
+    const [content,setcontent]=useState('');
+    const [img_link,setimg_link]=useState('');
+    const [status,setstatus]=useState('');
     const editorRef=useRef();
+    const [authors,setAuthors]=useState([]);
+    const router=useRouter();
+    const {id}=router.query;
+    console.log('routerId',id)
 
     function show(){
         console.log(editorRef.current.getContent())
      }
 
+     function loadAuthors(){
+        axios.get('/api/staffs/getStaffs')
+        .then(res=>{
+            let data=res.data.data;
+            if(res.data.status==='success'){
+                setAuthors(data)
+            }else{
+                Swal.fire(
+                    'Error',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });
+    }
+
+    function loadArticle(){
+    if(id!==undefined){
+    axios.get(`/api/articles/getArticleEdit/${id}`)
+    .then(res=>{
+        let data=res.data.data;
+        if(res.data.status==='success'){
+            settitle(data[0].title)
+            setauthor(data[0].author)
+            setcontent(data[0].content)
+            setImgpreview(`/${data[0].img_link}`)
+            setstatus(data[0].status)
+        }else{
+            Swal.fire(
+                'Error',
+                res.data.status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        Swal.fire(
+            'Error',
+            'Error Occured at Axios',
+            'warning'
+        )           
+    });
+ }else{
+    return;
+ }
+    }
 
     function handleSubmit(e){
         e.preventDefault();
-        Swal.fire(
-            'Successful!',
-            'Article Edited',
-            'success'
-          )
+        const formData=new FormData(e.target);
+        formData.append('content',editorRef.current.getContent());
+        axios.post(`/api/articles/editArticle/${id}`,formData,{withCredentials:true})
+        .then(res=>{
+            let status=res.data.status;
+            if(status==='success'){
+                Swal.fire(
+                    'Successful!',
+                    'Article Added',
+                    'success'
+                )
+            }else{
+                Swal.fire(
+                    'Error!',
+                    status,
+                    'warning'
+                )  
+            }
+        }).catch(err=>{
+            console.log(err);
+            Swal.fire(
+                'Error!',
+                err.message,
+                'warning'
+            )  
+        })
     }
     
     function imgPreview(e){
         setImgpreview(URL.createObjectURL(e.target.files[0]));
     }
 
+    useEffect(()=>{
+        loadAuthors();
+    },[])
+
+    useEffect(()=>{
+        loadArticle();
+    },[id]);
 
 
     return(
@@ -42,29 +132,18 @@ export default function EditArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Title</p>
-            <input type='text' name='name'/>
+            <input type='text' name='title' value={title} onChange={(e)=>settitle(e.target.value)}/>
             </div>
         </div>
         
-        <div className='admineditnamecon'>
-            <div className='admineditname'>
-            <p>Slug</p>
-            <input type='text' name='slug'/><p>the 'slug is the URL-friendly version of the 
-                name. It should contain only lowercase letters, numbers and hyphens'</p>
-        </div>
-        </div>
 
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Author</p>
-            <select name='status'>
-            <option defaultValue>James Rodrick</option>
-            <option>Mike Slensor</option>
-            <option>Rita Bwala</option>
-            <option>Ridwan Ahmed</option>
-            <option>Hadiza Jotinga</option>
-            <option>Randy Jordan</option>
-            <option>Helen Romans</option>
+            <select name='author' value={author} onChange={(e)=>setauthor(e.target.value)}>
+            {authors.map(author=>{
+                return <option value={author._id} key={author._id}>{author.full_name} ({author.position})</option>
+            })}
             </select>
             </div>
         </div>
@@ -72,7 +151,7 @@ export default function EditArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <TextEditor editorRef={editorRef} show={show}/>
+            <TextEditor editorRef={editorRef} show={show} initialValue={content}/>
             </div>
         </div>
 
@@ -93,7 +172,7 @@ export default function EditArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Status</p>
-            <select name='status'>
+            <select name='status' value={status} onChange={(e)=>setstatus(e.target.value)}>
             <option defaultValue>Activate</option>
             <option>Deactivate</option>
             </select>

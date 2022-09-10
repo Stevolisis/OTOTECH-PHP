@@ -12,7 +12,7 @@ import 'tinymce/models/dom/model';
 import {Editor} from '@tinymce/tinymce-react';
 
 
-export default function TextEditor({editorRef,show}){
+export default function TextEditor({editorRef,show,initialValue}){
 
     return(
         <>
@@ -23,6 +23,7 @@ export default function TextEditor({editorRef,show}){
                 skin:false,
                 content_css:false
             }}
+            initialValue={initialValue}
             onChange={show}
             />
         </>

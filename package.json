@@ -24,7 +24,7 @@
     "jquery": "^3.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.4",
-    "next": "12.2.5",
+    "next": "^12.3.1-canary.0",
     "path": "^0.12.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -39,6 +39,8 @@
     "sweetalert2": "^11.4.29"
   },
   "devDependencies": {
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.249",
     "eslint": "8.22.0",
     "eslint-config-next": "12.2.5"
   }
