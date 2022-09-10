@@ -8,6 +8,9 @@ const nextConfig = {
   images: {
     disableStaticImages: true
   },
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname
+}
 }
 
 

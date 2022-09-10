@@ -5,6 +5,7 @@ import formidable from "formidable";
 import path from "path";
 import fs from 'fs';
 const url_slugify=require('slugify');
+import getConfig from 'next/config'
 
 export const config = {
     api: {
@@ -30,16 +31,17 @@ export default async function handler(req,res){
             res.status(200).json({status:'Invalid Image Type'});
             return;
            }
-           console.log(fields)
+           console.log(fields.title);
 
 
            let oldPath=files.img_link.filepath;
            let imgNewName=Date.now()+files.img_link.originalFilename;
-           let newPath=path.join(path.resolve('public'),imgNewName);
+           let newPath=path.join(getConfig().serverRuntimeConfig.PROJECT_ROOT,'public',imgNewName);
            let date=new Date();
            let slug=fields.title;
            let categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
            let stripSlug=url_slugify(slug.replace(/[^\w\s']|_/g,' ').replaceAll("'",' '));
+           console.log(newPath);
 
             try{
 
@@ -59,7 +61,7 @@ export default async function handler(req,res){
              slug:`${categorySlug.slug}/${stripSlug}`,
              category:fields.category,
              author:fields.author,
-             content:fields.content,
+             content:newPath,
              img_link:imgNewName,
              status:fields.status,
              day:date.getDay(),
