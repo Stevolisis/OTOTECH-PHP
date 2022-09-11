@@ -1,4 +1,7 @@
 import Articles from "../../../db/Model/articleSchema";
+import Likes from "../../../db/Model/likeSchema";
+import Comments from "../../../db/Model/commentSchema";
+import Views from "../../../db/Model/viewSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import path from 'path';
@@ -26,9 +29,17 @@ export default async function handler(req,res){
           console.log(imgPath);
 
             try{
-            await Articles.deleteOne({id:fields.id});
-            // fs.unlinkSync(imgPath);
-            res.status(200).json({status:'success'});
+              
+              await Promise.all([
+               Articles.deleteOne({id:fields.id}),
+               Likes.deleteOne({pageId:fields.id}),
+               Views.deleteOne({pageId:fields.id}),
+               Comments.deleteOne({pageId:fields.id}),                
+              ]).then(
+               res.status(200).json({status:'success'})             
+              )
+              // fs.unlinkSync(imgPath);
+
 
             }catch(err){
             res.status(404).json({status:err.message})
