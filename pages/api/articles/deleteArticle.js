@@ -23,13 +23,12 @@ export default async function handler(req,res){
         form.parse(req,async function(err, fields, files) {
           if (err) throw new Error('Error at Parsing');
           console.log(fields);
-          let imgDelete=await Articles.findOne({_id:fields.id}).select('img_link');
-          console.log(imgDelete)
-          let imgPath=path.join(path.resolve('public'),imgDelete.img_link);
-          console.log(imgPath);
+
 
             try{
-              
+              let imgDelete=await Articles.findOne({_id:fields.id}).select('img_link');
+              let imgPath=path.join(path.resolve('public'),imgDelete.img_link);  
+                          
               await Promise.all([
                Articles.deleteOne({id:fields.id}),
                Likes.deleteOne({pageId:fields.id}),

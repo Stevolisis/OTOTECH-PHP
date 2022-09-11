@@ -79,6 +79,16 @@ export default function EditArticle(){
 
     function handleSubmit(e){
         e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Confirm Action On Article",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Edit it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         axios.post(`/api/articles/editArticle/${id}`,formData,{withCredentials:true})
@@ -105,6 +115,8 @@ export default function EditArticle(){
                 'warning'
             )  
         })
+    }
+    })
     }
     
     function imgPreview(e){

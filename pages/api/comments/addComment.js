@@ -33,7 +33,7 @@ export default async function handler(req,res){
                       page_link:fields.page_link,
                       pageId:fields.pageId,
                       comment:fields.comment,
-                      day:date.getDay(),
+                      day:date.getDate(),
                       month:date.getMonth(),
                       year:date.getFullYear()
                   });

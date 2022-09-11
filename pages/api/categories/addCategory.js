@@ -56,7 +56,7 @@ export default async function handler(req,res){
              icon:fields.icon,
              img_link:imgNewName,
              status:fields.status,
-             day:date.getDay(),
+             day:date.getDate(),
              month:date.getMonth(),
              year:date.getFullYear()
              })

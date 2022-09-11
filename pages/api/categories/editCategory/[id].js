@@ -1,4 +1,4 @@
-import Articles from "../../../../db/Model/articleSchema";
+import Categories from "../../../../db/Model/categorySchema";
 import dbConnect from "../../../../db/dbConnect";
 import formidable from "formidable";
 import path from 'path'
@@ -28,7 +28,7 @@ export default async function handler(req,res){
             let oldPath=files.img_link.filepath;
             imgNewName=Date.now()+files.img_link.originalFilename;
             newPath=path.join(path.resolve('public'),imgNewName);
-            let imgDelete=await Articles.findOne({_id:id}).select('img_link');
+            let imgDelete=await Categories.findOne({_id:id}).select('img_link');
             console.log(imgDelete)
             imgPath=path.join(path.resolve('public'),imgDelete.img_link);
             console.log(imgPath);
@@ -49,7 +49,7 @@ export default async function handler(req,res){
           let article=fields;
           {files.img_link.size===0 ? '' : article.img_link=imgNewName}
           console.log(article);
-          await Articles.updateOne({_id:id},{$set:article});
+          await Categories.updateOne({_id:id},{$set:article});
           if(files.img_link.size!==0) fs.unlinkSync(imgPath);
           res.status(200).json({status:'success'});
 

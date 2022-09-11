@@ -42,6 +42,16 @@ export default function AdminArticles(){
 
   function deleteArticle(id){
     console.log(id)
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Confirm Delete of Article",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
     axios.post('/api/articles/deleteArticle',{id:id})
     .then(res=>{
        let status=res.data.status;
@@ -67,6 +77,8 @@ export default function AdminArticles(){
             'error'
         )
     })
+}
+      });
   }
 
   function loadLimitArticle(){
@@ -120,18 +132,18 @@ useEffect(()=>{
 
 
 <div className='adminfilterscon'>
-<div className='adminfilters'>
+    <div className='adminfilters'>
         <input type='text' placeholder='Search...'
-         onChange={(e)=>{filterByTitle(e.target.value)}}/>
+        onChange={(e)=>{filterByTitle(e.target.value)}}/>
     </div>
     <div className='adminfilters'>
     <select onChange={(e)=>filter(e.target.value)}>
     <option value='ascend'>Ascending Order</option>
     <option value='descend'>Descending Order</option>
-        <option value='views'>Most Viewed</option>
-        <option value='likes'>Most Liked</option>
-        <option value='comments'>Most Commented</option>
-        </select>
+    <option value='views'>Most Viewed</option>
+    <option value='likes'>Most Liked</option>
+    <option value='comments'>Most Commented</option>
+    </select>
     </div>
 </div>
 

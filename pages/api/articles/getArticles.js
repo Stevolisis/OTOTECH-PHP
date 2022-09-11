@@ -21,10 +21,7 @@ export default async function handler(req,res){
                 data[i].comments=await Comments.count({pageId:data[i]._id});
                 console.log(data[i].likes)
                 console.log(data[i].views)
-                console.log(data[i].comments)
-                // result.push(data[i]);
-                // console.log(data[i].likes)  
-                // data[i].Comments=Articles.getComments("3456789")                
+                console.log(data[i].comments) 
             }
             
             console.log('done')

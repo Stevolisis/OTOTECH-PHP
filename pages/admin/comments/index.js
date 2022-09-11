@@ -1,17 +1,126 @@
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import Swal from 'sweetalert2';
+import axios from 'axios';
 
 export default function AdminComments(){
-  function view(){
+    const [comments,setcomments]=useState([]);
+    const [backup,setbackup]=useState([]);
+    const filterIndex=useRef('');
+    const filterComments=Array.from(comments);
+    let limit=useRef(1);
+    const months=['January','February','March','April','May','June','July',
+  'August','September','October','November','December'];
+
+
+  function loadComments(){
+    axios.get(`/api/comments/getComments?limit=${limit.current}`)
+    .then(res=>{
+        let status=res.data.status;
+        let data=res.data.data;
+
+        if(status==='success'){
+            setcomments(data);
+            setbackup(data);
+            
+        }else{
+            Swal.fire(
+                'Error',
+                data,
+                'error'
+            )
+        }
+    }).catch(err=>{
+        Swal.fire(
+            'Warning',
+            err,
+            'error'
+        )
+        console.log(err)
+    })
+  }
+
+    function view(i){
     Swal.fire({
-        title:'ronda@gmail.com',
-        html:'<div className="articleAuthor"><p style="text-size:"2px"">Steven is a Full Stack Developer who has a broad range of experience in creating world class web apps for companies. His an expert in javascript, frameworks like expressJs, Reactjs and NextJs.</p></div>',
+        title:comments[i].user.email,
+        html:comments[i].comment,
         icon:'info',
         confirmButtonText:'Close'
     })
 
+    }
+
+
+function deleteComment(id){
+    console.log(id)
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Confirm Delete of Comment",
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post('/api/comments/deleteComment',{id:id})
+            .then(res=>{
+               let status=res.data.status;
+        
+               if(status==='success'){
+                Swal.fire(
+                    'Successful',
+                    'Comment Deleted',
+                    'success'
+                )
+                loadComments()
+               }else{
+                Swal.fire(
+                    'Warning',
+                    status,
+                    'error'
+                )
+               }
+            }).catch(err=>{
+                Swal.fire(
+                    'Warning',
+                    err,
+                    'error'
+                )
+            })
+        }
+      })
+  }
+
+function loadLimitComment(){
+    limit.current=limit.current+1;
+    loadComments();
+  }
+
+  function filter(e){
+    if(e==='ascend'){
+        setcomments(filterComments.sort((a,b)=>a._id < b._id ? 1:-1));
+    }else if(e==='articles'){
+        setcomments(filterComments.sort((a,b)=>a.user < b.user ? 1:-1));
+    }else if(e==='descend'){
+        setcomments(filterComments.sort((a,b)=>a._id < b._id ? -1:1));
+    }
+  }
+
+function filterByUser(e){
+    filterIndex.current=e;
+    let filterComments2=[];
+    for (let i = 0; i < backup.length; i++) {
+    if(backup[i].user.email.toLowerCase().includes(filterIndex.current.toLowerCase())){
+    filterComments2.push(backup[i]);
+    }      
+    }
+    setcomments(filterComments2);
 }
 
+useEffect(()=>{
+    loadComments();
+  },[]);
 
     return(
         <>
@@ -26,15 +135,14 @@ export default function AdminComments(){
 
 <div className='adminfilterscon'>
 <div className='adminfilters'>
-        <input type='text' placeholder='Search...'/>
+        <input type='text' placeholder='Search...'
+        onChange={(e)=>{filterByUser(e.target.value)}}/>
     </div>
     <div className='adminfilters'>
-        <select>
-        <option defaultValue='All Users'>Recent Added</option>
-        <option>Email</option>
-        <option>Most Comments</option>
-        <option>Most Likes</option>
-        </select>
+    <select onChange={(e)=>filter(e.target.value)}>
+    <option value='ascend'>Ascending Order</option>
+    <option value='descend'>Descending Order</option>
+    </select>
     </div>
 </div>
 
@@ -52,25 +160,24 @@ export default function AdminComments(){
 <tbody>
 
 <tr>
-<th>Email</th>
-<th>comment</th>
-<th>Likes</th>
+<th>Page</th>
+<th>User</th>
 <th>Commented On</th>
 <th>Delete</th>
-<th>Status</th>
 <th>View</th>
 </tr>
 
-<tr>
-    <td>ronda@gmail.com</td>
-    <td>19</td>
-    <td>60</td>
-    <td>12th June 2022</td>
-    <td><button>Delete</button></td>
-    <td>Active</td>
-    <td><button onClick={view}>
-      View</button></td>
-</tr>
+{filterComments && filterComments.map((comment,i)=>{
+    return(
+    <tr key={i}>
+    <td>{comment.pageId===null ? 'Invalid' : comment.pageId.title}</td>
+    <td>{comment.user===null ? 'Invalid' :comment.user.email}</td>
+    <td>{comment.day}th {months[comment.month]}, {comment.year}</td>
+    <td><button onClick={()=>deleteComment(comment._id)}>Delete</button></td>
+    <td><button onClick={()=>view(i)}>View</button></td>
+    </tr>
+    )
+})}
 
 </tbody>
 
@@ -83,7 +190,7 @@ export default function AdminComments(){
 </div>
 </div>
 <div className='adminmorebtn'>
-<button>See More</button>
+<button onClick={loadLimitComment}>See More</button>
 </div>
 </div>
 

@@ -204,7 +204,7 @@ export default function Article(){
        if(pageId===''){
        return;
        }else{
-        axios.get(`/api/comments/getComments?pageId=${content && pageId}`)
+        axios.get(`/api/comments/getPageComments?pageId=${content && pageId}`)
         .then(res=>{
             let data=res.data.data;
             let status=res.data.status;
@@ -373,10 +373,9 @@ console.log( new Date(Date()).getFullYear())
 <h3>Comments</h3>
 
 {comments && 
-    comments.map((comment,id)=>{
+    comments.map((comment,i)=>{
         return(
-            <>
-        <div className='articleAuthorCon' style={{width:'100%'}} key={id}>
+        <div className='articleAuthorCon' style={{width:'100%'}} key={i}>
         <div className='authorImg'>
         <Image
         src='/user.png'
@@ -393,10 +392,8 @@ console.log( new Date(Date()).getFullYear())
         <p>{comment.comment}</p>
         </div>
         </div>
-            </>
         )
     })
-
 }
 
 </div>

@@ -6,9 +6,10 @@ export default async function handler(req,res){
     await dbConnect();
 
         if(req.method==='GET'){
-            const {limit} = req.query;
+            const {pageId} = req.query;
+            console.log("comment PageId",pageId);
             try{
-            let data=await Comments.find({}).sort({_id:-1}).populate({ path: 'user',select:'email' }).populate({ path: 'pageId',select:'title' }).limit(limit).sort({_id:-1}).lean();
+            let data=await Comments.find({pageId:pageId}).sort({_id:-1}).populate({ path: 'user',select:'full_name img_link' });
 
             res.status(200).json({data:data,status:'success'})
             }catch(err){
