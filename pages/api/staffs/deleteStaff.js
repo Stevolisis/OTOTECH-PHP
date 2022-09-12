@@ -1,6 +1,7 @@
 import Staffs from "../../../db/Model/staffSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
+import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
     api: {
@@ -19,8 +20,13 @@ export default async function handler(req,res){
           if (err) throw new Error('Error at Parsing');
           console.log(fields);
             try{
-            await Staffs.deleteOne({id:fields.id});
-            res.status(200).json({status:'success'});
+              let imgDelete=await Staffs.findOne({_id:fields.id}).select('img');
+              console.log(imgDelete)
+
+              await Promise.all([
+             Staffs.deleteOne({_id:fields.id}),
+             Cloudinary.uploader.destroy(imgDelete.img.public_id)
+              ]).then(res.status(200).json({status:'success'}))
 
             }catch(err){
             res.status(404).json({status:err.message})

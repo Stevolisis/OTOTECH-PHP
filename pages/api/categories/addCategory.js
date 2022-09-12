@@ -1,8 +1,6 @@
 import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from "path";
-import fs from 'fs';
 import url_slugify from 'slugify';
 import Cloudinary from '../../../serviceFunctions/cloudinary';
 
@@ -15,7 +13,6 @@ export const config = {
 export default async function handler(req,res){
     await dbConnect();
     const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
-    const expectedFields=['name','slug','desciption','icon','status'];
 
     const form = new formidable.IncomingForm();
     
@@ -23,7 +20,8 @@ export default async function handler(req,res){
         if (err) return err;
 
         if(req.method==='POST'){
-
+          let cloudImg;
+            try{
            if(files.img_link.size===0){
             res.status(200).json({status:'No Img Link Why Bro?'})
             return;
@@ -31,23 +29,15 @@ export default async function handler(req,res){
             res.status(200).json({status:'Invalid Image Type'});
             return;
            }
-          //  console.log(fields)
+           console.log(fields)
 
-           let oldPath=files.img_link.filepath;
-           let imgNewName=Date.now()+files.img_link.originalFilename;
-           let newPath=path.join(path.resolve('public') ,imgNewName);
            let slug=fields.name;
            let stripSlug=url_slugify(slug.replace(/[^\w\s']|_/g,' ').replaceAll("'",' '));
            let date=new Date();
 
-            try{
 
 
-
-              //   fs.rename(oldPath,newPath,function(err){
-              //   if(err) throw new Error(err);
-              // });
-              const cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
+            cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
               console.log(cloudImg);
  
               
@@ -69,7 +59,7 @@ export default async function handler(req,res){
 
              
             }catch(err){
-              fs.unlinkSync(imgNewName);
+              // Cloudinary.uploader.destroy(cloudImg.public_id);
               res.status(404).json({status:err.message})
             // console.log(err.message)
             }

@@ -2,8 +2,6 @@ import Articles from "../../../db/Model/articleSchema";
 import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from "path";
-import fs from 'fs';
 const url_slugify=require('slugify');
 import Cloudinary from '../../../serviceFunctions/cloudinary';
 
@@ -34,9 +32,6 @@ export default async function handler(req,res){
            console.log(fields.title);
 
 
-           let oldPath=files.img_link.filepath;
-           let imgNewName=Date.now()+files.img_link.originalFilename;
-           let newPath=path.join(path.resolve(process.cwd()),'public',imgNewName);
            let date=new Date();
            let slug=fields.title;
            let categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
@@ -45,14 +40,6 @@ export default async function handler(req,res){
           //  console.log(files);
 
             try{
-
-              // if(files.size===0){
-              //   imgNewName='';
-              // }else{
-              // fs.rename(oldPath,newPath,function(err){
-              //   if(err) throw new Error(err.message);
-              // });                
-              // }
               cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
               console.log(cloudImg);
               

@@ -55,7 +55,8 @@ export default function EditCategory(){
           }).then((result) => {
             if (result.isConfirmed) {
         const formData=new FormData(e.target);
-        axios.post(`/api/categories/editCategory/${id}`,formData,{withCredentials:true})
+        formData.append('id',id);
+        axios.post('/api/categories/editCategory/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             if(status==='success'){

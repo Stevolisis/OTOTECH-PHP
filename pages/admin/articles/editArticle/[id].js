@@ -91,7 +91,8 @@ export default function EditArticle(){
             if (result.isConfirmed) {
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
-        axios.post(`/api/articles/editArticle/${id}`,formData,{withCredentials:true})
+        formData.append('id',id);
+        axios.post('/api/articles/editArticle/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             if(status==='success'){

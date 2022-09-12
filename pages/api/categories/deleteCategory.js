@@ -1,8 +1,7 @@
 import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from 'path';
-import fs from 'fs';
+import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
     api: {
@@ -22,14 +21,12 @@ export default async function handler(req,res){
           console.log(fields);
 
             try{
-              let imgDelete=await Categories.findOne({_id:fields.id}).select('img_link');
+              let imgDelete=await Categories.findOne({_id:fields.id}).select('img');
               console.log(imgDelete)
-              let imgPath=path.join(path.resolve('public'),imgDelete.img_link);
-              console.log(imgPath);
 
               await Promise.all([
                 Categories.deleteOne({_id:fields.id}),
-                // fs.unlinkSync(imgPath)
+                Cloudinary.uploader.destroy(imgDelete.img.public_id)
               ]).then(res.status(200).json({status:'success'}));
 
             }catch(err){

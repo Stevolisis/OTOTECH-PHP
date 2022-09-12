@@ -12,12 +12,6 @@ export default function AddStaff(){
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [twitter,settwitter]=useState({status:'active',link:''})
     const [instagram,setinstagram]=useState({status:'active',link:''})
-//     console.log(whatsapp)
-//     console.log(dribble)
-//     console.log(github)
-//  console.log(linkedin)
-//  console.log(twitter)
-//  console.log(instagram)
 
     
 const options = [

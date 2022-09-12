@@ -4,8 +4,7 @@ import Comments from "../../../db/Model/commentSchema";
 import Views from "../../../db/Model/viewSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from 'path';
-import fs from 'fs';
+import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
     api: {
@@ -27,17 +26,14 @@ export default async function handler(req,res){
 
             try{
               let imgDelete=await Articles.findOne({_id:fields.id}).select('img_link');
-              let imgPath=path.join(path.resolve('public'),imgDelete.img_link);  
                           
               await Promise.all([
                Articles.deleteOne({id:fields.id}),
                Likes.deleteOne({pageId:fields.id}),
                Views.deleteOne({pageId:fields.id}),
-               Comments.deleteOne({pageId:fields.id}),                
-              ]).then(
-               res.status(200).json({status:'success'})             
-              )
-              // fs.unlinkSync(imgPath);
+               Comments.deleteOne({pageId:fields.id}),
+               Cloudinary.uploader.destroy(imgDelete.img.public_id)                
+              ]).then(res.status(200).json({status:'success'}))
 
 
             }catch(err){

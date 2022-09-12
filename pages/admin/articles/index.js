@@ -200,7 +200,7 @@ useEffect(()=>{
     <td>{article.day}th {months[article.month]}, {article.year}</td>
     <td><Link href={`/admin/articles/editArticle/${article._id}`}><i className='fa fa-edit'/></Link></td>
     <td><button onClick={()=>deleteArticle(article._id)}>Delete</button></td>
-    <td>Active</td>
+    <td>{article.status}</td>
     </tr>
     )
 })}

@@ -188,7 +188,7 @@ useEffect(()=>{
     <td>{category.day}th {months[category.month]}, {category.year}</td>
     <td><Link href={`/admin/categories/editCategory/${category._id}`}><i className='fa fa-edit'/></Link></td>
     <td><button onClick={()=>deleteCategory(category._id)}>Delete</button></td>
-    <td>Active</td>
+    <td>{category.status}</td>
     </tr>
     )
 })}
