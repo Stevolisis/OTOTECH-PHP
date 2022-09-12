@@ -4,6 +4,7 @@ import formidable from "formidable";
 import path from "path";
 import fs from 'fs';
 import url_slugify from 'slugify';
+import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
     api: {
@@ -43,9 +44,11 @@ export default async function handler(req,res){
 
 
 
-                fs.rename(oldPath,newPath,function(err){
-                if(err) throw new Error(err);
-              });
+              //   fs.rename(oldPath,newPath,function(err){
+              //   if(err) throw new Error(err);
+              // });
+              const cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
+              console.log(cloudImg);
  
               
               
@@ -54,7 +57,7 @@ export default async function handler(req,res){
              slug:`/${stripSlug}`,
              description:fields.description,
              icon:fields.icon,
-             img_link:imgNewName,
+             img:{public_id:cloudImg.public_id,url:cloudImg.secure_url},
              status:fields.status,
              day:date.getDate(),
              month:date.getMonth(),

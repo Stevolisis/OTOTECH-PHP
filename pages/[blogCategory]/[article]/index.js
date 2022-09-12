@@ -54,8 +54,8 @@ export default function Article(){
         if(status==='success'){
             setContent(data);
             setpageId(data._id);
-            setimg_link(`/${data.img_link}`)
-            setimg_link2(`/${data.author.img_link}`)
+            setimg_link(data.img.url)
+            setimg_link2(data.author.img.url)
             setwhatsapp(data.author.whatsapp)
             setdribble(data.author.dribble)
             setgithub(data.author.github)
@@ -260,7 +260,8 @@ console.log( new Date(Date()).getFullYear())
             src={img_link}
             alt='Cover Image'
             layout="fill"
-            objectFit="cover"
+            quality={85}
+            // objectFit="fill"
             blurDataURL="/favicon.io"
             placeholder="blur"
             priority

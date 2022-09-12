@@ -172,7 +172,7 @@ useEffect(()=>{
     <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
     <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
-    src={`/${category.img_link}`}
+    src={category.img.url}
     alt="Picture of the author"
     layout="fill" 
     objectFit="contain"

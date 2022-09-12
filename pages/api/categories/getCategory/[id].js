@@ -10,7 +10,7 @@ export default async function handler(req,res){
     console.log(id)
 
             try{
-            let data=await Categories.find({_id:id}).select('name description icon img_link status');
+            let data=await Categories.find({_id:id}).select('name description icon img status');
                
                 res.status(200).json({data:data,status:'success'});
 

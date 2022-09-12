@@ -4,6 +4,7 @@ import formidable from "formidable";
 import path from "path";
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
+import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
     api: {
@@ -40,13 +41,15 @@ export default async function handler(req,res){
             try{
               let password=await bcrypt.hash(fields.password,10);
 
-              if(files.size===0){
-                imgNewName='';
-              }else{
-              fs.rename(oldPath,newPath,function(err){
-                if(err) console.log(err);
-              });                
-              }
+              // if(files.size===0){
+              //   imgNewName='';
+              // }else{
+              // fs.rename(oldPath,newPath,function(err){
+              //   if(err) console.log(err);
+              // });                
+              // }
+              const cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
+              console.log(cloudImg);
 
  
               
@@ -64,7 +67,7 @@ export default async function handler(req,res){
              linkedin:JSON.parse(fields.linkedin),
              twitter:JSON.parse(fields.twitter),
              instagram:JSON.parse(fields.instagram),
-             img_link:imgNewName,
+             img:{public_id:cloudImg.public_id,url:cloudImg.secure_url},
              status:fields.status,
              day:date.getDay(),
              month:date.getMonth(),

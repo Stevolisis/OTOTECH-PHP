@@ -56,7 +56,7 @@ export default function EditArticle(){
             settitle(data[0].title)
             setauthor(data[0].author)
             setcontent(data[0].content)
-            setImgpreview(`/${data[0].img_link}`)
+            setImgpreview(data[0].img.url)
             setstatus(data[0].status)
         }else{
             Swal.fire(
@@ -97,7 +97,7 @@ export default function EditArticle(){
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
-                    'Article Added',
+                    'Article Edited',
                     'success'
                 )
             }else{

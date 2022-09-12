@@ -13,7 +13,7 @@ export default async function handler(req,res){
 
 
             try{
-            let data=await Articles.find({}).populate({ path: 'author',select:'full_name description img_link whatsapp dribble github linkedin twitter instagram' });
+            let data=await Articles.find({}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' });
                
             if(route[2]==='content-creation'){
             res.status(200).json({data:data[0],status:'success'});

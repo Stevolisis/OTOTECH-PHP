@@ -6,7 +6,7 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    disableStaticImages: true
+    domains: ['res.cloudinary.com'],
   },
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname

@@ -9,7 +9,7 @@ export default async function handler(req,res){
 
         if(req.method==='GET'){
             try{
-            let data=await Categories.find({}).select('name icon img_link status day month year').limit(limit).sort({_id:-1}).lean();
+            let data=await Categories.find({}).select('name icon img status day month year').limit(limit).sort({_id:-1}).lean();
 
             let result=[];
             for (let i = 0; i < data.length; i++) {

@@ -21,7 +21,7 @@ export default function EditCategory(){
                 setname(data[0].name)
                 setdescription(data[0].description)
                 seticon(data[0].icon)
-                setImgpreview(`/${data[0].img_link}`)
+                setImgpreview(data[0].img.url)
                 setstatus(data[0].status)
             }else{
                 Swal.fire(
@@ -61,7 +61,7 @@ export default function EditCategory(){
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
-                    'Category Added',
+                    'Category Edited',
                     'success'
                 )
             }else{

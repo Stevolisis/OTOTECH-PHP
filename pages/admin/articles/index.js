@@ -180,7 +180,7 @@ useEffect(()=>{
     <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
     // loader={'...loading'}
-    src={`/${article.img_link}`}
+    src={article.img.url}
     alt="Picture of the author"
     layout="fill" 
     objectFit="contain"
@@ -193,7 +193,7 @@ useEffect(()=>{
     <td style={{width:'290px',maxWidth:'290px'}}>
         <div style={{overflowX:'auto',whiteSpace:'nowrap'}}>{article.title}</div>
         </td>
-    <td>{article.author.full_name}</td>
+    <td>{article.author&&article.author.full_name}</td>
     <td>{article.likes}</td>
     <td>{article.comments}</td>
     <td>{article.views}</td>

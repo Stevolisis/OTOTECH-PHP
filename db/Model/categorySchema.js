@@ -16,7 +16,16 @@ const categSchema=new mongoose.Schema({
     type:String,
     required:true
   },
-  img_link:String,
+  img:{
+    public_id:{
+      type:String,
+      required:true
+    },
+    url:{
+      type:String,
+      required:true
+    }
+  },
   status:{
     type:String,
     required:true
