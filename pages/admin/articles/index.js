@@ -13,6 +13,39 @@ export default function AdminArticles(){
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
+  function getWeekNumber(year,month,day){
+    var first=new Date(year,month,day);
+    // let monthStart=new Date(first);
+    // monthStart.setDate(0);
+    // let offset=(monthStart.getDay() + 1) % 7 - 1;
+    // let week=Math.ceil((first.getDate()+ offset)/7)
+    // console.log(week);
+    // return 'HI'
+    // var first2=new Date(2022,8,13)
+    // var dayy=first2.getDay();
+    // var dayyy=first.getDate();
+    // var week=(0| first.getDate()/7)+1;
+    // var week2=Math.ceil((dayyy - 1 - dayy)/7)
+    // console.log(first)
+    // console.log(first2)
+    // // console.log('Hi '+dayy)
+    // console.log(week2)
+    let currentDate = new Date(2022,0,1);
+    let startDate = new Date(year, 0, 8);
+    var days = Math.floor((currentDate - startDate) /
+        (24 * 60 * 60 * 1000));
+         
+    var weekNumber = Math.ceil(days / 7);
+    console.log("weekNumber "+weekNumber)
+    return 'HI'
+
+    // var adjust=day+dayy;
+    // let prefixes=['0','1','2','3','4','5'];
+    // let week=parseInt(prefixes[0 | adjust/7])+1;
+    // console.log(first.getMonth());
+    
+  }
+
   function loadArticles(){
     axios.get(`/api/articles/getArticles?limit=${limit.current}`)
     .then(res=>{
@@ -197,6 +230,7 @@ useEffect(()=>{
     <td>{article.likes}</td>
     <td>{article.comments}</td>
     <td>{article.views}</td>
+    {/* <td>{getWeekNumber(article.year,article.month,article.day)}</td> */}
     <td>{article.day}th {months[article.month]}, {article.year}</td>
     <td><Link href={`/admin/articles/editArticle/${article._id}`}><i className='fa fa-edit'/></Link></td>
     <td><button onClick={()=>deleteArticle(article._id)}>Delete</button></td>

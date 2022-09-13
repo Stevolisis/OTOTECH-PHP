@@ -8,7 +8,6 @@ export default function EditUser(){
     const {id}=router.query;
     const [full_name,setfull_name]=useState('');
     const [email,setemail]=useState('');
-    const [status,setstatus]=useState('');
 
 
     function loadUser(){
@@ -19,7 +18,6 @@ export default function EditUser(){
             if(res.data.status==='success'){
                 setfull_name(data[0].full_name)
                 setemail(data[0].email)
-                setstatus(data[0].status)
             }else{
                 Swal.fire(
                     'Error',
@@ -113,17 +111,6 @@ export default function EditUser(){
         </div>
         </div>
 
-
-
-        <div className='admineditnamecon'>
-            <div className='admineditname'>
-            <p>Status</p>
-            <select name='status' value={status} onChange={(e)=>setstatus(e.target.value)}>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
-            </select>
-            </div>
-        </div>
 
         <div className='admineditbtn'>
         <button>EDIT</button>

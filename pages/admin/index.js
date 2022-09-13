@@ -1,8 +1,89 @@
+import axios from 'axios';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
+import {useState, useEffect} from 'react';
 
 export default function Admin(){
-    const options = {
+    const [articlesCount,setarticlesCount]=useState('')
+    const [categoriesCount,setcategoriesCount]=useState('')
+    const [viewsCount,setviewsCount]=useState('');
+
+
+    
+  function loadViewsCount(){
+    axios.get('/api/views/getViewsCount')
+    .then(res=>{
+        let data=res.data.data;
+        let status=res.data.status;
+        if(status==='success'){
+            console.log(data);
+            setviewsCount(data)
+        }else{
+            Swal.fire(
+                'Error',
+                res.data.status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        Swal.fire(
+            'Error',
+            'Error Occured at Axios',
+            'warning'
+        )           
+    });
+    }
+
+    function loadCategoriesCount(){
+        axios.get('/api/categories/getCategoriesCount')
+        .then(res=>{
+            let data=res.data.data;
+            let status=res.data.status;
+            if(status==='success'){
+                console.log(data);
+                setcategoriesCount(data)
+            }else{
+                Swal.fire(
+                    'Error',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });
+        }
+    
+        function loadarticlesCount(){
+            axios.get('/api/articles/getArticlesCount')
+            .then(res=>{
+                let data=res.data.data;
+                let status=res.data.status;
+                if(status==='success'){
+                    console.log(data);
+                    setarticlesCount(data)
+                }else{
+                    Swal.fire(
+                        'Error',
+                        res.data.status,
+                        'warning'
+                    )
+                }
+            }).catch(err=>{
+                Swal.fire(
+                    'Error',
+                    'Error Occured at Axios',
+                    'warning'
+                )           
+            });
+            }
+        
+
+    const options  = {
         title: {
           text: ''
         },
@@ -18,7 +99,7 @@ export default function Admin(){
         }
         },
         series: [{
-          data: [1, 2, 7,6]
+          data: [1, 2, 10,6,9]
         }],
         accessibility:{
             enabled:false
@@ -52,7 +133,11 @@ export default function Admin(){
 
      
       
-
+useEffect(()=>{
+loadCategoriesCount();
+loadarticlesCount();
+loadViewsCount();
+},[])
 
 
     return(
@@ -68,7 +153,7 @@ export default function Admin(){
                 </div>
                 <div className='adminstat1details'>
                 <p>Total Views</p>
-                <p>1456</p>
+                <p>{viewsCount}</p>
                 </div>
             </div>
 
@@ -79,7 +164,7 @@ export default function Admin(){
                 </div>
                 <div className='adminstat1details'>
                 <p>Total Categories</p>
-                <p>32</p>
+                <p>{categoriesCount}</p>
                 </div>
             </div>
 
@@ -90,7 +175,7 @@ export default function Admin(){
                 </div>
                 <div className='adminstat1details'>
                 <p>Total Articles</p>
-                <p>234</p>
+                <p>{articlesCount}</p>
                 </div>
             </div>
         </div>

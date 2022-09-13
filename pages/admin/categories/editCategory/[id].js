@@ -180,9 +180,9 @@ export default function EditCategory(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Status</p>
-            <select name='status' value={status} onChange={(e)=>settitle(e.target.value)}>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
+            <select name='status' value={status} onChange={(e)=>setstatus(e.target.value)}>
+            <option value='active'>Activate</option>
+            <option value='inactive'>Deactivate</option>
             </select>
             </div>
         </div>

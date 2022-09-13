@@ -24,14 +24,16 @@ export default function EditStaff(){
 
     
 const options = [
-    { value: 'Category', label: 'Category' },
-    { value: 'Articles', label: 'Articles' },
+    { value: 'Add Category', label: 'Add Category' },
+    { value: 'Edit Category', label: 'Edit Category' },
+    { value: 'Add Articles', label: 'Add Articles' },
+    { value: 'Edit Articles', label: 'Edit Articles' },
     { value: 'Comments', label: 'Comments' },
-    { value: 'Users', label: 'Users' },
-    { value: 'Staffs', label: 'Staffs' },
+    { value: 'Edit Users', label: 'Edit Users' },
+    { value: 'Add Staffs', label: 'Add Staffs' },
+    { value: 'Edit Staffs', label: 'Edit Staffs' },
     { value: 'Analytics', label: 'Analytics' },
-    { value: 'Customer Care Sysytem', label: 'Customer Care Sysytem' },
-    { value: 'EditCatgeory', label: 'EditCatgeory' },
+    { value: 'Support System', label: 'Support System' },
   ];
 
 
@@ -90,6 +92,13 @@ const options = [
             if (result.isConfirmed) {
         const formData=new FormData(e.target);
         formData.append('id',id);
+        formData.append('whatsapp',JSON.stringify(whatsapp));
+        formData.append('dribble',JSON.stringify(dribble));
+        formData.append('github',JSON.stringify(github));
+        formData.append('linkedin',JSON.stringify(linkedin));
+        formData.append('twitter',JSON.stringify(twitter));
+        formData.append('instagram',JSON.stringify(instagram));
+        formData.append('priveldges',JSON.stringify(selectedOption));
         axios.post('/api/staffs/editStaff/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
@@ -171,8 +180,8 @@ const options = [
 <div className='adminLinksPrefix'>
     <p>Status</p>
     <select value={whatsapp.status} onChange={(e)=>setwhatsapp({status:e.target.value,link:whatsapp.link})}>
-        <option value='active'>Active</option>
-        <option value='inactive'>Inactive</option>
+        <option value='active'>Activate</option>
+        <option value='inactive'>Deactivate</option>
     </select>
 </div>
 <div className='adminLinksInput'>
@@ -185,8 +194,8 @@ const options = [
 <div className='adminLinksPrefix'>
     <p>Status</p>
     <select value={dribble.status} onChange={(e)=>setdribble({status:e.target.value,link:dribble.link})}>
-        <option value='active'>Active</option>
-        <option value='inactive'>Inactive</option>
+        <option value='active'>Activate</option>
+        <option value='inactive'>Deactivate</option>
     </select>
 </div>
 <div className='adminLinksInput'>
@@ -205,6 +214,7 @@ const options = [
             <select value={github.status} onChange={(e)=>setgithub({status:e.target.value,link:github.link})}>
                 <option value='active'>Activate</option>
                 <option value='deactive'>Deativate</option>
+
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -296,8 +306,8 @@ const options = [
             <div className='admineditname'>
             <p>Status</p>
             <select name='status' value={status} onChange={(e)=>setstatus(e.target.value)}>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
+            <option value='active'>Activate</option>
+            <option value='inactive'>Deactivate</option>
             </select>
             </div>
         </div>

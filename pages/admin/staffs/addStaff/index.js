@@ -116,8 +116,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select value={whatsapp.status} onChange={(e)=>setwhatsapp({status:e.target.value,link:whatsapp.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -130,8 +130,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select value={dribble.status} onChange={(e)=>setdribble({status:e.target.value,link:dribble.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -148,8 +148,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select value={github.status} onChange={(e)=>setgithub({status:e.target.value,link:github.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -162,8 +162,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select  value={linkedin.status} onChange={(e)=>setlinkedin({status:e.target.value,link:linkedin.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -181,8 +181,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select value={twitter.status} onChange={(e)=>settwitter({status:e.target.value,link:twitter.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -195,8 +195,8 @@ const options = [
         <div className='adminLinksPrefix'>
             <p>Status</p>
             <select value={instagram.status} onChange={(e)=>setinstagram({status:e.target.value,link:instagram.link})}>
-                <option defaultValue='selected' value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>Activate</option>
+                <option value='inactive'>Deactivate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -241,8 +241,8 @@ const options = [
             <div className='admineditname'>
             <p>Status</p>
             <select name='status'>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
+            <option value='active'>Activate</option>
+            <option value='inactive'>Deactivate</option>
             </select>
             </div>
         </div>

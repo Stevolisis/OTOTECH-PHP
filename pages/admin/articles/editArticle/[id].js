@@ -13,7 +13,6 @@ export default function EditArticle(){
     const [title,settitle]=useState('');
     const [author,setauthor]=useState('');
     const [content,setcontent]=useState('');
-    const [img_link,setimg_link]=useState('');
     const [status,setstatus]=useState('');
     const editorRef=useRef();
     const [authors,setAuthors]=useState([]);
@@ -186,8 +185,8 @@ export default function EditArticle(){
             <div className='admineditname'>
             <p>Status</p>
             <select name='status' value={status} onChange={(e)=>setstatus(e.target.value)}>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
+            <option value='active'>Activate</option>
+            <option value='inactive'>Deactivate</option>
             </select>
             </div>
         </div>

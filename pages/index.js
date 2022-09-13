@@ -1,12 +1,15 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import $ from 'jquery';
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import SlidingArticles from '../components/SlidingArticles';
 import BlogList from '../components/BlogList';
 import Mainscreen from '../components/Mainscreen';
+import axios from 'axios';
+import CategoryList from '../components/CategoryList';
 
 export default function Home() {
+  const [categories,setcategories]=useState([])
   function dropdown1(){
   $('.filterSearch1').on('focus',function(){
     $('.main4').css('display','block')
@@ -45,75 +48,7 @@ export default function Home() {
 
 
 
-      <div className='categoriesCon2'>
-        <div className='categories'>
-        <Link href='/enginneering'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-globe'/></div>
-          <div className='categoryInfo'>
-            <h2>Enginneering</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/graphics'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-paint-brush'/></div>
-          <div className='categoryInfo'>
-            <h2>Graphics</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/web-development'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-desktop'/></div>
-          <div className='categoryInfo'>
-            <h2>Web Development</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-      
-        <Link href='/ui-ux'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-rocket'/></div>
-          <div className='categoryInfo'>
-            <h2>UI/UX Design</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/app-development'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-mobile'/></div>
-          <div className='categoryInfo'>
-            <h2>App Development</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/content-writing'><a className='categoryCon'>
-          <div className='categoryIcon'><i className='fa fa-pencil'/></div>
-          <div className='categoryInfo'>
-            <h2>Content Writing</h2>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles</p>
-          </div>
-          </a>
-        </Link>
-        </div>
-      </div>
+<CategoryList categories={categories}/>
 
 
 
