@@ -24,7 +24,7 @@ export default async function handler(req,res){
         const like=new Likes({
             page_link:fields.page_link,
             pageId:fields.pageId,
-            day:date.getDay(),
+            day:date.getDate(),
             month:date.getMonth(),
             year:date.getFullYear()
         })

@@ -6,12 +6,12 @@ import Comments from '../../../db/Model/commentSchema';
   
 export default async function handler(req,res){
     await dbConnect();
-    const {limit}=req.query;
+
 
     if(req.method==='GET'){
 
             try{
-            let data=await Articles.find({}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
+            let data=await Articles.find({}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean();
             
             let result=[];
             for (let i = 0; i < data.length; i++) {
@@ -25,8 +25,9 @@ export default async function handler(req,res){
                 console.log(data[i].comments) 
             }
             
+            let response=data.sort((a,b)=>a.views < b.views ? 1:-1)
             console.log('done')
-            res.status(200).json({data:data,status:'success'});
+            res.status(200).json({data:response,status:'success'});
 
             }catch(err){
             res.status(404).json({status:err.message})

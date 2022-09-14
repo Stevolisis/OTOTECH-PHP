@@ -1,15 +1,20 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import $ from 'jquery';
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import SlidingArticles from '../components/SlidingArticles';
 import BlogList from '../components/BlogList';
 import Mainscreen from '../components/Mainscreen';
 import axios from 'axios';
 import CategoryList from '../components/CategoryList';
+import Swal from 'sweetalert2';
 
 export default function Home() {
   const [categories,setcategories]=useState([])
+  const [articles,setarticles]=useState([])
+  const [mostViewed,setmostViewed]=useState([]);
+  let limit=useRef(1)
+
   function dropdown1(){
   $('.filterSearch1').on('focus',function(){
     $('.main4').css('display','block')
@@ -26,10 +31,94 @@ export default function Home() {
   }
 
 
+  function loadCategories(){
+    axios.get('/api/categories/getCategories')
+    .then(res=>{
+        let status=res.data.status;
+        let data=res.data.data;
+        if(status==='success'){
+            setcategories(data)
+        }else{
+            Swal.fire(
+                'Error',
+                res.data.status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        Swal.fire(
+            'Error',
+            'Error Occured at Axios',
+            'warning'
+        )           
+    });
+}
+
+
+function loadArticles(){
+  axios.get(`/api/articles/getArticles?limit=${limit.current}`)
+  .then(res=>{
+      let status=res.data.status;
+      let data=res.data.data;
+      if(status==='success'){
+          setarticles(data)
+      }else{
+          Swal.fire(
+              'Error',
+              res.data.status,
+              'warning'
+          )
+      }
+  }).catch(err=>{
+      Swal.fire(
+          'Error',
+          'Error Occured at Axios',
+          'warning'
+      )           
+  });
+}
+
+
+
+
+function loadArticlesByViews(){
+  axios.get('/api/articles/getArticlesByViews')
+  .then(res=>{
+      let status=res.data.status;
+      let data=res.data.data;
+      if(status==='success'){
+          setmostViewed(data)
+      }else{
+          Swal.fire(
+              'Error',
+              res.data.status,
+              'warning'
+          )
+      }
+  }).catch(err=>{
+      Swal.fire(
+          'Error',
+          'Error Occured at Axios',
+          'warning'
+      )           
+  });
+}
+
+
+  function loadMore(){
+    limit.current=limit.current+1;
+    loadArticles()
+  }
+
   useEffect(()=>{
     dropdown1();  
   })
 
+  useEffect(()=>{
+    loadCategories();
+    loadArticles();
+    loadArticlesByViews();
+  },[])
 
 
   return (
@@ -48,13 +137,10 @@ export default function Home() {
 
 
 
+
+
+
 <CategoryList categories={categories}/>
-
-
-
-
-
-
 
 
 
@@ -91,21 +177,14 @@ export default function Home() {
 
 
 
-      <BlogList/>
+      <BlogList articles={articles}/>
 
 
 
 
       <div className='blogNavCon'>
         <div className='blogNav'>
-        <Link href='#'>Previous</Link>
-        <Link href='#'>Next</Link>
-        <Link href='#'>1</Link>
-        <Link href='#'>2</Link>
-        <Link href='#'>3</Link>
-        <Link href='#'>4</Link>
-        <Link href='#'>5.....</Link>
-        <Link href='#'>20</Link>
+        <button onClick={loadMore}>Load More</button>
         </div>
       </div>
       </div>
@@ -130,7 +209,7 @@ export default function Home() {
   </div>
 
 
-<SlidingArticles/>
+<SlidingArticles mostViewed={mostViewed}/>
 
 
 

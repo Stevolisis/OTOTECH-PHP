@@ -1,248 +1,64 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import parse from 'html-react-parser';
 
-export default function BlogList(){
-  const [link, setLink]=useState('');
+export default function BlogList({articles}){
+  const months=['January','February','March','April','May','June','July',
+  'August','September','October','November','December'];
+  let listing;
+  
+  if(articles!== undefined){
+     listing=articles.map((article,i)=>{
+      const {title,img,author,slug,description,views,likes,day,month,year}=article;
+  
+      return(
+        <Link href={slug} key={i}><a className='blogCon' key={i}>
+        <div className='blogImg'>
+              <Image 
+              src={img.url}
+              layout="fill"
+              blurDataURL="/favicon.io"
+              placeholder="blur"
+              priority
+              />
+        </div>
+        <div className='blogInfo'>
+  
+        <div className="blogMetaData">
+        <div><i className='fa fa-user-circle'/><span>{author.full_name}</span></div>
+        <div><i className='fa fa-clock-o'/><span>{day}th {months[month]}, {year}</span></div>
+        </div>
+  
+        <div>
+        <h3>{title}</h3>
+          <p>{parse(description)}</p> 
+        </div>
+        </div>
+  
+        <div className='blogDataCon'>
+          <div className='blogData'>
+          <i className='fa fa-eye'><p>{views}</p></i>
+          <i className='fa fa-thumbs-up'><p>{likes}</p></i>
+          </div>
+          <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
+        </div>
+        </a>
+      </Link>
 
-  useEffect(()=>{
-    setLink(window.location.href);
-  },[]);
+      )
+    })
+  }
+ 
 
     return(
         <>
         <div className='categories'>
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'>
-                <Image 
-                src='/OTOTECH10.jpg'
-                layout="fill"
-                blurDataURL="/favicon.io"
-                placeholder="blur"
-                priority
-                />
-   </div>
-          <div className='blogInfo'>
-          <h3>Content Creation</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
+          {listing}
 
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
 
-        <Link href='/engineering/content-creation2' ><a className='blogCon'>
-          <div className='blogImg'>
-            <Image 
-            src='/OTOTECH1.jpg'
-            layout="fill"
-            blurDataURL="/favicon.io"
-            placeholder="blur"
-            priority
-            />
-          </div>
-          <div className='blogInfo'>
-          <h3>React Hooks</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
 
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'>
-            <Image 
-            src='/OTOTECH1.jpg'
-            layout="fill"
-            blurDataURL="/favicon.io"
-            placeholder="blur"
-            priority
-            />
-          </div>
-          <div className='blogInfo'>
-          <h3>Php Fundamentals</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation2' ><a className='blogCon'>
-          <div className='blogImg'>
-            <Image 
-            src='/OTOTECH1.jpg'
-            layout="fill"
-            blurDataURL="/favicon.io"
-            placeholder="blur"
-            priority
-            />
-          </div>
-          <div className='blogInfo'>
-          <h3>Single Page Applications</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'>
-            <Image 
-            src='/OTOTECH1.jpg'
-            layout="fill"
-            blurDataURL="/favicon.io"
-            placeholder="blur"
-            priority
-            />
-          </div>
-          <div className='blogInfo'>
-          <h3>Introduction to Adobe XD and Figma</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation2' ><a className='blogCon'>
-          <div className='blogImg'>
-            <Image 
-            src='/OTOTECH1.jpg'
-            layout="fill"
-            blurDataURL="/favicon.io"
-            placeholder="blur"
-            priority
-            />
-          </div>
-          <div className='blogInfo'>
-          <h3>React Native</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'>
-                <Image 
-    src='/OTOTECH10.jpg'
-    layout="fill"
-    blurDataURL="/favicon.io"
-    placeholder="blur"
-    priority
-    />
-   </div>
-          <div className='blogInfo'>
-          <h3>Backend Development</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
-
-        <Link href='/engineering/content-creation' ><a className='blogCon'>
-          <div className='blogImg'>
-                <Image 
-    src='/OTOTECH10.jpg'
-    layout="fill"
-    blurDataURL="/favicon.io"
-    placeholder="blur"
-    priority
-    />
-   </div>
-          <div className='blogInfo'>
-          <h3>Nodejs Libraries</h3>
-          <p>by <span>STEVEN JOSEPH</span></p>
-            <p>Explore in-depth developer tutorials and new technology 
-              announcements created by professional engineers in the Toptal 
-              network. Read engineering articles
-            </p> 
-          </div>
-
-          <div className='blogDataCon'>
-            <div className='blogData'>
-            <i className='fa fa-eye'><p>32</p></i>
-            <i className='fa fa-thumbs-up'><p>22</p></i>
-            </div>
-            <div className='blogRead'><Link href='#'><p>Read</p></Link></div>
-          </div>
-          </a>
-        </Link>
+        
         </div>
         </>
     )

@@ -48,7 +48,7 @@ export default function Article(){
     function loadContent(){
     axios.get('/api/articles/getArticle')
     .then(res=>{
-        let data=res.data.data;
+        let data=res.data.data[0];
         let status=res.data.status;
 
         if(status==='success'){
@@ -220,11 +220,25 @@ export default function Article(){
        }
     }
 
+    function userAuth(){
+         axios.get('/api/users/userAuth')
+         .then(res=>{
+            //  let data=res.data.data;
+             let status=res.data.status;
+
+                console.log(status);
+
+         }).catch(err=>{
+             console.log('commentsErr',err);
+         })
+     }
+
 
     useEffect(()=>{
     setwindowLink(window.location.href)
     loadContent() 
     checkLike()
+    userAuth();
     },[])
 
     useEffect(()=>{

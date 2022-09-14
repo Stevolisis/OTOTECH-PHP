@@ -279,6 +279,7 @@ padding-bottom: 30px;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        width:100%;
     }
 
     h2{
@@ -297,12 +298,14 @@ padding-bottom: 30px;
 
 .categoryCon{
     max-width: 20%;
-    height: 200px;
+    width:20%;
+    height: 220px;
     background: $color7;
     box-shadow:$color6;
     padding: 30px;
     margin:12px;
     box-sizing: content-box;
+    overflow-y: auto;
 
     i{
         padding-bottom: 30px;
@@ -368,6 +371,7 @@ padding-bottom: 30px;
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        width:100%;
     }
 }
 
@@ -375,8 +379,6 @@ padding-bottom: 30px;
     max-width: 22%;
     box-shadow:$color6;
     margin:12px;
-    box-sizing: content-box;
-
 }
 
 .blogImg{
@@ -385,7 +387,6 @@ padding-bottom: 30px;
     background: $color4;
     position: relative;
 
-    
     img{
         width: 100%;
         height: 100%;
@@ -395,6 +396,7 @@ padding-bottom: 30px;
 .blogInfo{
     padding: 15px 20px 0 20px;
     background: $color4;
+    
 
     h3{
         font-family: poppinsMedium;
@@ -406,21 +408,30 @@ padding-bottom: 30px;
         text-overflow: ellipsis !important;
     }
 
+}
+
+.blogMetaData{
+    font-size: 9px;
+    color: $color2;
+    padding-bottom: 5px;
+    display: flex;
+    justify-content: space-between;
+
     span{
-        font-family: poppinsBold;
+        font-family: poppinsMedium;
+    }
+
+    
+    i{
+        padding:0 3px;
     }
 }
 
 .blogInfo p:nth-of-type(1){
     font-family: poppinsLight;
-    font-size: 10px;
-    color: $color8;
-    padding: 5px;
-}
-
-.blogInfo p:nth-of-type(2){
-    font-family: poppinsLight;
     font-size: 12px;
+    box-sizing: border-box;
+    word-break: break-word;
 }
 
 .blogDataCon{
@@ -440,8 +451,9 @@ align-items: center;
         display: flex;
         padding: 10px 5px 0px 0;
         color:$color8;
+        margin: 0 2px;
         p{
-            padding-left: 3px;
+            padding-left: 2px;
             font-family: poppinsLight;
         }
     }
@@ -450,12 +462,13 @@ align-items: center;
 .blogRead{
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 .blogRead p{
-color: dodgerblue;
+color: $color3;
 font-size: 11px;
-text-decoration: underline;
-padding: 10px 5px 0px 0;
+padding: 7px 12px;
+background:$color1;
 }
 
 .blogNavCon{
@@ -468,16 +481,15 @@ padding: 10px 5px 0px 0;
 
 .blogNav{
 
-    a{
-        font-size: 15px;
-        margin:0 12px;
-        color:$color9;
-        font-family: poppinsLight;
+    button{
+        font-size: 13px;
+        padding:7px 12px;
+        color:$color3;
+        font-family: poppinsRegular;
+        background: $color14;
+        border:none;
     }
 
-    a:hover{
-        border-bottom: 2px solid $color1;
-    }
 }
 
 
@@ -536,7 +548,7 @@ width: 100%;
 .blogSlider{
 display:flex;
 justify-content: flex-start;
-align-items: center;
+align-items: flex-start;
 overflow-x: auto;
 box-sizing: border-box;
 }

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import articles from './articleSchema'
 
 const likeSchema=new mongoose.Schema({
   page_link:{
@@ -6,8 +7,9 @@ const likeSchema=new mongoose.Schema({
     required:true
   },
   pageId:{
-    type:String,
-    required:true,    
+    type:mongoose.Schema.Types.ObjectId,
+    ref:articles,
+    required:true
   },
   day:{
     type:String,
