@@ -1,16 +1,23 @@
 import Head from "next/head";
 import Link from "next/link";
 import {useRouter} from 'next/router'
-import { useEffect } from "react";
+import { useEffect,useRef,useState } from "react";
 import BlogList from "../../components/BlogList";
 import SlidingArticles from "../../components/SlidingArticles";
 import styles from '../../styles/blogCategory.module.css'
 import $ from 'jquery';
 import Mainscreen from "../../components/Mainscreen";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 export default function BlogCategory(){
     const router=useRouter();
     const {blogCategory} =router.query;
+    const [articlesSlide,setarticlesSlide]=useState([]);
+    const [articles,setarticles]=useState([]);
+    const [categories,setcategories]=useState([]);
+    const [category,setcategory]=useState([]);
+    let limit=useRef(1);
 
 
     function dropdown1(){
@@ -28,12 +35,122 @@ export default function BlogCategory(){
         });
         }
       
+
+        function loadArticlesByViews(){
+          axios.get('/api/articles/getArticlesByViews')
+          .then(res=>{
+              let status=res.data.status;
+              let data=res.data.data;
+              if(status==='success'){
+                  setarticlesSlide(data)
+              }else{
+                  Swal.fire(
+                      'Error',
+                      res.data.status,
+                      'warning'
+                  )
+              }
+          }).catch(err=>{
+              Swal.fire(
+                  'Error',
+                  'Error Occured at Axios',
+                  'warning'
+              )           
+          });
+        }
       
+
+        function loadArticlesBySlug(){
+          axios.get(`/api/articles/loadArticlesBySlug?limit=${limit.current}`)
+          .then(res=>{
+              let status=res.data.status;
+              let data=res.data.data;
+              console.log(data)
+              if(status==='success'){
+                  setarticles(data)
+              }else{
+                  Swal.fire(
+                      'Error Soil',
+                      res.data.status,
+                      'warning'
+                  )
+              }
+          }).catch(err=>{
+              Swal.fire(
+                  'Error Soil2',
+                  'Error Occured at Axios',
+                  'warning'
+              )           
+          });            
+  
+        }
+
+
+        
+  function loadCategories(){
+    axios.get('/api/categories/getCategories')
+    .then(res=>{
+        let status=res.data.status;
+        let data=res.data.data;
+        if(status==='success'){
+            setcategories(data)
+        }else{
+            Swal.fire(
+                'Error',
+                res.data.status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        Swal.fire(
+            'Error',
+            'Error Occured at Axios',
+            'warning'
+        )           
+    });
+}
+
+
+function loadCategory(){
+  axios.get('/api/categories/getCategoryBySlug')
+  .then(res=>{
+      let status=res.data.status;
+      let data=res.data.data;
+      if(status==='success'){
+          setcategory(data)
+      }else{
+          Swal.fire(
+              'Error',
+              res.data.status,
+              'warning'
+          )
+      }
+  }).catch(err=>{
+      Swal.fire(
+          'Error',
+          'Error Occured at Axios',
+          'warning'
+      )           
+  });
+}
+
+        function loadMore(){
+          limit.current=limit.current+1;
+          loadArticlesBySlug();
+        }
+
         useEffect(()=>{
           dropdown1();  
         })
-      
 
+        useEffect(()=>{
+          loadCategory();
+          loadCategories();
+          loadArticlesBySlug();
+          loadArticlesByViews();
+        },[])
+      let yu='/kala/iop'
+console.log('reeesponse ',yu.includes('/kala'))
     
     return(
         <>
@@ -49,10 +166,8 @@ export default function BlogCategory(){
 
 
 
-      <Mainscreen heading={blogCategory} description='The Ototech Blog is the top hub for developers, designers,
-     finance experts, executives, and entrepreneurs,
-     featuring key technology updates, tutorials, freelancer resources, and management insights.'
-     imgLink='/OTOTECH11.jpg' page='blogCategory'/>
+      <Mainscreen heading={category.name} description={category.description}
+     imgLink={category.img&& category.img.url} page='blogCategory'/>
 
 
 
@@ -60,12 +175,11 @@ export default function BlogCategory(){
 
 <div className={styles.categorySliderCon}>
 <div className={styles.categorySlider}>
-<Link href='/engineering'><a className={styles.categorySlide}>Engineering</a></Link>
-<Link href='/graphics'><a className={styles.categorySlide}>Graphics</a></Link>
-<Link href='/web-development'><a className={styles.categorySlide}>Web Development</a></Link>
-<Link href='/ui-ux'><a className={styles.categorySlide}>UI/UX Design</a></Link>
-<Link href='/app-development'><a className={styles.categorySlide}>App Development</a></Link>
-<Link href='/content-writing'><a className={styles.categorySlide}>Content Writing</a></Link>
+  {
+    categories && categories.map((category,i)=>{
+return <Link href={category.slug&&category.slug} key={i}><a className={styles.categorySlide}>{category.name}</a></Link>
+    })
+  }
   </div>
 </div>
 
@@ -80,25 +194,18 @@ export default function BlogCategory(){
 
      <div className='categoriesCon3'>
       
-      <BlogList/>
+      <BlogList articles={articles}/>
 
 
       <div className='blogNavCon'>
         <div className='blogNav'>
-        <Link href='#'>Previous</Link>
-        <Link href='#'>Next</Link>
-        <Link href='#'>1</Link>
-        <Link href='#'>2</Link>
-        <Link href='#'>3</Link>
-        <Link href='#'>4</Link>
-        <Link href='#'>5.....</Link>
-        <Link href='#'>20</Link>
+        {articles&&<button onClick={loadMore}>Load More</button>}
         </div>
       </div>
       </div>
 
 
-        <SlidingArticles/>
+        <SlidingArticles articlesSlide={articlesSlide}/>
         </>
     )
 }

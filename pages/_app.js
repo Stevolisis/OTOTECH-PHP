@@ -24,14 +24,14 @@ function MyApp({ Component, pageProps }) {
        {admin==='admin' ? 
         <>
             <AdminHeader>
-                  <Component {...pageProps} />        
+                  <Component {...pageProps} key={router.asPath}/>        
             </AdminHeader> 
         <Footer/>
         </>
         :
          <>
          <Header/>
-               <Component {...pageProps} />
+               <Component {...pageProps} key={router.asPath}/>
          <Footer/>
          </>
          }

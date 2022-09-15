@@ -14,8 +14,10 @@ export default function EditArticle(){
     const [author,setauthor]=useState('');
     const [content,setcontent]=useState('');
     const [status,setstatus]=useState('');
+    const [category,setcategory]=useState('');
     const editorRef=useRef();
     const [authors,setAuthors]=useState([]);
+    const [categories,setCategories]=useState([]);
     const router=useRouter();
     const {id}=router.query;
     console.log('routerId',id)
@@ -54,6 +56,7 @@ export default function EditArticle(){
         if(res.data.status==='success'){
             settitle(data[0].title)
             setauthor(data[0].author)
+            setcategory(data[0].category)
             setcontent(data[0].content)
             setImgpreview(data[0].img.url)
             setstatus(data[0].status)
@@ -74,6 +77,29 @@ export default function EditArticle(){
  }else{
     return;
  }
+    }
+
+    function loadCategories(){
+        axios.get('/api/categories/getCategories')
+        .then(res=>{
+            let status=res.data.status;
+            let data=res.data.data;
+            if(status==='success'){
+                setCategories(data)
+            }else{
+                Swal.fire(
+                    'Error',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });
     }
 
     function handleSubmit(e){
@@ -125,6 +151,7 @@ export default function EditArticle(){
 
     useEffect(()=>{
         loadAuthors();
+        loadCategories();
     },[])
 
     useEffect(()=>{
@@ -148,6 +175,17 @@ export default function EditArticle(){
             </div>
         </div>
         
+        <div className='admineditnamecon'>
+            <div className='admineditname'>
+            <p>Category</p>
+            <select name='category' value={category} onChange={(e)=>setcategory(e.target.value)}>
+            {categories.map(category=>{
+                return <option value={category._id} key={category._id}>{category.name}</option>
+            })}
+            </select>
+            </div>
+        </div>
+
 
         <div className='admineditnamecon'>
             <div className='admineditname'>

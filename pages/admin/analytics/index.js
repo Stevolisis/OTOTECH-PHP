@@ -84,7 +84,9 @@ export default function AdminAnalytics(){
 
     return(
         <>
-
+        <div className='mainHeading'>
+            <p>Analytics / Metrics</p>
+        </div>
         <div className='adminstat2con'>
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Views Statistics</p></div>

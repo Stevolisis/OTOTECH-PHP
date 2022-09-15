@@ -285,6 +285,7 @@ padding-bottom: 30px;
     h2{
         font-family: poppinsMedium;
         font-size: 20px;
+        color:$color14;
     }
 
     p{
@@ -399,13 +400,14 @@ padding-bottom: 30px;
     
 
     h3{
-        font-family: poppinsMedium;
+        font-family: poppinsRegular;
         font-size: 16px;
         width: 200px;
         min-width: 140px ;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis !important;
+        color:$color14;
     }
 
 }
@@ -416,6 +418,7 @@ padding-bottom: 30px;
     padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
+    margin-left: -3px;
 
     span{
         font-family: poppinsMedium;
@@ -438,7 +441,7 @@ padding-bottom: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px 15px 20px;
+    padding: 9px 20px 15px 20px;
     background: $color4;
 }
 
@@ -488,6 +491,7 @@ background:$color1;
         font-family: poppinsRegular;
         background: $color14;
         border:none;
+        cursor: pointer;
     }
 
 }
@@ -539,7 +543,7 @@ background:$color1;
 
 .blogSliderCon{
 display:flex;
-justify-content: center;
+justify-content: flex-start;
 align-items: center;
 padding: 0px 8% 40px 8%;
 width: 100%;

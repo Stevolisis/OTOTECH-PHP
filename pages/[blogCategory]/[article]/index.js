@@ -14,13 +14,16 @@ export default function Article(){
     const cancelalert=useRef(true);
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
-    const {article} =router.query;
+    const [articlesSlide,setarticlesSlide]=useState([]);
     const [liked, setLiked]=useState(false);
     const [content, setContent]=useState('');
     const [pageId, setpageId]=useState('');
+    const [categoryId, setcategoryId]=useState('');
     const [windowLink, setwindowLink]=useState('');
     const [img_link, setimg_link]=useState('');
     const [img_link2, setimg_link2]=useState('');
+    const [full_name, setfull_name]=useState('');
+    const [email, setemail]=useState('');
     const [whatsapp, setwhatsapp]=useState({status:'',link:''});
     const [dribble, setdribble]=useState({status:'',link:''});
     const [github, setgithub]=useState({status:'',link:''});
@@ -54,6 +57,7 @@ export default function Article(){
         if(status==='success'){
             setContent(data);
             setpageId(data._id);
+            setcategoryId(data.category);
             setimg_link(data.img.url)
             setimg_link2(data.author.img.url)
             setwhatsapp(data.author.whatsapp)
@@ -190,6 +194,7 @@ export default function Article(){
             let data=res.data.data;
             if(status==='success') alert(status)
             loadComments();
+            userAuth();
             console.log(data,status)
            
         }).catch(err=>{
@@ -204,7 +209,7 @@ export default function Article(){
        if(pageId===''){
        return;
        }else{
-        axios.get(`/api/comments/getPageComments?pageId=${content && pageId}`)
+        axios.get(`/api/comments/getPageComments?pageId=${pageId}`)
         .then(res=>{
             let data=res.data.data;
             let status=res.data.status;
@@ -220,19 +225,55 @@ export default function Article(){
        }
     }
 
+
+
+
+
     function userAuth(){
          axios.get('/api/users/userAuth')
          .then(res=>{
-            //  let data=res.data.data;
+             let data=res.data.data;
              let status=res.data.status;
-
-                console.log(status);
+             if(status==='success'){
+                setfull_name(data.full_name);
+                setemail(data.email);
+            }else{
+                console.log('commentsSec',data);
+            }
 
          }).catch(err=>{
              console.log('commentsErr',err);
          })
      }
 
+
+     function loadArticlesByCategory(){
+        if(pageId===''){
+            return;
+        }else{
+        axios.get(`/api/articles/loadRelatedArticlesByCategory?id=${categoryId}`)
+        .then(res=>{
+            let status=res.data.status;
+            let data=res.data.data;
+            if(status==='success'){
+                setarticlesSlide(data)
+            }else{
+                Swal.fire(
+                    'Error Soil',
+                    res.data.status,
+                    'warning'
+                )
+            }
+        }).catch(err=>{
+            Swal.fire(
+                'Error Soil2',
+                'Error Occured at Axios',
+                'warning'
+            )           
+        });            
+        }
+
+      }
 
     useEffect(()=>{
     setwindowLink(window.location.href)
@@ -243,11 +284,11 @@ export default function Article(){
 
     useEffect(()=>{
     loadComments()
-    setView()
+    setView();
+    loadArticlesByCategory();
     },[pageId])
 
 
-console.log( new Date(Date()).getFullYear())
 
     return(
     <>
@@ -348,7 +389,7 @@ console.log( new Date(Date()).getFullYear())
 
 
      <div className="articleContentCon">
-        <div>{content && parse(content.content)}</div>
+        <div >{content && parse(content.content)}</div>
      </div>
 
 
@@ -375,8 +416,8 @@ console.log( new Date(Date()).getFullYear())
 
         <form onSubmit={setComment}>
             <h3>Leave a Comment</h3>
-        <input type='text' name='full_name' placeholder="Full Name"/>
-        <input type='email' name='email' placeholder="E-mail Address"/>
+        <input type='text' name='full_name' placeholder="Full Name" value={full_name} onChange={(e)=>setfull_name(e.target.value)}/>
+        <input type='email' name='email' placeholder="E-mail Address" value={email} onChange={(e)=>setemail(e.target.value)}/>
         <textarea placeholder="Your Comment" name='comment'/>
         <button>Submit</button>
         </form>
@@ -413,7 +454,7 @@ console.log( new Date(Date()).getFullYear())
 
 </div>
 
-     <SlidingArticles/>
+     <SlidingArticles articlesSlide={articlesSlide}/>
 
     </>
     )

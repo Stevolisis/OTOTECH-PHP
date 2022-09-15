@@ -139,7 +139,7 @@ const options = [
     return(
         <>
         <div className='mainHeading'>
-            <p>Add Staff</p>
+            <p>Edit Staff</p>
         </div>
 
 
@@ -153,7 +153,7 @@ const options = [
         </div>
         
         <div className='admineditnamecon'>
-            <div className='admineditname'>
+        <div className='admineditname'>
             <p>Email Address</p>
             <input type='email' name='email' value={email} onChange={(e)=>setemail(e.target.value)}/>
         </div>
@@ -169,12 +169,12 @@ const options = [
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <textarea type='text' name='decription' value={description} onChange={(e)=>setdescription(e.target.value)}/><p>description should not be more than 150 words</p>
+            <textarea type='text' name='description' value={description} onChange={(e)=>setdescription(e.target.value)}/><p>description should not be more than 150 words</p>
         </div>
         </div>
 
 
-        <div className='adminLinkscon'>
+<div className='adminLinkscon'>
 
 <div className='adminLinks'>
 <div className='adminLinksPrefix'>

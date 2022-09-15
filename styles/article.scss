@@ -110,14 +110,15 @@ margin-top:5px;
         font-family: poppinsMedium;
     }
 }
-
+.articleContentCon div *{
+ font-family: metropolisRegular !important;       
+}
 .articleContentCon{
     padding: 10px 10% 0 10%;
-
+    
     div{
         font-size: 14px;
-        // letter-spacing: 0.1px;
-        font-family: poppinsLight;
+
         color: $color0;
         word-spacing: 4px;
         line-height: 1.9;

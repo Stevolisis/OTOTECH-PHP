@@ -8,24 +8,26 @@ export default async function handler(req,res){
 
 
     if(req.method==='GET'){
+        let {id}=req.query;
+        let data;
 
             try{
-            let data=await Articles.find({}).populate({ path: 'author',select:'full_name' }).limit(10).lean();
+            data=await Articles.find({category:id}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean();
             
-            let result=[];
+             
+            if(data.length===0){
+                data=await Articles.find({}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean()
+            }
             for (let i = 0; i < data.length; i++) {
-                // data[i].Views=Articles.getViews('3456789')   
                 data[i].likes=await Likes.count({pageId:data[i]._id});
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
                 console.log(data[i].likes)
                 console.log(data[i].views)
-                console.log(data[i].comments) 
             }
             
-            let response=data.sort((a,b)=>a.views < b.views ? 1:-1)
             console.log('done')
-            res.status(200).json({data:response,status:'success'});
+            res.status(200).json({data:data,status:'success'});
 
             }catch(err){
             res.status(404).json({status:err.message})

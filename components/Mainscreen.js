@@ -5,7 +5,7 @@ export default function Mainscreen({heading,description,imgLink,page}){
 
     return(
     <>
-      <div className="mainScreenCon">
+      <div className="mainScreenCon" style={{backgroundImage:`${page=='home'?'':'linear-gradient(45deg,rgba(24,24,24,0.5),rgba(24,24,24,0.5))'},url(${imgLink})`}}>
       <div className="mainScreen">
       {/* <Image 
             src='/OTOTECH2.jpg'

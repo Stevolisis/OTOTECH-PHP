@@ -7,11 +7,10 @@ export default function BlogList({articles}){
   const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
   let listing;
-  
   if(articles!== undefined){
      listing=articles.map((article,i)=>{
       const {title,img,author,slug,description,views,likes,day,month,year}=article;
-  
+
       return(
         <Link href={slug} key={i}><a className='blogCon' key={i}>
         <div className='blogImg'>
@@ -26,8 +25,8 @@ export default function BlogList({articles}){
         <div className='blogInfo'>
   
         <div className="blogMetaData">
-        <div><i className='fa fa-user-circle'/><span>{author.full_name}</span></div>
-        <div><i className='fa fa-clock-o'/><span>{day}th {months[month]}, {year}</span></div>
+        <div><i className='fa fa-user-circle'/><span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
+        <div></div>
         </div>
   
         <div>

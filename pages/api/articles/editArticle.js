@@ -1,8 +1,8 @@
 import Articles from "../../../db/Model/articleSchema";
+import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from 'path'
-import fs from 'fs';
+const url_slugify=require('slugify');
 import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
@@ -24,11 +24,14 @@ export default async function handler(req,res){
           let cloudImg;
           let imgDelete;
           const id=fields.id;
+          let stripSlug;
+          let categorySlug;
 
           try{
           if(files.img_link.size!==0){
             imgDelete=await Articles.findOne({_id:id}).select('img');
-            console.log(imgDelete)
+            console.log(fields.title)
+            
 
             if(!validImagetype.includes(files.img_link.mimetype.split('/')[1],0)) {
             res.status(200).json({status:'Invalid Image Type'});
@@ -38,11 +41,19 @@ export default async function handler(req,res){
             cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath);
                          
           }
-
+            if(fields.category&&fields.title){
+              let slug=fields.title;
+              categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
+              stripSlug=url_slugify(slug.replace(/[^\w\s']|_/g,' ').replaceAll("'",' '));
+            }console.log('haaaaaaaaaaland',stripSlug)
 
 
           let article=fields;
+          article.slug=`${categorySlug.slug}/${stripSlug}`;
+          let yu=article.slug;
+          console.log('luuuuv',yu)
           {files.img_link.size===0 ? '' : article.img={public_id:cloudImg.public_id,url:cloudImg.url}}
+          {fields.title&&fields.category ? article.slug=`${categorySlug.slug}/${stripSlug}` : ''}
           console.log(article);
           await Articles.updateOne({_id:id},{$set:article});
           if(files.img_link.size!==0) await Cloudinary.uploader.destroy(imgDelete.img.public_id);
@@ -50,7 +61,7 @@ export default async function handler(req,res){
 
         }catch(err){
           res.status(404).json({status:err.message})
-          console.log(err.message)
+          console.log(err)
           }          
 
         }); 

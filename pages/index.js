@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export default function Home() {
   const [categories,setcategories]=useState([])
   const [articles,setarticles]=useState([])
-  const [mostViewed,setmostViewed]=useState([]);
+  const [articlesSlide,setarticlesSlide]=useState([]);
   let limit=useRef(1)
 
   function dropdown1(){
@@ -87,7 +87,7 @@ function loadArticlesByViews(){
       let status=res.data.status;
       let data=res.data.data;
       if(status==='success'){
-          setmostViewed(data)
+          setarticlesSlide(data)
       }else{
           Swal.fire(
               'Error',
@@ -133,7 +133,7 @@ function loadArticlesByViews(){
     <Mainscreen heading='OTOTECH BLOG' description='The Ototech Blog is the top hub for developers, designers,
      finance experts, executives, and entrepreneurs,
      featuring key technology updates, tutorials, freelancer resources, and management insights.'
-     imgLink='/OTOTECH2.jpg'/>
+     imgLink='/OTOTECH2.jpg' page='home'/>
 
 
 
@@ -209,7 +209,7 @@ function loadArticlesByViews(){
   </div>
 
 
-<SlidingArticles mostViewed={mostViewed}/>
+<SlidingArticles articlesSlide={articlesSlide}/>
 
 
 
