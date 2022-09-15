@@ -213,7 +213,7 @@ const options = [
             <p>Status</p>
             <select value={github.status} onChange={(e)=>setgithub({status:e.target.value,link:github.link})}>
                 <option value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+                <option value='inactive'>Deativate</option>
 
             </select>
         </div>
@@ -228,7 +228,7 @@ const options = [
             <p>Status</p>
             <select value={linkedin.status} onChange={(e)=>setlinkedin({status:e.target.value,link:linkedin.link})}>
                 <option value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+                <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -247,7 +247,7 @@ const options = [
             <p>Status</p>
             <select value={twitter.status} onChange={(e)=>settwitter({status:e.target.value,link:twitter.link})}>
                 <option value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+                <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
@@ -261,7 +261,7 @@ const options = [
             <p>Status</p>
             <select value={instagram.status} onChange={(e)=>setinstagram({status:e.target.value,link:instagram.link})}>
                 <option value='active'>Activate</option>
-                <option value='deactive'>Deativate</option>
+                <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
