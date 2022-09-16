@@ -24,6 +24,11 @@
     box-sizing: border-box;
 }
 
+.categorySlider i{
+    font-size: 14px;
+    color: gray;
+    padding-right: 7px;
+}
 .categorySlide{
     padding: 10px 16px;
     background: #f5f6f6;

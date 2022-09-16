@@ -2,11 +2,11 @@ import Link from 'next/link'
 
 export default function CategoryList({categories}) {
     const listing=categories.map((categ,i)=>{
-        const {name,slug,description}=categ;
+        const {name,slug,icon,description}=categ;
         return(
         <Link href={`${slug}`} key={i}>
         <a className='categoryCon' >
-        <div className='categoryIcon'><i className='fa fa-globe'/></div>
+        <div className='categoryIcon'><i className={`fa fa-${icon}`}/></div>
         <div className='categoryInfo'>
             <h2>{name}</h2>
             <p>{description}</p>

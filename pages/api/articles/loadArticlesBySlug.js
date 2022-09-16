@@ -16,7 +16,7 @@ export default async function handler(req,res){
           
 
             try{
-            let data=await Articles.find({slug:{$regex:category}}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
+            let data=await Articles.find({slug:{$regex:category},status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
             
             let result=[];
             for (let i = 0; i < data.length; i++) {

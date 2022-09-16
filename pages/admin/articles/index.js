@@ -47,7 +47,7 @@ export default function AdminArticles(){
   }
 
   function loadArticles(){
-    axios.get(`/api/articles/getArticles?limit=${limit.current}`)
+    axios.get(`/api/articles/getArticles?limit=${limit.current}&section=admin`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;

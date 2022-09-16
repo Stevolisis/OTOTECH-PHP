@@ -454,7 +454,7 @@ export default function Article(){
 
 </div>
 
-     <SlidingArticles articlesSlide={articlesSlide}/>
+     <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>
 
     </>
     )

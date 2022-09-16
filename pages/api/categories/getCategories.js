@@ -6,16 +6,21 @@ import dbConnect from "../../../db/dbConnect";
 export default async function handler(req,res){
     await dbConnect();
     const {limit}=req.query;
+    const {section}=req.query;
 
         if(req.method==='GET'){
+            let data;
             try{
-            let data=await Categories.find({}).select('name slug description icon img status day month year').limit(limit).sort({_id:-1}).lean();
-
-            let result=[];
-            for (let i = 0; i < data.length; i++) {
-                data[i].articles=await Articles.count({category:data[i]._id});
-                console.log(data[i].category)
+            if(section==='admin'){
+                data=await Categories.find({}).select('name slug description icon img status day month year').limit(limit).sort({_id:-1}).lean();
+                for (let i = 0; i < data.length; i++) {
+                    data[i].articles=await Articles.count({category:data[i]._id});
+                    console.log(data[i].category)
+                }
+            }else{
+                data=await Categories.find({status:'active'}).select('name slug description icon img status').limit(limit).sort({_id:-1}).lean();
             }
+            
             
             console.log('done')
 

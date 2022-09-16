@@ -14,7 +14,7 @@ export default function AdminCategories(){
   'August','September','October','November','December'];
 
   function loadCategories(){
-    axios.get(`/api/categories/getCategories?limit=${limit.current}`)
+    axios.get(`/api/categories/getCategories?limit=${limit.current}&section=admin`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;

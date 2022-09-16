@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import parse from 'html-react-parser';
 
-export default function SlidingArticles({articlesSlide}){
+export default function SlidingArticles({articlesSlide,title}){
   const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
   let listing;
@@ -53,7 +53,7 @@ export default function SlidingArticles({articlesSlide}){
     return(
         <>
         
-    <div className='blogSliderHeading'><h2>Most Read Articles</h2></div>
+    <div className='blogSliderHeading'><h2>{title}</h2></div>
 
 <div className='blogSliderCon'>
   <div className='blogSlider'>

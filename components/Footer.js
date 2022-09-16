@@ -1,6 +1,48 @@
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 
 export default function Footer(){
+  const [phone_number,setphone_number]=useState({status:'',link:''})
+  const [gmail,setgmail]=useState({status:'',link:''})
+  const [linkedin,setlinkedin]=useState({status:'',link:''})
+  const [whatsapp,setwhatsapp]=useState({status:'',link:''})
+  const [facebook,setfacebook]=useState({status:'',link:''})
+  const [google_chat,setgoogle_chat]=useState({status:'',link:''});
+
+  
+  function loadSupport(){
+    axios.get('/api/supports/getSupport')
+    .then(res=>{
+        let data=res.data.data;
+        if(res.data.status==='success'){
+            setphone_number(data[0].phone_number)
+            setgmail(data[0].gmail)
+            setfacebook(data[0].facebook)
+            setwhatsapp(data[0].whatsapp)
+            setgoogle_chat(data[0].google_chat)
+            setlinkedin(data[0].linkedin)
+        }else{
+            Swal.fire(
+                'Error',
+                res.data.status,
+                'warning'
+            )
+        }
+    }).catch(err=>{
+        console.log(err)
+        Swal.fire(
+            'Error',
+            'Error Occured at Axios',
+            'warning'
+        )           
+    });
+}
+
+
+    useEffect(()=>{
+      loadSupport();
+    },[]);
 
     return(
         <>
@@ -11,12 +53,12 @@ export default function Footer(){
         <p> For more enquires and service placement please feel free to
            contact us through the following Social media's.</p>
            <ul>
-           <li><Link href='#'><i className='fa fa-facebook'></i></Link></li>
-           <li><Link href='#'><i className='fa fa-phone'></i></Link></li>
-           <li><Link href='#'><i className='fa fa-linkedin'></i></Link></li>
-           <li><Link href='#'><i className='fa fa-whatsapp'></i></Link></li>
-           <li><Link href='#'><i className='fa fa-google'></i></Link></li>
-           <li><Link href='#'><i className='fa fa-envelope'></i></Link></li>
+           {facebook.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-facebook'></i></Link></li>}
+           {phone_number.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-phone'></i></Link></li>}
+           {linkedin.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-linkedin'></i></Link></li>}
+           {whatsapp.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-whatsapp'></i></Link></li>}
+           {google_chat.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-google'></i></Link></li>}
+           {gmail.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-envelope'></i></Link></li>}
            </ul>
       </div>
 

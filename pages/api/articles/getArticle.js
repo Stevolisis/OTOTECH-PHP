@@ -14,7 +14,7 @@ export default async function handler(req,res){
 
 
             try{
-            let data=await Articles.find({slug:article}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' });
+            let data=await Articles.find({slug:article,status:'active'}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' });
                
             if(data.length===0){
                 res.status(200).json({status:'not found'});

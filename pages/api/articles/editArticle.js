@@ -49,9 +49,6 @@ export default async function handler(req,res){
 
 
           let article=fields;
-          article.slug=`${categorySlug.slug}/${stripSlug}`;
-          let yu=article.slug;
-          console.log('luuuuv',yu)
           {files.img_link.size===0 ? '' : article.img={public_id:cloudImg.public_id,url:cloudImg.url}}
           {fields.title&&fields.category ? article.slug=`${categorySlug.slug}/${stripSlug}` : ''}
           console.log(article);

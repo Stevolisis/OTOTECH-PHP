@@ -12,11 +12,11 @@ export default async function handler(req,res){
         let data;
 
             try{
-            data=await Articles.find({category:id}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean();
+            data=await Articles.find({category:id,status:'active'}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean();
             
              
             if(data.length===0){
-                data=await Articles.find({}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean()
+                data=await Articles.find({status:'active'}).populate({ path: 'author',select:'full_name' }).limit(10).sort({_id:-1}).lean()
             }
             for (let i = 0; i < data.length; i++) {
                 data[i].likes=await Likes.count({pageId:data[i]._id});

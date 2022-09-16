@@ -4,9 +4,15 @@ import CategorydropDown from './CategorydropDown'
 import Navbar from './Navbar'
 import NavbarController from './NavbarController'
 import $ from 'jquery';
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export default function Header(){
+export default function Header({res}){
   const [navStatus,setnavStatus]=useState(false);
+  const [categories,setcategories]=useState(false);
+  const [searchResult,setsearchResult]=useState([]);
+  const [searchKey,setsearchKey]=useState('');
+
 
   function dropdown2(){
     $('.filterSearch2').on('focus',function(){
@@ -23,11 +29,66 @@ export default function Header(){
       })
     });
     }
-
     
+
+    function loadCategories(){
+console.log('rr',$(window).innerWidth())
+      if($(window).innerWidth() > 780){
+        axios.get('/api/categories/getCategories')
+        .then(res=>{
+        let data=res.data.data;
+        let status=res.data.status;
+        console.log('yuuuuuuuup',status)
+        if(status==='success'){
+          setcategories(data);
+        }else{
+          Swal.fire(
+            'Error Occured',
+            status,
+            'error'
+          )
+        }
+        })
+      }
+
+    }
+
+    useEffect(()=>{
+    
+      if (searchKey.length >1){
+      try{
+      axios.get(`/api/searchAll?key=${searchKey}`)
+        .then(res=>{
+          let status=res.data.status;
+          let data=res.data.data;
+          if(status==='success'){
+            setsearchResult(data)
+          }else{
+            return;
+          }
+        });
+  
+      }catch(err){
+        Swal.fire(
+          'Error Status',
+          err,
+          'error'
+        )
+      }
+
+      }else{
+        return;
+      }
+      
+    },[searchKey])
+
   useEffect(()=>{
     dropdown2();  
   })
+
+  useEffect(()=>{
+    loadCategories();
+  },[])
 
 
     return(
@@ -59,24 +120,24 @@ export default function Header(){
 
       <div className="searchCon">
       <i className="fa fa-search"></i>
-      <input className='filterSearch2' type="text" name="search" placeholder="search topics, fields ..."/>
+      <input className='filterSearch2' type="text" name="search" placeholder="search topics, fields ..." value={searchKey} onChange={(e)=>setsearchKey(e.target.value)}/>
       </div>
       </div>
 
       <div className="filterCon">
-			<div><Link href='/op'>Blog 1</Link></div>
-			<div><Link href='#'>Blog 2</Link></div>
-			<div><Link href='#'>Blog 3</Link></div>
-			<div><Link href='#'>Blog 4</Link></div>
+      {
+        searchResult&& searchResult.map((searchRes,i)=>{
+          if(searchRes!==null){
+            return <div key={i}><Link href={searchRes.slug}><a>{searchRes.title||searchRes.name}  <span style={{color:'#ec9735',fontSize:'12px'}}>{searchRes.title?'Article':'Category'}</span></a></Link></div>
+          }
+        })
+      }
 		  </div>
 
       <div className="filterCon2">
-			<div><Link href='#'>Blog 1</Link></div>
-			<div><Link href='#'>Blog 2</Link></div>
-			<div><Link href='#'>Blog 3</Link></div>
-			<div><Link href='#'>Blog 4</Link></div>
-			<div><Link href='#'>Blog 5</Link></div>
-			<div><Link href='#'>Blog 6</Link></div>
+        {categories&& categories.map((category,i)=>{
+          return <div key={i}><Link href={category.slug}>{category.name}</Link></div>
+        })}
 		  </div>
         </>
     )

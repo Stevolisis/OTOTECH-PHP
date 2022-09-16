@@ -209,7 +209,7 @@ function loadArticlesByViews(){
   </div>
 
 
-<SlidingArticles articlesSlide={articlesSlide}/>
+<SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>
 
 
 

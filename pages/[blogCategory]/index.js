@@ -152,6 +152,9 @@ function loadCategory(){
       let yu='/kala/iop'
 console.log('reeesponse ',yu.includes('/kala'))
     
+
+
+
     return(
         <>
       <Head>
@@ -177,7 +180,7 @@ console.log('reeesponse ',yu.includes('/kala'))
 <div className={styles.categorySlider}>
   {
     categories && categories.map((category,i)=>{
-return <Link href={category.slug&&category.slug} key={i}><a className={styles.categorySlide}>{category.name}</a></Link>
+return <Link href={category.slug&&category.slug} key={i}><a className={styles.categorySlide}><i className={`fa fa-${category.icon}`}/>{category.name}</a></Link>
     })
   }
   </div>
@@ -205,7 +208,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
       </div>
 
 
-        <SlidingArticles articlesSlide={articlesSlide}/>
+        <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>
         </>
     )
 }

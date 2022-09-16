@@ -80,7 +80,7 @@ export default function EditArticle(){
     }
 
     function loadCategories(){
-        axios.get('/api/categories/getCategories')
+        axios.get('/api/categories/getCategories?section=admin')
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;

@@ -125,8 +125,8 @@ export default function AddCategory(){
             <div className='admineditname'>
             <p>Status</p>
             <select name='status'>
-            <option defaultValue>Activate</option>
-            <option>Deactivate</option>
+            <option value='active'>Activate</option>
+            <option value='inactive'>Deactivate</option>
             </select>
             </div>
         </div>
