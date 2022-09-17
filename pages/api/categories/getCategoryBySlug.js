@@ -12,8 +12,11 @@ export default async function handler(req,res){
 
             try{
             let data=await Categories.findOne({slug:slug,status:'active'}).select('name description img');
-               
+            if(data===null){
+                res.status(200).json({status:'not found'});
+            }else{
                 res.status(200).json({data:data,status:'success'});
+            }
 
             }catch(err){
             res.status(404).json({status:err.message})

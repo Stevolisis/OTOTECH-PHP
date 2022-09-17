@@ -169,8 +169,8 @@ console.log('reeesponse ',yu.includes('/kala'))
 
 
 
-      <Mainscreen heading={category.name} description={category.description}
-     imgLink={category.img&& category.img.url} page='blogCategory'/>
+      <Mainscreen heading={category&&category.name} description={category&&category.description}
+     imgLink={category && category.img && category.img.url} page='blogCategory'/>
 
 
 

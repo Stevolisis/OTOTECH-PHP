@@ -1,4 +1,5 @@
 import Categories from "../../../db/Model/categorySchema";
+import Articles from "../../../db/Model/articleSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import path from 'path'
@@ -41,8 +42,16 @@ export default async function handler(req,res){
             
           let category=fields;
           {files.img_link.size===0 ? '' : category.img={public_id:cloudImg.public_id,url:cloudImg.url}}
-          console.log(category);
+
+
           await Categories.updateOne({_id:id},{$set:category});
+
+          {category.status==='inactive' ? 
+          await Articles.updateMany({category:id},{$set:{status:'inactive'}})
+            : await Articles.updateMany({category:id},{$set:{status:'active'}})
+          }
+
+
           if(files.img_link.size!==0) await Cloudinary.uploader.destroy(imgDelete.img.public_id);
           res.status(200).json({status:'success'});
 

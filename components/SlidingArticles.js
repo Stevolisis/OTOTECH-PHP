@@ -9,7 +9,7 @@ export default function SlidingArticles({articlesSlide,title}){
 
   if(articlesSlide!== undefined){
     listing=articlesSlide.map((article,i)=>{
-     const {title,img,description,author,slug,views,likes,day,month,year}=article;
+     const {title,img,author,slug,views,likes,day,month,year}=article;
  
      return(
      <Link href={slug} key={i}><a className='blogCon'>
@@ -25,13 +25,12 @@ export default function SlidingArticles({articlesSlide,title}){
        <div className='blogInfo'>
  
        <div className="blogMetaData">
-       <div><i className='fa fa-user-circle'/><span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
+       <div>by <span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
        <div></div>
        </div>
  
-       <div>
+       <div className="blogInfoTitle">
        <h3>{title}</h3>
-       <p>{parse(description)}</p>
        </div>
        </div>
  

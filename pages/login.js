@@ -39,7 +39,7 @@ export default function Login(){
         <div className={styles.admineditnamecon}>
             <div className={styles.admineditname}>
             <p style={{color:'black'}}>Password</p>
-            <input type='password' name='styles.password'/>
+            <input type='password' name='password'/>
             </div>
         </div>
         <div className={styles.usereditbtn}>

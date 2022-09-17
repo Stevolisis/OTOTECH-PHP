@@ -343,7 +343,8 @@ export default function Article(){
                 height={40}
                 style={{borderRadius:'50%'}}
                 placeholder='blur'
-                blurDataURL="/favicon.io"
+                blurDataURL="/imageLoader.png"
+                priority
                 />}
             </div>
 

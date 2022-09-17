@@ -397,8 +397,12 @@ padding-bottom: 30px;
 .blogImg{
     height: 170px;
     width: 100%;
-    background: $color4;
     position: relative;
+    background-color: #F0EEEE;
+    background-image: url('/imageLoader.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 
     img{
         width: 100%;
@@ -408,32 +412,37 @@ padding-bottom: 30px;
 
 .blogInfo{
     padding: 15px 20px 0 20px;
-    background: $color4;
+    background: $color20;
+    height: 235px;
+    overflow-y: auto;
+
     
 
     h3{
         font-family: poppinsRegular;
-        font-size: 16px;
+        font-size: 22px;
         width: 200px;
         min-width: 140px ;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis !important;
+        // overflow: hidden;
+        // white-space: nowrap;
+        // text-overflow: ellipsis !important;
+        word-break: break-word;
         color:$color14;
     }
 
 }
 
 .blogMetaData{
-    font-size: 9px;
+    font-size: 10px;
     color: $color2;
     padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
-    margin-left: -3px;
+    margin-left: 0px;
 
     span{
         font-family: poppinsMedium;
+        letter-spacing: 0.5px;
     }
 
     
@@ -443,8 +452,11 @@ padding-bottom: 30px;
 }
 
 .blogInfo p:nth-of-type(1){
-    font-family: metropolisRegular;
+    margin-top: 12px;
+    font-family: poppinsLight;
     letter-spacing: 0.8px;
+    word-spacing: 2px;
+    line-height: 1.2rem;
     font-size: 12px;
     box-sizing: border-box;
     word-break: break-word;
@@ -455,7 +467,7 @@ padding-bottom: 30px;
     justify-content: space-between;
     align-items: center;
     padding: 9px 20px 15px 20px;
-    background: $color4;
+    background: $color20;
 }
 
 .blogData{
@@ -571,11 +583,23 @@ box-sizing: border-box;
 }
 
 .blogCon{
-    width: 270px !important;
-    min-width: 270px !important;
+    width: 310px !important;
+    min-width: 310px !important;
     box-shadow:$color6;
-    margin:12px;
+    margin:10px;
     box-sizing: border-box;
+}
+
+.blogInfo{
+    padding: 15px 20px 0 20px;
+    background: $color20;
+    height: 100px;
+    overflow-y: hidden;
+
+    .blogInfoTitle{
+        height: 70px;
+        overflow-y: auto;
+    }
 }
 }
 

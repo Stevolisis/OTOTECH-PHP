@@ -1,4 +1,5 @@
 import Articles from "../../../db/Model/articleSchema";
+import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import Likes from '../../../db/Model/likeSchema';
 import Views from '../../../db/Model/viewSchema';
@@ -16,11 +17,10 @@ export default async function handler(req,res){
           
 
             try{
-            let data=await Articles.find({slug:{$regex:category},status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
-            
-            let result=[];
+            let checkCateg=await Categories.findOne({slug:category}).select('slug status');
+            if(checkCateg&&checkCateg.status==='active'){
+            let data=await Articles.find({category:checkCateg.id,status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
             for (let i = 0; i < data.length; i++) {
-                // data[i].Views=Articles.getViews('3456789')   
                 data[i].likes=await Likes.count({pageId:data[i]._id});
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].comments=await Comments.count({pageId:data[i]._id});
@@ -29,9 +29,14 @@ export default async function handler(req,res){
                 console.log(data[i].views)
                 console.log(data[i].comments) 
             }
-           console.log("categoryggggggg"+data);   
-            console.log('done')
             res.status(200).json({data:data,status:'success'});
+            }else{
+                res.status(200).json({status:'not found'});
+            }
+
+           console.log("checkategoryggggggg"+checkCateg);   
+            console.log(checkCateg.id)
+            
 
             }catch(err){
             res.status(404).json({status:err.message})

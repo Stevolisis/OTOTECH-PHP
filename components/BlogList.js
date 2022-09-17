@@ -25,7 +25,7 @@ export default function BlogList({articles}){
         <div className='blogInfo'>
   
         <div className="blogMetaData">
-        <div><i className='fa fa-user-circle'/><span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
+        <div>by <span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
         <div></div>
         </div>
   
@@ -53,7 +53,7 @@ export default function BlogList({articles}){
     return(
         <>
         <div className='categories'>
-          {listing}
+          {articles&&listing}
 
 
 
