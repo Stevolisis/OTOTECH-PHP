@@ -1,12 +1,16 @@
 import axios from 'axios';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useLayoutEffect} from 'react';
+import Swal from 'sweetalert2';
 
 export default function Admin(){
     const [articlesCount,setarticlesCount]=useState('')
     const [categoriesCount,setcategoriesCount]=useState('')
     const [viewsCount,setviewsCount]=useState('');
+    const [currentYear,setcurrentYear]=useState('');
+    const [currentMonth,setcurrentMonth]=useState('');
+    const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
 
 
     
@@ -80,7 +84,61 @@ export default function Admin(){
                     'warning'
                 )           
             });
-            }
+        }
+
+        function getViewStat(){
+            axios.get(`/api/views/getViewStat?month=${currentMonth}&year=${currentYear}`)
+            .then(res=>{
+                let status=res.data.status;
+                let data=res.data.data;
+
+                if(status==='success'){
+                    let week1=[]
+                    let week2=[]
+                    let week3=[]
+                    let week4=[]
+                    let week5=[]
+                  for (let i = 0; i < data.length; i++) { 
+                    if(data[i].day >= 1 && data[i].day <= 7){
+                        week1.push(data[i])
+                    }else if(data[i].day >= 8 && data[i].day <= 14){
+                        week2.push(data[i])
+                    }else if(data[i].day >= 15 && data[i].day <= 21){
+                        week3.push(data[i])
+                    }else if(data[i].day >= 22 && data[i].day <= 28){
+                        week4.push(data[i])
+                    }else if(data[i].day >= 29 && data[i].day <= 31){
+                        week5.push(data[i])
+                    }                   
+                  }
+                  console.log('ppppppp',week2)
+    setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week2});
+
+                  console.log('luuup',viewStat.week1.length)
+                }else{
+                    Swal.fire(
+                        'Unsuccessful',
+                        status,
+                        'warning'
+                    )
+                }
+            }).catch(err=>{
+                Swal.fire(
+                    'Unsuccessful',
+                    err,
+                    'error'
+                )
+                console.log(err)
+            })
+        }
+
+        function setTime(){
+            const dateNow=new Date();
+            setcurrentMonth(dateNow.getMonth());
+            setcurrentYear(dateNow.getFullYear())
+        }
+
+
         
 
     const options  = {
@@ -91,15 +149,16 @@ export default function Admin(){
         type:'column'
         },
         xAxis:{
-        categories:['Week 1','Week 2','Week 3','Week 4']
+        categories:['Week 1','Week 2','Week 3','Week 4','Week 5']
         },
         yAxis:{
         title:{
-            text:'Views per week'
+            text:''
         }
         },
         series: [{
-          data: [1, 2, 10,6,9]
+        name:'Views',
+        data: [viewStat.week1.length, viewStat.week2.length, viewStat.week3.length,viewStat.week4.length,viewStat.week5.length]
         }],
         accessibility:{
             enabled:false
@@ -114,16 +173,28 @@ export default function Admin(){
         chart:{
         type:'pie'
         },
-        xAxis:{
-        categories:['Week 1','Week 2','Week 3','Week 4']
-        },
-        yAxis:{
-        title:{
-            text:'Views per week'
-        }
-        },
         series: [{
-          data: [1, 2, 7,6]
+            name:'Likes',
+          data: [{
+            name:'week1',
+            y: 1,
+          }, 
+          {
+            name:'week2',
+            y: 2,
+          }, 
+          {
+            name:'week3',
+            y: 7,
+          },
+          {
+            name:'week4',
+            y: 6,
+          },
+          {
+            name:'week5',
+            y: 1,
+          }]
         }],
         accessibility:{
             enabled:false
@@ -131,7 +202,14 @@ export default function Admin(){
         credits:false
       }
 
-     
+   
+useEffect(()=>{
+setTime();
+},[])
+
+useEffect(()=>{
+    getViewStat();
+},[currentMonth,currentYear])
       
 useEffect(()=>{
 loadCategoriesCount();
@@ -194,8 +272,15 @@ loadViewsCount();
                 />
                 </div>
                 <div className='chartfilterscon'>
-                    <select>
-                    <option defaultValue='2018'>2018</option>
+    <div className='chartInfo'>Week 1 <p>(1 - 7 days)</p></div>
+    <div className='chartInfo'>Week 2 <p>(8 - 14 days)</p></div>
+    <div className='chartInfo'>Week 3 <p>(15 - 21 days)</p></div>
+    <div className='chartInfo'>Week 4 <p>(22 - 28 days)</p></div>
+    <div className='chartInfo'>Week 5 <p>(29 - 31 days)</p></div>
+                </div>
+                <div className='chartfilterscon'>
+                    <select value={currentYear} onChange={(e)=>setcurrentYear(e.target.value)}>
+                    <option value='2018'>2018</option>
                     <option value='2019'>2019</option>
                     <option value='2020'>2020</option>
                     <option value='2021'>2021</option>
@@ -206,19 +291,19 @@ loadViewsCount();
                     <option value='2026'>2026</option>
                     <option value='2027'>2027</option>
                     </select>
-                    <select>
-                    <option defaultValue='January'>January</option>
-                    <option value='February'>February</option>
-                    <option value='March'>March</option>
-                    <option value='April'>April</option>
-                    <option value='May'>May</option>
-                    <option value='June'>June</option>
-                    <option value='July'>July</option>
-                    <option value='August'>August</option>
-                    <option value='September'>September</option>
-                    <option value='October'>October</option>
-                    <option value='November'>November</option>
-                    <option value='December'>December</option>
+                    <select value={currentMonth} onChange={(e)=>setcurrentMonth(e.target.value)}>
+                    <option value='0'>January</option>
+                    <option value='1'>February</option>
+                    <option value='2'>March</option>
+                    <option value='3'>April</option>
+                    <option value='4'>May</option>
+                    <option value='5'>June</option>
+                    <option value='6'>July</option>
+                    <option value='7'>August</option>
+                    <option value='8'>September</option>
+                    <option value='9'>October</option>
+                    <option value='10'>November</option>
+                    <option value='11'>December</option>
                     </select>
                 </div>
             </div>
@@ -232,8 +317,15 @@ loadViewsCount();
                 />
                 </div>
                 <div className='chartfilterscon'>
-                    <select>
-                    <option defaultValue='2018'>2018</option>
+    <div className='chartInfo'>Week 1 <p>(1 - 7 days)</p></div>
+    <div className='chartInfo'>Week 2 <p>(8 - 14 days)</p></div>
+    <div className='chartInfo'>Week 3 <p>(15 - 21 days)</p></div>
+    <div className='chartInfo'>Week 4 <p>(22 - 28 days)</p></div>
+    <div className='chartInfo'>Week 5 <p>(29 - 31 days)</p></div>
+                </div>
+                <div className='chartfilterscon'>
+                <select value={currentYear} onChange={(e)=>setcurrentYear(e.target.value)}>
+                    <option value='2018'>2018</option>
                     <option value='2019'>2019</option>
                     <option value='2020'>2020</option>
                     <option value='2021'>2021</option>
@@ -244,19 +336,19 @@ loadViewsCount();
                     <option value='2026'>2026</option>
                     <option value='2027'>2027</option>
                     </select>
-                    <select>
-                    <option defaultValue='January'>January</option>
-                    <option value='February'>February</option>
-                    <option value='March'>March</option>
-                    <option value='April'>April</option>
-                    <option value='May'>May</option>
-                    <option value='June'>June</option>
-                    <option value='July'>July</option>
-                    <option value='August'>August</option>
-                    <option value='September'>September</option>
-                    <option value='October'>October</option>
-                    <option value='November'>November</option>
-                    <option value='December'>December</option>
+                    <select value={currentMonth} onChange={(e)=>setcurrentMonth(e.target.value)}>
+                    <option value='0'>January</option>
+                    <option value='1'>February</option>
+                    <option value='2'>March</option>
+                    <option value='3'>April</option>
+                    <option value='4'>May</option>
+                    <option value='5'>June</option>
+                    <option value='6'>July</option>
+                    <option value='7'>August</option>
+                    <option value='8'>September</option>
+                    <option value='9'>October</option>
+                    <option value='10'>November</option>
+                    <option value='11'>December</option>
                     </select>
                 </div>
             </div>

@@ -161,7 +161,7 @@ align-items: center;
 padding: 10px 5px;
 padding-top: 0;
 margin-top: -13px;
-
+background: $color2;
     select{
         border: 1px solid silver;
         padding: 7px 4px;
@@ -170,6 +170,22 @@ margin-top: -13px;
         margin:0 5px;
         font-size: 11px;
         font-family: poppinsLight;
+    }
+}
+
+.chartInfo{
+    font-size: 11px;
+    margin:  2px 10px 12px 10px;
+    font-family: poppinsMedium;
+    text-align: center;
+    color:$color3;
+    
+
+    p{
+        padding:0 3px;
+        font-size: 8px;
+        // color:black;
+        font-family: poppinsRegular;
     }
 }
 
