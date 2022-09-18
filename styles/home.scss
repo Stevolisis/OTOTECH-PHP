@@ -427,22 +427,24 @@ padding-bottom: 30px;
         // white-space: nowrap;
         // text-overflow: ellipsis !important;
         word-break: break-word;
-        color:$color14;
+        color:$color2;
     }
 
 }
 
 .blogMetaData{
     font-size: 10px;
-    color: $color2;
+    // color: $color2;
     padding-bottom: 5px;
     display: flex;
     justify-content: space-between;
     margin-left: 0px;
 
     span{
-        font-family: poppinsMedium;
+        font-family: proximaNova;
+        font-size:12px;
         letter-spacing: 0.5px;
+        text-transform: capitalize;
     }
 
     

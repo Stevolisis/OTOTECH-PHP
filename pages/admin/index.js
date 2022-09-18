@@ -8,9 +8,12 @@ export default function Admin(){
     const [articlesCount,setarticlesCount]=useState('')
     const [categoriesCount,setcategoriesCount]=useState('')
     const [viewsCount,setviewsCount]=useState('');
-    const [currentYear,setcurrentYear]=useState('');
-    const [currentMonth,setcurrentMonth]=useState('');
+    const [viewCurrentYear,setviewCurrentYear]=useState('');
+    const [viewCurrentMonth,setviewCurrentMonth]=useState('');
+    const [likeCurrentYear,setlikeCurrentYear]=useState('');
+    const [likeCurrentMonth,setlikeCurrentMonth]=useState('');
     const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
+    const [likeStat,setlikeStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
 
 
     
@@ -87,7 +90,7 @@ export default function Admin(){
         }
 
         function getViewStat(){
-            axios.get(`/api/views/getViewStat?month=${currentMonth}&year=${currentYear}`)
+            axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
             .then(res=>{
                 let status=res.data.status;
                 let data=res.data.data;
@@ -112,7 +115,7 @@ export default function Admin(){
                     }                   
                   }
                   console.log('ppppppp',week2)
-    setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week2});
+    setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
                   console.log('luuup',viewStat.week1.length)
                 }else{
@@ -132,10 +135,62 @@ export default function Admin(){
             })
         }
 
+
+
+
+        function getLikeStat(){
+            axios.get(`/api/likes/getLikeStat?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
+            .then(res=>{
+                let status=res.data.status;
+                let data=res.data.data;
+
+                if(status==='success'){
+                    let week1=[]
+                    let week2=[]
+                    let week3=[]
+                    let week4=[]
+                    let week5=[]
+                  for (let i = 0; i < data.length; i++) { 
+                    if(data[i].day >= 1 && data[i].day <= 7){
+                        week1.push(data[i])
+                    }else if(data[i].day >= 8 && data[i].day <= 14){
+                        week2.push(data[i])
+                    }else if(data[i].day >= 15 && data[i].day <= 21){
+                        week3.push(data[i])
+                    }else if(data[i].day >= 22 && data[i].day <= 28){
+                        week4.push(data[i])
+                    }else if(data[i].day >= 29 && data[i].day <= 31){
+                        week5.push(data[i])
+                    }                   
+                  }
+                  console.log('ppppppp',week2)
+    setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
+
+                  console.log('luuup',likeStat.week1.length)
+                }else{
+                    Swal.fire(
+                        'Unsuccessful',
+                        status,
+                        'warning'
+                    )
+                }
+            }).catch(err=>{
+                Swal.fire(
+                    'Unsuccessful',
+                    err,
+                    'error'
+                )
+                console.log(err)
+            })
+        }
+
+
         function setTime(){
             const dateNow=new Date();
-            setcurrentMonth(dateNow.getMonth());
-            setcurrentYear(dateNow.getFullYear())
+            setviewCurrentMonth(dateNow.getMonth());
+            setviewCurrentYear(dateNow.getFullYear())
+            setlikeCurrentMonth(dateNow.getMonth());
+            setlikeCurrentYear(dateNow.getFullYear())
         }
 
 
@@ -177,23 +232,23 @@ export default function Admin(){
             name:'Likes',
           data: [{
             name:'week1',
-            y: 1,
+            y: likeStat.week1.length,
           }, 
           {
             name:'week2',
-            y: 2,
+            y: likeStat.week2.length,
           }, 
           {
             name:'week3',
-            y: 7,
+            y: likeStat.week3.length,
           },
           {
             name:'week4',
-            y: 6,
+            y: likeStat.week4.length,
           },
           {
             name:'week5',
-            y: 1,
+            y: likeStat.week5.length,
           }]
         }],
         accessibility:{
@@ -209,7 +264,11 @@ setTime();
 
 useEffect(()=>{
     getViewStat();
-},[currentMonth,currentYear])
+},[viewCurrentMonth,viewCurrentYear])
+
+useEffect(()=>{
+    getLikeStat();
+},[likeCurrentMonth,likeCurrentYear])
       
 useEffect(()=>{
 loadCategoriesCount();
@@ -272,14 +331,14 @@ loadViewsCount();
                 />
                 </div>
                 <div className='chartfilterscon'>
-    <div className='chartInfo'>Week 1 <p>(1 - 7 days)</p></div>
-    <div className='chartInfo'>Week 2 <p>(8 - 14 days)</p></div>
-    <div className='chartInfo'>Week 3 <p>(15 - 21 days)</p></div>
-    <div className='chartInfo'>Week 4 <p>(22 - 28 days)</p></div>
-    <div className='chartInfo'>Week 5 <p>(29 - 31 days)</p></div>
+    <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
+    <div className='chartInfo'>Week 2 <p>(8th - 14th)</p></div>
+    <div className='chartInfo'>Week 3 <p>(15th - 21th)</p></div>
+    <div className='chartInfo'>Week 4 <p>(22th - 28th)</p></div>
+    <div className='chartInfo'>Week 5 <p>(29th - 31th)</p></div>
                 </div>
                 <div className='chartfilterscon'>
-                    <select value={currentYear} onChange={(e)=>setcurrentYear(e.target.value)}>
+                    <select value={viewCurrentYear} onChange={(e)=>setviewCurrentYear(e.target.value)}>
                     <option value='2018'>2018</option>
                     <option value='2019'>2019</option>
                     <option value='2020'>2020</option>
@@ -291,7 +350,7 @@ loadViewsCount();
                     <option value='2026'>2026</option>
                     <option value='2027'>2027</option>
                     </select>
-                    <select value={currentMonth} onChange={(e)=>setcurrentMonth(e.target.value)}>
+                    <select value={viewCurrentMonth} onChange={(e)=>setviewCurrentMonth(e.target.value)}>
                     <option value='0'>January</option>
                     <option value='1'>February</option>
                     <option value='2'>March</option>
@@ -317,14 +376,14 @@ loadViewsCount();
                 />
                 </div>
                 <div className='chartfilterscon'>
-    <div className='chartInfo'>Week 1 <p>(1 - 7 days)</p></div>
-    <div className='chartInfo'>Week 2 <p>(8 - 14 days)</p></div>
-    <div className='chartInfo'>Week 3 <p>(15 - 21 days)</p></div>
-    <div className='chartInfo'>Week 4 <p>(22 - 28 days)</p></div>
-    <div className='chartInfo'>Week 5 <p>(29 - 31 days)</p></div>
+    <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
+    <div className='chartInfo'>Week 2 <p>(8th - 14th)</p></div>
+    <div className='chartInfo'>Week 3 <p>(15th - 21th)</p></div>
+    <div className='chartInfo'>Week 4 <p>(22th - 28th)</p></div>
+    <div className='chartInfo'>Week 5 <p>(29th - 31th)</p></div>
                 </div>
                 <div className='chartfilterscon'>
-                <select value={currentYear} onChange={(e)=>setcurrentYear(e.target.value)}>
+                <select value={likeCurrentYear} onChange={(e)=>setlikeCurrentYear(e.target.value)}>
                     <option value='2018'>2018</option>
                     <option value='2019'>2019</option>
                     <option value='2020'>2020</option>
@@ -336,7 +395,7 @@ loadViewsCount();
                     <option value='2026'>2026</option>
                     <option value='2027'>2027</option>
                     </select>
-                    <select value={currentMonth} onChange={(e)=>setcurrentMonth(e.target.value)}>
+                    <select value={likeCurrentMonth} onChange={(e)=>setlikeCurrentMonth(e.target.value)}>
                     <option value='0'>January</option>
                     <option value='1'>February</option>
                     <option value='2'>March</option>

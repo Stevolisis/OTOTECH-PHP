@@ -141,10 +141,16 @@ h4{
         height: auto !important;
     }
 }
+
+.blogInfo p:nth-of-type(1){
+    margin-bottom: 13px !important;
+}
+
 .blogCon{
     max-width:100% !important;
     width:100%;
 }
+
 
 .blogImg{
     height: 200px !important;
