@@ -16,7 +16,7 @@ import { RWebShare } from "react-web-share";
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`http://localhost:3000/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
+      const res=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
       const content= res.data.data[0];
       const pageId=content._id;
       const categoryId=content.category;

@@ -16,8 +16,8 @@ import Swal from "sweetalert2";
 export const getServerSideProps=async (context)=>{
   let error=context.query;
   try{
-    const res=await axios.get(`http://localhost:3000/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
-    const res2=await axios.get(`http://localhost:3000/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
+    const res=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
+    const res2=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
     const category= res.data.data;
     const blogData= res2.data.data;
     
