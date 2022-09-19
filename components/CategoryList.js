@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export default function CategoryList({categories}) {
-    const listing=categories.map((categ,i)=>{
+    const listing=categories && categories.map((categ,i)=>{
         const {name,slug,icon,description}=categ;
         return(
         <Link href={`${slug}`} key={i}>

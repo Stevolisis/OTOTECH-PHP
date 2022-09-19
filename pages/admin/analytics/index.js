@@ -688,7 +688,7 @@ loadUsersCount();
             <p>Analytics / Metrics</p>
         </div>
 
-        <div className='adminstat1con'>
+        <div className='adminstat1con' style={{marginTop:'7px'}}>
             <div className='adminstat1'>
                 <div className='adminstat1icon'>
                     <div style={{background:'rgba(255, 69, 0,0.4)',color:'rgb(255, 69, 0)'}}>
@@ -730,7 +730,7 @@ loadUsersCount();
         <div className='adminstat1con'>
             <div className='adminstat1'>
                 <div className='adminstat1icon'>
-                    <div style={{background:'rgba(212, 212, 5,0.4)',color:'rgb(212, 212, 5)'}}>
+                    <div style={{background:'rgba(255, 124, 1,0.4)',color:'rgb(255, 124, 1)'}}>
                         <i className='fa fa-support'/></div>
                 </div>
                 <div className='adminstat1details'>

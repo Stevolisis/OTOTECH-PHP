@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
-import {useState, useEffect, useLayoutEffect} from 'react';
+import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 
 export default function Admin(){

@@ -6,21 +6,20 @@ export default async function handler(req,res){
     await dbConnect();
 
     if(req.method==='GET'){
-    const url = req.headers.referer;
-    let [a,b,c]=url.split('//')[1].split('/');
-    let article=`/${b}/${c}`
-    console.log(article);    
+    // const url = req.headers.referer;
+    // let [a,b,c]=url.split('//')[1].split('/');
+    const {category,article}=req.query;
+    let articleSlug=`/${category}/${article}`
+    console.log('articleSluggggg',articleSlug);    
 
 
 
             try{
-            let data=await Articles.find({slug:article,status:'active'}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' });
-               
-            if(data.length===0){
-                res.status(200).json({status:'not found'});
-            }else{
+            let data=await Articles.find({slug:articleSlug,status:'active'}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' }).lean();
+
+                console.log(data)
                 res.status(200).json({data:data,status:'success'});
-            }
+
 
 
             }catch(err){

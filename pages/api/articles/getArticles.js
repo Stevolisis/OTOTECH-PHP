@@ -20,9 +20,6 @@ export default async function handler(req,res){
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].comments=await Comments.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
-                console.log(data[i].likes)
-                console.log(data[i].views)
-                console.log(data[i].comments) 
             }
             }else{
                 data=await Articles.find({status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();

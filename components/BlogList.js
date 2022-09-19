@@ -7,8 +7,8 @@ export default function BlogList({articles}){
   const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
   let listing;
-  if(articles!== undefined){
-     listing=articles.map((article,i)=>{
+
+     listing=articles&&articles.map((article,i)=>{
       const {title,img,author,slug,description,views,likes,day,month,year}=article;
 
       return(
@@ -47,7 +47,7 @@ export default function BlogList({articles}){
 
       )
     })
-  }
+
  
 
     return(

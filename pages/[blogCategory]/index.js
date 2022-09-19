@@ -10,15 +10,44 @@ import Mainscreen from "../../components/Mainscreen";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function BlogCategory(){
-    const router=useRouter();
-    const {blogCategory} =router.query;
+
+
+
+export const getServerSideProps=async (context)=>{
+  let error=context.query;
+  try{
+    const res=await axios.get(`http://localhost:3000/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
+    const res2=await axios.get(`http://localhost:3000/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
+    const category= res.data.data;
+    const blogData= res2.data.data;
+    
+    return {
+      props:{category,blogData}
+    }    
+    
+  }catch(err){
+    return {
+      props:{error:error}
+    } 
+  }
+  
+}
+
+  
+export default function BlogCategory({category,blogData,error}){
+  let router=useRouter();
     const [articlesSlide,setarticlesSlide]=useState([]);
-    const [articles,setarticles]=useState([]);
     const [categories,setcategories]=useState([]);
-    const [category,setcategory]=useState([]);
+    const [articles,setarticles]=useState([]);
     let limit=useRef(1);
 
+    if(error){
+      Swal.fire(
+        'Error at ServerSideProps',
+        error,
+        'warning'
+      )
+}
 
     function dropdown1(){
         $('.filterSearch1').on('focus',function(){
@@ -60,8 +89,9 @@ export default function BlogCategory(){
         }
       
 
-        function loadArticlesBySlug(){
-          axios.get(`/api/articles/loadArticlesBySlug?limit=${limit.current}`)
+        function loadArticlesByCategory(){
+          console.log('momo',router.query.blogCategory)
+          axios.get(`/api/articles/loadArticlesByCategory?category=${router.query.blogCategory}&limit=${limit.current}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
@@ -111,32 +141,32 @@ export default function BlogCategory(){
 }
 
 
-function loadCategory(){
-  axios.get('/api/categories/getCategoryBySlug')
-  .then(res=>{
-      let status=res.data.status;
-      let data=res.data.data;
-      if(status==='success'){
-          setcategory(data)
-      }else{
-          Swal.fire(
-              'Error',
-              res.data.status,
-              'warning'
-          )
-      }
-  }).catch(err=>{
-      Swal.fire(
-          'Error',
-          'Error Occured at Axios',
-          'warning'
-      )           
-  });
-}
+// function loadCategory(){
+//   axios.get('/api/categories/getCategoryBySlug')
+//   .then(res=>{
+//       let status=res.data.status;
+//       let data=res.data.data;
+//       if(status==='success'){
+//           setcategory(data)
+//       }else{
+//           Swal.fire(
+//               'Error',
+//               res.data.status,
+//               'warning'
+//           )
+//       }
+//   }).catch(err=>{
+//       Swal.fire(
+//           'Error',
+//           'Error Occured at Axios',
+//           'warning'
+//       )           
+//   });
+// }
 
         function loadMore(){
           limit.current=limit.current+1;
-          loadArticlesBySlug();
+          loadArticlesByCategory();
         }
 
         useEffect(()=>{
@@ -144,13 +174,11 @@ function loadCategory(){
         })
 
         useEffect(()=>{
-          loadCategory();
+          setarticles(blogData);
           loadCategories();
-          loadArticlesBySlug();
           loadArticlesByViews();
         },[])
-      let yu='/kala/iop'
-console.log('reeesponse ',yu.includes('/kala'))
+
     
 
 

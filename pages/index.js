@@ -9,11 +9,41 @@ import axios from 'axios';
 import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
 
-export default function Home() {
-  const [categories,setcategories]=useState([])
+
+export const getServerSideProps=async (context)=>{
+let error;
+try{
+  const res=await axios.get('http://localhost:3000/api/categories/getCategories');
+  const res3=await axios.get('http://localhost:3000/api/articles/getArticles?limit=1');
+  const categories= res.data.data;
+  const blogData= res3.data.data;
+  error=error&&error;
+  
+  return {
+    props:{categories,blogData}
+  }    
+  
+}catch(err){
+  return {
+    props:{error:err.message}
+  } 
+}
+
+}
+
+export default function Home({categories,blogData,error}) {
+  const [articlesSlide,setarticlesSlide]=useState([])
+  if(error){
+    Swal.fire(
+      'Error at ServerSideProps',
+      error,
+      'warning'
+    )
+  }
   const [articles,setarticles]=useState([])
-  const [articlesSlide,setarticlesSlide]=useState([]);
   let limit=useRef(1)
+  console.log(blogData)
+  
 
   function dropdown1(){
   $('.filterSearch1').on('focus',function(){
@@ -31,28 +61,28 @@ export default function Home() {
   }
 
 
-  function loadCategories(){
-    axios.get('/api/categories/getCategories')
-    .then(res=>{
-        let status=res.data.status;
-        let data=res.data.data;
-        if(status==='success'){
-            setcategories(data)
-        }else{
-            Swal.fire(
-                'Error',
-                res.data.status,
-                'warning'
-            )
-        }
-    }).catch(err=>{
-        Swal.fire(
-            'Error',
-            'Error Occured at Axios',
-            'warning'
-        )           
-    });
-}
+//   function loadCategories(){
+//     axios.get('/api/categories/getCategories')
+//     .then(res=>{
+//         let status=res.data.status;
+//         let data=res.data.data;
+//         if(status==='success'){
+//             setcategories(data)
+//         }else{
+//             Swal.fire(
+//                 'Error',
+//                 res.data.status,
+//                 'warning'
+//             )
+//         }
+//     }).catch(err=>{
+//         Swal.fire(
+//             'Error',
+//             'Error Occured at Axios',
+//             'warning'
+//         )           
+//     });
+// }
 
 
 function loadArticles(){
@@ -114,12 +144,10 @@ function loadArticlesByViews(){
     dropdown1();  
   })
 
-  useEffect(()=>{
-    loadCategories();
-    loadArticles();
-    loadArticlesByViews();
-  },[])
-
+useEffect(()=>{
+  setarticles(blogData);
+  loadArticlesByViews();
+},[])
 
   return (
     <>

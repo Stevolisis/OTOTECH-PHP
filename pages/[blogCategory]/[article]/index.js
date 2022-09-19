@@ -9,37 +9,68 @@ import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
 
-export default function Article(){
-    const router=useRouter();
-    const cancelalert=useRef(true);
+
+
+
+
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`http://localhost:3000/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
+      const content= res.data.data[0];
+      const pageId=content._id;
+      const categoryId=content.category;
+      const img_link=content.img.url;
+      const img_link2=content.author.img.url;
+      const whatsapp=content.author.whatsapp;
+      const dribble=content.author.dribble;
+      const github=content.author.github;
+      const linkedin=content.author.linkedin;
+      const twitter=content.author.twitter;
+      const instagram=content.author.instagram;
+      
+      return {
+        props:{content,pageId,categoryId,img_link,img_link2,whatsapp,dribble,github,linkedin,twitter,instagram}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err.message}
+      } 
+    }
+    
+  }
+
+
+
+
+export default function Article({error,content,pageId,categoryId,img_link,img_link2,whatsapp,dribble,github,linkedin,twitter,instagram}){
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+  }
+  console.log('laaaaaaaa',error)
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
     const [articlesSlide,setarticlesSlide]=useState([]);
     const [liked, setLiked]=useState(false);
-    const [content, setContent]=useState('');
-    const [pageId, setpageId]=useState('');
-    const [categoryId, setcategoryId]=useState('');
     const [windowLink, setwindowLink]=useState('');
-    const [img_link, setimg_link]=useState('');
-    const [img_link2, setimg_link2]=useState('');
-    const [full_name, setfull_name]=useState('');
     const [email, setemail]=useState('');
-    const [whatsapp, setwhatsapp]=useState({status:'',link:''});
-    const [dribble, setdribble]=useState({status:'',link:''});
-    const [github, setgithub]=useState({status:'',link:''});
-    const [linkedin, setlinkedin]=useState({status:'',link:''});
-    const [twitter, settwitter]=useState({status:'',link:''});
-    const [instagram, setinstagram]=useState({status:'',link:''});
-    const [comments, setcomments]=useState('');
+    const [full_name, setfull_name]=useState('');
+    const [comments, setcomments]=useState(''); 
+
 
     console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
-
+// alert(categoryId)
 
     const Toast = Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
           toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -48,35 +79,35 @@ export default function Article(){
       })
 
 
-    function loadContent(){
-    axios.get('/api/articles/getArticle')
-    .then(res=>{
-        let data=res.data.data[0];
-        let status=res.data.status;
+    // function loadContent(){
+    // axios.get('/api/articles/getArticle')
+    // .then(res=>{
+    //     let data=res.data.data[0];
+    //     let status=res.data.status;
 
-        if(status==='success'){
-            setContent(data);
-            setpageId(data._id);
-            setcategoryId(data.category);
-            setimg_link(data.img.url)
-            setimg_link2(data.author.img.url)
-            setwhatsapp(data.author.whatsapp)
-            setdribble(data.author.dribble)
-            setgithub(data.author.github)
-            setlinkedin(data.author.linkedin)
-            settwitter(data.author.twitter)
-            setinstagram(data.author.instagram);
-        }else{
-            Swal(
-                'Error Occured',
-                status,
-                'warning'
-            )
-        }
-    }).catch(err=>{
-        console.log(err);
-    })
-    }
+    //     if(status==='success'){
+    //         setContent(data);
+    //         setpageId(data._id);
+    //         setcategoryId(data.category);
+    //         setimg_link(data.img.url)
+    //         setimg_link2(data.author.img.url)
+    //         setwhatsapp(data.author.whatsapp)
+    //         setdribble(data.author.dribble)
+    //         setgithub(data.author.github)
+    //         setlinkedin(data.author.linkedin)
+    //         settwitter(data.author.twitter)
+    //         setinstagram(data.author.instagram);
+    //     }else{
+    //         Swal(
+    //             'Error Occured',
+    //             status,
+    //             'warning'
+    //         )
+    //     }
+    // }).catch(err=>{
+    //     console.log(err);
+    // })
+    // }
 
     function checkLike(){
         let checkTracker=localStorage.getItem('likeTracker');
@@ -277,15 +308,15 @@ export default function Article(){
 
     useEffect(()=>{
     setwindowLink(window.location.href)
-    loadContent() 
     checkLike()
     userAuth();
-    },[])
-
-    useEffect(()=>{
     loadComments()
     setView();
-    loadArticlesByCategory();
+    loadArticlesByCategory(); 
+   },[])
+
+    useEffect(()=>{
+
     },[pageId])
 
 
@@ -353,12 +384,12 @@ export default function Article(){
                 <p>{content && content.author.full_name}</p>
                 <p>{content && content.author.description}</p>
             <div className="authorSocialLinks">
-            {whatsapp.status==='inactive'|| ''? '' :<Link href={`${whatsapp.link}`}><a><i className='fa fa-whatsapp'/></a></Link>}
-            {dribble.status==='inactive'|| ''? '' :<Link href={`${dribble.link}`}><a><i className='fa fa-dribble'/></a></Link>}
-            {github.status==='inactive'|| ''? '' :<Link href={`${github.link}`}><a><i className='fa fa-github'/></a></Link>}
-            {linkedin.status==='inactive'|| ''? '' :<Link href={`${linkedin.link}`}><a><i className='fa fa-linkedin'/></a></Link>}
-            {twitter.status==='inactive'|| ''? '' :<Link href={`${twitter.link}`}><a><i className='fa fa-twitter'/></a></Link>}
-            {instagram.status==='inactive'|| ''? '' :<Link href={`${instagram.link}`}><a><i className='fa fa-instagram'/></a></Link>}
+            {whatsapp&&whatsapp.status==='inactive'|| ''? '' :<Link href={`${whatsapp&&whatsapp.link}`}><a><i className='fa fa-whatsapp'/></a></Link>}
+            {dribble&&dribble.status==='inactive'|| ''? '' :<Link href={`${dribble&&dribble.link}`}><a><i className='fa fa-dribble'/></a></Link>}
+            {github&&github.status==='inactive'|| ''? '' :<Link href={`${github&&github.link}`}><a><i className='fa fa-github'/></a></Link>}
+            {linkedin&&linkedin.status==='inactive'|| ''? '' :<Link href={`${linkedin&&linkedin.link}`}><a><i className='fa fa-linkedin'/></a></Link>}
+            {twitter&&twitter.status==='inactive'|| ''? '' :<Link href={`${twitter&&twitter.link}`}><a><i className='fa fa-twitter'/></a></Link>}
+            {instagram&&instagram.status==='inactive'|| ''? '' :<Link href={`${instagram&&instagram.link}`}><a><i className='fa fa-instagram'/></a></Link>}
             </div>
                </div>
         </div>

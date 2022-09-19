@@ -20,7 +20,7 @@ export default async function handler(req,res){
             }else{
                 data=await Categories.find({status:'active'}).select('name slug description icon img status').limit(limit).sort({_id:-1}).lean();
             }
-            
+            // y=op
             
             console.log('done')
 

@@ -10,14 +10,16 @@ export default async function handler(req,res){
     const {limit}=req.query;
 
     if(req.method==='GET'){
-        const url = req.headers.referer;
-        let [a,b]=url.split('//')[1].split('/');
-        let category=`/${b}`
-        console.log('uioiuytrerty',category);
+        // const url = req.headers.referer;
+        // let [a,b]=url.split('//')[1].split('/');
+        // let category=`/${b}`
+        // console.log('uioiuytrerty',category);
+        let {category}=req.query;
+        let slug=`/${category}`
           
 
             try{
-            let checkCateg=await Categories.findOne({slug:category}).select('slug status');
+            let checkCateg=await Categories.findOne({slug:slug}).select('slug status');
             if(checkCateg&&checkCateg.status==='active'){
             let data=await Articles.find({category:checkCateg.id,status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
             for (let i = 0; i < data.length; i++) {
@@ -33,9 +35,6 @@ export default async function handler(req,res){
             }else{
                 res.status(200).json({status:'not found'});
             }
-
-           console.log("checkategoryggggggg"+checkCateg);   
-            console.log(checkCateg.id)
             
 
             }catch(err){
