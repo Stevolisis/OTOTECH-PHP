@@ -10,10 +10,6 @@ export default async function handler(req,res){
     const {limit}=req.query;
 
     if(req.method==='GET'){
-        // const url = req.headers.referer;
-        // let [a,b]=url.split('//')[1].split('/');
-        // let category=`/${b}`
-        // console.log('uioiuytrerty',category);
         let {category}=req.query;
         let slug=`/${category}`
           
@@ -27,9 +23,7 @@ export default async function handler(req,res){
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].comments=await Comments.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
-                console.log(data[i].likes)
-                console.log(data[i].views)
-                console.log(data[i].comments) 
+                data[i].content='';
             }
             res.status(200).json({data:data,status:'success'});
             }else{

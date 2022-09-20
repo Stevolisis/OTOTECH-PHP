@@ -3,11 +3,34 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
+import { baseUrl } from '../BaseUrl';
 
-export default function Admin(){
-    const [articlesCount,setarticlesCount]=useState('')
-    const [categoriesCount,setcategoriesCount]=useState('')
-    const [viewsCount,setviewsCount]=useState('');
+
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`${baseUrl}/api/views/getViewsCount`);
+      const res2=await axios.get(`${baseUrl}/api/articles/getArticlesCount`);
+      const res3=await axios.get(`${baseUrl}/api/categories/getCategoriesCount`);
+
+    
+      const viewsCount= res.data.data;
+      const articlesCount= res2.data.data;
+      const categoriesCount= res3.data.data;
+      
+      return {
+        props:{viewsCount,articlesCount,categoriesCount}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err}
+      } 
+    }
+    
+  }
+
+export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
     const [viewCurrentYear,setviewCurrentYear]=useState('');
     const [viewCurrentMonth,setviewCurrentMonth]=useState('');
     const [likeCurrentYear,setlikeCurrentYear]=useState('');
@@ -15,125 +38,62 @@ export default function Admin(){
     const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [likeStat,setlikeStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
 
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+  }
+  console.log('jaaaaapa',error)
 
-    
-  function loadViewsCount(){
-    axios.get('/api/views/getViewsCount')
+
+
+    function getViewStat(){
+    axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
     .then(res=>{
-        let data=res.data.data;
         let status=res.data.status;
+        let data=res.data.data;
+
         if(status==='success'){
-            console.log(data);
-            setviewsCount(data)
+            let week1=[]
+            let week2=[]
+            let week3=[]
+            let week4=[]
+            let week5=[]
+            for (let i = 0; i < data.length; i++) { 
+            if(data[i].day >= 1 && data[i].day <= 7){
+                week1.push(data[i])
+            }else if(data[i].day >= 8 && data[i].day <= 14){
+                week2.push(data[i])
+            }else if(data[i].day >= 15 && data[i].day <= 21){
+                week3.push(data[i])
+            }else if(data[i].day >= 22 && data[i].day <= 28){
+                week4.push(data[i])
+            }else if(data[i].day >= 29 && data[i].day <= 31){
+                week5.push(data[i])
+            }                   
+            }
+            console.log('ppppppp',week2)
+setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
+
+            console.log('luuup',viewStat.week1.length)
         }else{
             Swal.fire(
-                'Error',
-                res.data.status,
+                'Unsuccessful',
+                status,
                 'warning'
             )
         }
     }).catch(err=>{
         Swal.fire(
-            'Error',
-            'Error Occured at Axios',
-            'warning'
-        )           
-    });
-    }
-
-    function loadCategoriesCount(){
-        axios.get('/api/categories/getCategoriesCount')
-        .then(res=>{
-            let data=res.data.data;
-            let status=res.data.status;
-            if(status==='success'){
-                console.log(data);
-                setcategoriesCount(data)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
-            )           
-        });
-        }
-    
-        function loadarticlesCount(){
-            axios.get('/api/articles/getArticlesCount')
-            .then(res=>{
-                let data=res.data.data;
-                let status=res.data.status;
-                if(status==='success'){
-                    console.log(data);
-                    setarticlesCount(data)
-                }else{
-                    Swal.fire(
-                        'Error',
-                        res.data.status,
-                        'warning'
-                    )
-                }
-            }).catch(err=>{
-                Swal.fire(
-                    'Error',
-                    'Error Occured at Axios',
-                    'warning'
-                )           
-            });
-        }
-
-        function getViewStat(){
-            axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
-            .then(res=>{
-                let status=res.data.status;
-                let data=res.data.data;
-
-                if(status==='success'){
-                    let week1=[]
-                    let week2=[]
-                    let week3=[]
-                    let week4=[]
-                    let week5=[]
-                  for (let i = 0; i < data.length; i++) { 
-                    if(data[i].day >= 1 && data[i].day <= 7){
-                        week1.push(data[i])
-                    }else if(data[i].day >= 8 && data[i].day <= 14){
-                        week2.push(data[i])
-                    }else if(data[i].day >= 15 && data[i].day <= 21){
-                        week3.push(data[i])
-                    }else if(data[i].day >= 22 && data[i].day <= 28){
-                        week4.push(data[i])
-                    }else if(data[i].day >= 29 && data[i].day <= 31){
-                        week5.push(data[i])
-                    }                   
-                  }
-                  console.log('ppppppp',week2)
-    setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
-
-                  console.log('luuup',viewStat.week1.length)
-                }else{
-                    Swal.fire(
-                        'Unsuccessful',
-                        status,
-                        'warning'
-                    )
-                }
-            }).catch(err=>{
-                Swal.fire(
-                    'Unsuccessful',
-                    err,
-                    'error'
-                )
-                console.log(err)
-            })
-        }
+            'Unsuccessful',
+            err,
+            'error'
+        )
+        console.log(err)
+    })
+}
 
 
 
@@ -269,12 +229,6 @@ useEffect(()=>{
 useEffect(()=>{
     getLikeStat();
 },[likeCurrentMonth,likeCurrentYear])
-      
-useEffect(()=>{
-loadCategoriesCount();
-loadarticlesCount();
-loadViewsCount();
-},[])
 
 
     return(

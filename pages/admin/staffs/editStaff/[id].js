@@ -1,13 +1,51 @@
 import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
-import { useRouter } from "next/router";
 import axios from 'axios';
+import { baseUrl } from "../../../BaseUrl";
 
-export default function EditStaff(){
-    const [imgpreview,setImgpreview]=useState('');
-    const router=useRouter();
-    const {id}=router.query;
+
+
+export const getServerSideProps=async (context)=>{
+    let error=context.params.id;
+    try{
+      const res=await axios.get(`${baseUrl}/api/staffs/getStaff/${context.params.id}`);
+      
+      const data= res.data.data[0];
+      const editId=data._id;
+      const editFull_name= data.full_name;
+      const editEmail= data.email;
+      const editSelectedOption= data.priveldges;
+      const editPosition= data.position;
+      const editDescription= data.description;
+      const editStatus= data.status;
+      const editWhatsapp= data.whatsapp;
+      const editDribble= data.dribble;
+      const editGithub= data.github;
+      const editLinkedin= data.linkedin;
+      const editTwitter= data.twitter;
+      const editInstagram= data.instagram;
+      const editImg= data.img.url;
+      
+      return {
+        props:{editId,editFull_name,editEmail,editSelectedOption,editPosition,editDescription,
+        editStatus,editWhatsapp,editDribble,editGithub,editLinkedin,editTwitter,
+        editInstagram,editImg}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err.message}
+      } 
+    }
+    
+}
+
+export default function EditStaff({error,editId,editSelectedOption,editFull_name,editEmail,
+    editPosition,editDescription,editStatus,editWhatsapp,editDribble,editGithub,
+    editLinkedin,editTwitter,editInstagram,editImg}){
+   
+    const [id,setid]=useState('')
     const [selectedOption,setselectedOption]=useState([])
     const [full_name,setfull_name]=useState('');
     const [email,setemail]=useState('');
@@ -20,8 +58,17 @@ export default function EditStaff(){
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [twitter,settwitter]=useState({status:'active',link:''})
     const [instagram,setinstagram]=useState({status:'active',link:''})
+    const [imgpreview,setImgpreview]=useState('');
 
 
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+        console.log('laaaap',error)
+  }
     
 const options = [
     { value: 'Add Category', label: 'Add Category' },
@@ -35,45 +82,6 @@ const options = [
     { value: 'Analytics', label: 'Analytics' },
     { value: 'Support System', label: 'Support System' },
   ];
-
-
-  function loadStaff(){
-    if(id!==undefined){
-    axios.get(`/api/staffs/getStaff/${id}`)
-    .then(res=>{
-        let data=res.data.data;
-        if(res.data.status==='success'){
-            setfull_name(data[0].full_name)
-            setemail(data[0].email)
-            setdescription(data[0].description)
-            setposition(data[0].position)
-            setwhatsapp(data[0].whatsapp)
-            setdribble(data[0].dribble)
-            setgithub(data[0].github)
-            setlinkedin(data[0].linkedin)
-            settwitter(data[0].twitter)
-            setinstagram(data[0].instagram)
-            setstatus(data[0].status)
-            setselectedOption(data[0].priveldges);
-            setImgpreview(data[0].img.url);
-        }else{
-            Swal.fire(
-                'Error',
-                res.data.status,
-                'warning'
-            )
-        }
-    }).catch(err=>{
-        Swal.fire(
-            'Error',
-            'Error Occured at Axios',
-            'warning'
-        )           
-    });
- }else{
-    return;
- }
-    }
 
 
 
@@ -132,8 +140,22 @@ const options = [
     }
 
     useEffect(()=>{
-        loadStaff();
-    },[id]);
+        setfull_name(editFull_name)
+        setid(editId)
+        setemail(editEmail)
+        setdescription(editDescription)
+        setselectedOption(editSelectedOption)
+        setwhatsapp(editWhatsapp)
+        setdribble(editDribble)
+        setgithub(editGithub)
+        setlinkedin(editLinkedin)
+        settwitter(editTwitter)
+        setinstagram(editInstagram)
+        setposition(editPosition)
+        setstatus(editStatus)
+        setImgpreview(editImg)
+    },[])
+
 
 
     return(
@@ -179,28 +201,28 @@ const options = [
 <div className='adminLinks'>
 <div className='adminLinksPrefix'>
     <p>Status</p>
-    <select value={whatsapp.status} onChange={(e)=>setwhatsapp({status:e.target.value,link:whatsapp.link})}>
+    <select value={whatsapp&&whatsapp.status} onChange={(e)=>setwhatsapp({...whatsapp,['status']:e.target.value})}>
         <option value='active'>Activate</option>
         <option value='inactive'>Deactivate</option>
     </select>
 </div>
 <div className='adminLinksInput'>
     <p>Whatsapp Link</p>
-    <input type='text' value={whatsapp.link} onChange={(e)=>setwhatsapp({status:whatsapp.status,link:e.target.value})}/>
+    <input type='text' value={whatsapp&&whatsapp.link} onChange={(e)=>setwhatsapp({...whatsapp,['link']:e.target.value})}/>
 </div>
 </div>
 
 <div className='adminLinks'>
 <div className='adminLinksPrefix'>
     <p>Status</p>
-    <select value={dribble.status} onChange={(e)=>setdribble({status:e.target.value,link:dribble.link})}>
+    <select value={dribble&&dribble.status} onChange={(e)=>setdribble({...dribble,['status']:e.target.value})}>
         <option value='active'>Activate</option>
         <option value='inactive'>Deactivate</option>
     </select>
 </div>
 <div className='adminLinksInput'>
     <p>Dribble Link</p>
-    <input type='text' value={dribble.link} onChange={(e)=>setdribble({status:dribble.status,link:e.target.value})}/>
+    <input type='text' value={dribble&&dribble.link} onChange={(e)=>setdribble({...dribble,['link']:e.target.value})}/>
 </div>
 </div>
 </div>
@@ -211,7 +233,7 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={github.status} onChange={(e)=>setgithub({status:e.target.value,link:github.link})}>
+            <select value={github&&github.status} onChange={(e)=>setgithub({...github,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
 
@@ -219,21 +241,21 @@ const options = [
         </div>
         <div className='adminLinksInput'>
             <p>Github Link</p>
-            <input type='text' value={github.link} onChange={(e)=>setgithub({status:github.status,link:e.target.value})}/>
+            <input type='text' value={github&&github.link} onChange={(e)=>setgithub({...github,['link']:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={linkedin.status} onChange={(e)=>setlinkedin({status:e.target.value,link:linkedin.link})}>
+            <select value={linkedin&&linkedin.status} onChange={(e)=>setlinkedin({...linkedin,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>LinkedIn Link</p>
-            <input type='text' value={linkedin.link} onChange={(e)=>setlinkedin({status:linkedin.status,link:e.target.value})}/>
+            <input type='text' value={linkedin&&linkedin.link} onChange={(e)=>setlinkedin({...linkedin,['link']:e.target.value})}/>
         </div>
         </div>
         </div>
@@ -245,28 +267,28 @@ const options = [
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={twitter.status} onChange={(e)=>settwitter({status:e.target.value,link:twitter.link})}>
+            <select value={twitter&&twitter.status} onChange={(e)=>settwitter({...twitter,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Twitter Link</p>
-            <input type='text' value={twitter.link} onChange={(e)=>settwitter({status:twitter.status,link:e.target.value})}/>
+            <input type='text' value={twitter&&twitter.link} onChange={(e)=>settwitter({...twitter,['link']:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={instagram.status} onChange={(e)=>setinstagram({status:e.target.value,link:instagram.link})}>
+            <select value={instagram&&instagram.status} onChange={(e)=>setinstagram({...instagram,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Instagram Link</p>
-            <input type='text' value={instagram.link} onChange={(e)=>setinstagram({status:instagram.status,link:e.target.value})}/>
+            <input type='text' value={instagram&&instagram.link} onChange={(e)=>setinstagram({...instagram,['link']:e.target.value})}/>
         </div>
         </div>
         </div>

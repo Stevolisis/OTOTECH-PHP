@@ -3,15 +3,41 @@ import HighchartsReact from 'highcharts-react-official';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { baseUrl } from '../../BaseUrl';
 
-export default function AdminAnalytics(){
-    const [viewsCount,setviewsCount]=useState('');
-    const [commentsCount,setcommentsCount]=useState('')
-    const [likesCount,setlikesCount]=useState('')
-    const [usersCount,setusersCount]=useState('');
-    const [articlesCount,setarticlesCount]=useState('')
-    const [categoriesCount,setcategoriesCount]=useState('')
 
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`${baseUrl}/api/views/getViewsCount`);
+      const res2=await axios.get(`${baseUrl}/api/comments/getCommentsCount`);
+      const res3=await axios.get(`${baseUrl}/api/likes/getLikesCount`);
+      const res4=await axios.get(`${baseUrl}/api/users/getUsersCount`);
+      const res5=await axios.get(`${baseUrl}/api/articles/getArticlesCount`);
+      const res6=await axios.get(`${baseUrl}/api/categories/getCategoriesCount`);
+      const res7=await axios.get(`${baseUrl}/api/staffs/getStaffsCount`);
+    
+      const viewsCount= res.data.data;
+      const commentsCount= res2.data.data;
+      const likesCount= res3.data.data;
+      const usersCount= res4.data.data;
+      const articlesCount= res5.data.data;
+      const categoriesCount= res6.data.data;
+      const staffsCount= res7.data.data;
+      
+      return {
+        props:{viewsCount,commentsCount,likesCount,usersCount,articlesCount,categoriesCount,staffsCount}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err}
+      } 
+    }
+    
+  }
+
+export default function AdminAnalytics({error,viewsCount,commentsCount,likesCount,usersCount,articlesCount,categoriesCount,staffsCount}){
     const [viewCurrentYear,setviewCurrentYear]=useState('');
     const [viewCurrentMonth,setviewCurrentMonth]=useState('');
     const [likeCurrentYear,setlikeCurrentYear]=useState('');
@@ -32,155 +58,14 @@ export default function AdminAnalytics(){
     const [articleStat,setarticleStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [categoryStat,setcategoryStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
 
-
-
-
-   
-  function loadViewsCount(){
-    axios.get('/api/views/getViewsCount')
-    .then(res=>{
-        let data=res.data.data;
-        let status=res.data.status;
-        if(status==='success'){
-            console.log(data);
-            setviewsCount(data)
-        }else{
-            Swal.fire(
-                'Error',
-                res.data.status,
-                'warning'
-            )
-        }
-    }).catch(err=>{
+    if(error){
         Swal.fire(
-            'Error',
-            err,
-            'warning'
-        )           
-    });
-    }
-
-
-    function loadCommentsCount(){
-        axios.get('/api/comments/getCommentsCount')
-        .then(res=>{
-            let data=res.data.data;
-            let status=res.data.status;
-            if(status==='success'){
-                console.log(data);
-                setcommentsCount(data)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                err,
-                'warning'
-            )           
-        });
-    }
-
-    function loadLikesCount(){
-        axios.get('/api/likes/getLikesCount')
-        .then(res=>{
-            let data=res.data.data;
-            let status=res.data.status;
-            if(status==='success'){
-                console.log(data);
-                setlikesCount(data)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                err,
-                'warning'
-            )           
-        });
-    }
-
-    function loadUsersCount(){
-        axios.get('/api/users/getUsersCount')
-        .then(res=>{
-            let data=res.data.data;
-            let status=res.data.status;
-            if(status==='success'){
-                console.log(data);
-                setusersCount(data)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                err,
-                'warning'
-            )           
-        });
-    }
-
-    function loadCategoriesCount(){
-        axios.get('/api/categories/getCategoriesCount')
-        .then(res=>{
-            let data=res.data.data;
-            let status=res.data.status;
-            if(status==='success'){
-                console.log(data);
-                setcategoriesCount(data)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                err,
-                'warning'
-            )           
-        });
-        }
-    
-        function loadarticlesCount(){
-            axios.get('/api/articles/getArticlesCount')
-            .then(res=>{
-                let data=res.data.data;
-                let status=res.data.status;
-                if(status==='success'){
-                    console.log(data);
-                    setarticlesCount(data)
-                }else{
-                    Swal.fire(
-                        'Error',
-                        res.data.status,
-                        'warning'
-                    )
-                }
-            }).catch(err=>{
-                Swal.fire(
-                    'Error',
-                    err,
-                    'warning'
-                )           
-            });
-        }
-
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+  }
+  console.log('jaaaaapa',error)
 
 
     function getViewStat(){
@@ -672,14 +557,6 @@ useEffect(()=>{
     getCategoryStat();
 },[categoryCurrentMonth,categoryCurrentYear])
 
-useEffect(()=>{
-loadCategoriesCount();
-loadarticlesCount();
-loadViewsCount();
-loadCommentsCount();
-loadLikesCount();
-loadUsersCount();
-},[])
 
 
     return(
@@ -722,12 +599,6 @@ loadUsersCount();
                 </div>
             </div>
 
-        </div>
-
-
-
-
-        <div className='adminstat1con'>
             <div className='adminstat1'>
                 <div className='adminstat1icon'>
                     <div style={{background:'rgba(255, 124, 1,0.4)',color:'rgb(255, 124, 1)'}}>
@@ -738,6 +609,13 @@ loadUsersCount();
                 <p>{usersCount}</p>
                 </div>
             </div>
+
+        </div>
+
+
+
+
+        <div className='adminstat1con'>
 
             <div className='adminstat1'>
                 <div className='adminstat1icon'>
@@ -758,6 +636,18 @@ loadUsersCount();
                 <div className='adminstat1details'>
                 <p>Total Articles</p>
                 <p>{articlesCount}</p>
+                </div>
+            </div>
+
+
+            <div className='adminstat1'>
+                <div className='adminstat1icon'>
+                    <div style={{background:'rgba(97, 36, 8,0.4)',color:'rgb(97, 36, 8)'}}>
+                        <i className='fa fa-support'/></div>
+                </div>
+                <div className='adminstat1details'>
+                <p>Total Staffs</p>
+                <p>{staffsCount}</p>
                 </div>
             </div>
 

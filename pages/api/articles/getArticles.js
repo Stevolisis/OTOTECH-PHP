@@ -20,6 +20,7 @@ export default async function handler(req,res){
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].comments=await Comments.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
+                data[i].content='';
             }
             }else{
                 data=await Articles.find({status:'active'}).populate({ path: 'author',select:'full_name' }).limit(limit).sort({_id:-1}).lean();
@@ -27,6 +28,7 @@ export default async function handler(req,res){
                     data[i].likes=await Likes.count({pageId:data[i]._id});
                     data[i].views=await Views.count({pageId:data[i]._id});
                     data[i].description=data[i].content.slice(0,130)+'...';
+                    data[i].content='';
                 }
             }
             console.log('done')

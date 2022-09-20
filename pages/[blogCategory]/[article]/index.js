@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
-
+import {baseUrl} from "../../BaseUrl";
 
 
 
@@ -16,7 +16,7 @@ import { RWebShare } from "react-web-share";
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
+      const res=await axios.get(`${baseUrl}/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
       const content= res.data.data[0];
       const pageId=content._id;
       const categoryId=content.category;
@@ -52,6 +52,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
           'warning'
         )
   }
+  console.log('ooooooo',baseUrl)
   console.log('laaaaaaaa',error)
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];

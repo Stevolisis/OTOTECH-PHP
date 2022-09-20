@@ -3,44 +3,52 @@ import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import Link from 'next/link';
 import axios from "axios";
+import { baseUrl } from "../../BaseUrl";
 
-export default function AddSupportSystem(){
+
+
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`${baseUrl}/api/supports/getSupport`);
+      
+      const data= res.data.data[0];
+      const editPhone_number= data.phone_number;
+      const editGmail= data.gmail;
+      const editLinkedin= data.linkedin;
+      const editWhatsapp= data.whatsapp;
+      const editFacebook= data.facebook;
+      const editGoogle_chat= data.google_chat;
+      
+      return {
+        props:{editPhone_number,editGmail,editWhatsapp,editLinkedin,editFacebook,editGoogle_chat}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err.message}
+      } 
+    }
+    
+  }
+
+
+export default function AddSupportSystem({error,editPhone_number,editGmail,editLinkedin,
+    editWhatsapp,editFacebook,editGoogle_chat}){
     const [phone_number,setphone_number]=useState({status:'active',link:''})
     const [gmail,setgmail]=useState({status:'active',link:''})
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [whatsapp,setwhatsapp]=useState({status:'active',link:''})
     const [facebook,setfacebook]=useState({status:'active',link:''})
     const [google_chat,setgoogle_chat]=useState({status:'active',link:''})
-
-
-    function loadSupport(){
-        axios.get('/api/supports/getSupport')
-        .then(res=>{
-            let data=res.data.data;
-            if(res.data.status==='success'){
-                setphone_number(data[0].phone_number)
-                setgmail(data[0].gmail)
-                setfacebook(data[0].facebook)
-                setwhatsapp(data[0].whatsapp)
-                setgoogle_chat(data[0].google_chat)
-                setlinkedin(data[0].linkedin)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            console.log(err)
-            Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
-            )           
-        });
-}
-
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+        console.log('laaaaand',error)
+  }
 
 
 
@@ -93,7 +101,12 @@ function handleSubmit(e){
 
 
 useEffect(()=>{
-    loadSupport();
+    setphone_number(editPhone_number);
+    setwhatsapp(editWhatsapp);
+    setgmail(editGmail);
+    setlinkedin(editLinkedin);
+    setfacebook(editFacebook);
+    setgoogle_chat(editGoogle_chat)
 },[]);
 
 
@@ -109,12 +122,12 @@ useEffect(()=>{
 
 
             <div className="adminSupportLink">
-                <div><Link href={phone_number.link}><a><i className="fa fa-phone"/></a></Link></div>
-                <div><Link href={gmail.link}><a><i className="fa fa-envelope"/></a></Link></div>
-                <div><Link href={linkedin.link}><a><i className="fa fa-linkedin"/></a></Link></div>
-                <div><Link href={whatsapp.link}><a><i className="fa fa-whatsapp"/></a></Link></div>
-                <div><Link href={facebook.link}><a><i className="fa fa-facebook"/></a></Link></div>
-                <div><Link href={google_chat.link}><a><i className="fa fa-google"/></a></Link></div>
+                <div><Link href={phone_number&&phone_number.link}><a><i className="fa fa-phone"/></a></Link></div>
+                <div><Link href={gmail&&gmail.link}><a><i className="fa fa-envelope"/></a></Link></div>
+                <div><Link href={linkedin&&linkedin.link}><a><i className="fa fa-linkedin"/></a></Link></div>
+                <div><Link href={whatsapp&&whatsapp.link}><a><i className="fa fa-whatsapp"/></a></Link></div>
+                <div><Link href={facebook&&facebook.link}><a><i className="fa fa-facebook"/></a></Link></div>
+                <div><Link href={google_chat&&google_chat.link}><a><i className="fa fa-google"/></a></Link></div>
             </div>
 
 
@@ -123,28 +136,28 @@ useEffect(()=>{
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={phone_number.status} onChange={(e)=>setphone_number({status:e.target.value,link:phone_number.link})}>
+            <select value={phone_number&&phone_number.status} onChange={(e)=>setphone_number({...phone_number,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Phone Number</p>
-            <input type='text' value={phone_number.link} onChange={(e)=>setphone_number({status:phone_number.status,link:e.target.value})}/>
+            <input type='text' value={phone_number&&phone_number.link} onChange={(e)=>setphone_number({...phone_number,['link']:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={gmail.status} onChange={(e)=>setgmail({status:e.target.value,link:gmail.link})}>
+            <select value={gmail&&gmail.status} onChange={(e)=>setgmail({...gmail,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Gmail Link</p>
-            <input type='text' value={gmail.link} onChange={(e)=>setgmail({status:gmail.status,link:e.target.value})}/>
+            <input type='text' value={gmail&&gmail.link} onChange={(e)=>setgmail({...gmail,['link']:e.target.value})}/>
         </div>
         </div>
         </div>
@@ -155,28 +168,28 @@ useEffect(()=>{
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={linkedin.status} onChange={(e)=>setlinkedin({status:e.target.value,link:linkedin.link})}>
+            <select value={linkedin&&linkedin.status} onChange={(e)=>setlinkedin({...linkedin,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>LinkedIn Link</p>
-            <input type='text' value={linkedin.link} onChange={(e)=>setlinkedin({status:linkedin.status,link:e.target.value})}/>
+            <input type='text' value={linkedin&&linkedin.link} onChange={(e)=>setlinkedin({...linkedin,['link']:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={whatsapp.status} onChange={(e)=>setwhatsapp({status:e.target.value,link:whatsapp.link})}>
+            <select value={whatsapp&&whatsapp.status} onChange={(e)=>setwhatsapp({...whatsapp,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Whatsapp Link</p>
-            <input type='text' value={whatsapp.link} onChange={(e)=>setwhatsapp({status:whatsapp.status,link:e.target.value})}/>
+            <input type='text' value={whatsapp&&whatsapp.link} onChange={(e)=>setwhatsapp({...whatsapp,['link']:e.target.value})}/>
         </div>
         </div>
         </div>
@@ -188,28 +201,28 @@ useEffect(()=>{
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={facebook.status} onChange={(e)=>setfacebook({status:e.target.value,link:facebook.link})}>
+            <select value={facebook&&facebook.status} onChange={(e)=>setfacebook({...facebook,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Facebook Link</p>
-            <input type='text' value={facebook.link} onChange={(e)=>setfacebook({status:facebook.status,link:e.target.value})}/>
+            <input type='text' value={facebook&&facebook.link} onChange={(e)=>setfacebook({...facebook,['link']:e.target.value})}/>
         </div>
         </div>
 
         <div className='adminLinks'>
         <div className='adminLinksPrefix'>
             <p>Status</p>
-            <select value={google_chat.status} onChange={(e)=>setgoogle_chat({status:e.target.value,link:google_chat.link})}>
+            <select value={google_chat&&google_chat.status} onChange={(e)=>setgoogle_chat({...google_chat,['status']:e.target.value})}>
                 <option value='active'>Activate</option>
                 <option value='inactive'>Deativate</option>
             </select>
         </div>
         <div className='adminLinksInput'>
             <p>Google Chat Link</p>
-            <input type='text' value={google_chat.link} onChange={(e)=>setgoogle_chat({status:google_chat.status,link:e.target.value})}/>
+            <input type='text' value={google_chat&&google_chat.link} onChange={(e)=>setgoogle_chat({...google_chat,['link']:e.target.value})}/>
         </div>
         </div>
         </div>

@@ -1,44 +1,43 @@
-import { useRouter } from "next/router";
-import { useState,useEffect } from "react"
+import { useEffect ,useState} from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
+import { baseUrl } from "../../../BaseUrl";
 
-export default function EditUser(){
-    const router=useRouter();
-    const {id}=router.query;
-    const [full_name,setfull_name]=useState('');
-    const [email,setemail]=useState('');
-
-
-    function loadUser(){
-        if(id!==undefined){
-        axios.get(`/api/users/getUser/${id}`)
-        .then(res=>{
-            let data=res.data.data;
-            if(res.data.status==='success'){
-                setfull_name(data[0].full_name)
-                setemail(data[0].email)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
-            )           
-        });
-     }else{
-        return;
-     }
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`${baseUrl}/api/users/getUser/${context.params.id}`);
+      
+      const data= res.data.data[0];
+      const editFull_name= data.full_name;
+      const editEmail= data.email;
+      const editId= data._id;
+      
+      return {
+        props:{editFull_name,editId,editEmail}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:error}
+      } 
     }
-
-
     
+  }
+
+export default function EditUser({error,editId,editFull_name,editEmail}){
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+        console.log(error)
+  }
+  const [full_name,setfull_name]=useState('');
+  const [email,setemail]=useState('');
+  const [id,setid]=useState('');
+
     function handleSubmit(e){
         e.preventDefault();
         Swal.fire({
@@ -82,11 +81,12 @@ export default function EditUser(){
     }
 
 
+
     useEffect(()=>{
-        loadUser();
-    },[id]);
-
-
+        setfull_name(editFull_name);
+        setemail(editEmail);
+        setid(editId)
+    },[])
 
     return(
         <>

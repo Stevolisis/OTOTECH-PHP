@@ -8,16 +8,15 @@ import Mainscreen from '../components/Mainscreen';
 import axios from 'axios';
 import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
-
+import {baseUrl} from './BaseUrl';
 
 export const getServerSideProps=async (context)=>{
 let error;
 try{
-  const res=await axios.get('https://main--reliable-tapioca-719734.netlify.app/api/categories/getCategories');
-  const res3=await axios.get('https://main--reliable-tapioca-719734.netlify.app/api/articles/getArticles?limit=1');
-  const categories= res.data.data;
-  const blogData= res3.data.data;
-  error=error&&error;
+  const res=await axios.get(`${baseUrl}/api/categories/getCategories`);
+  const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=1`);
+  const categories= res.data.data||null;
+  const blogData= res3.data.data||null;
   
   return {
     props:{categories,blogData}

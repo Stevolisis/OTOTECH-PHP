@@ -2,47 +2,53 @@ import { useRouter } from "next/router";
 import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
+import { baseUrl } from "../../../BaseUrl";
 
-export default function EditCategory(){
-    const [imgpreview,setImgpreview]=useState('');
-    const router=useRouter();
-    const {id}=router.query;
+
+export const getServerSideProps=async (context)=>{
+    let error=context.query;
+    try{
+      const res=await axios.get(`${baseUrl}/api/categories/getCategory/${context.params.id}`);
+    
+      const data= res.data.data[0];
+      const editId= data._id;
+      const editName= data.name;
+      const editDescription=data.description;
+      const editIcon= data.icon;
+      const editStatus= data.status;
+      const editImg= data.img.url;
+
+      return {
+        props:{editId,editName,editDescription,editIcon,editImg,editStatus}
+      }    
+      
+    }catch(err){
+      return {
+        props:{error:err}
+      } 
+    }
+    
+  }
+
+
+
+export default function EditCategory({error,editId,editName,editDescription,editIcon,editImg,editStatus}){
     const [name,setname]=useState('');
+    const [id,setid]=useState('');
     const [description,setdescription]=useState('');
     const [icon,seticon]=useState('');
     const [status,setstatus]=useState('');
+    
+    if(error){
+        Swal.fire(
+          'Error at ServerSideProps',
+          error,
+          'warning'
+        )
+  }
+    const [imgpreview,setImgpreview]=useState('');
 
-    function loadCategory(){
-        if(id!==undefined){
-        axios.get(`/api/categories/getCategory/${id}`)
-        .then(res=>{
-            let data=res.data.data;
-            if(res.data.status==='success'){
-                setname(data[0].name)
-                setdescription(data[0].description)
-                seticon(data[0].icon)
-                setImgpreview(data[0].img.url)
-                setstatus(data[0].status)
-            }else{
-                Swal.fire(
-                    'Error',
-                    res.data.status,
-                    'warning'
-                )
-            }
-        }).catch(err=>{
-            Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
-            )           
-        });
-     }else{
-        return;
-     }
-        }
-
-    function handleSubmit(e){
+ function handleSubmit(e){
         e.preventDefault();
         Swal.fire({
             title: 'Are you sure?',
@@ -90,8 +96,13 @@ export default function EditCategory(){
     }
 
     useEffect(()=>{
-        loadCategory();
-    },[id]);
+        setid(editId);
+        setname(editName);
+        setdescription(editDescription);
+        seticon(editIcon);
+        setstatus(editStatus)
+        setImgpreview(editImg);
+    },[]);
 
     return(
         <>

@@ -9,17 +9,17 @@ import $ from 'jquery';
 import Mainscreen from "../../components/Mainscreen";
 import axios from "axios";
 import Swal from "sweetalert2";
-
+import {baseUrl} from "../BaseUrl";
 
 
 
 export const getServerSideProps=async (context)=>{
   let error=context.query;
   try{
-    const res=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
-    const res2=await axios.get(`https://main--reliable-tapioca-719734.netlify.app/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
-    const category= res.data.data;
-    const blogData= res2.data.data;
+    const res=await axios.get(`${baseUrl}/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
+    const res2=await axios.get(`${baseUrl}/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
+    const category= res.data.data||null;
+    const blogData= res2.data.data||null;
     
     return {
       props:{category,blogData}
