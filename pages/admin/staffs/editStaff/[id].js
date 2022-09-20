@@ -2,7 +2,7 @@ import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import axios from 'axios';
-import { baseUrl } from "../../../BaseUrl";
+import { baseUrl } from "../../../../components/BaseUrl";
 
 
 

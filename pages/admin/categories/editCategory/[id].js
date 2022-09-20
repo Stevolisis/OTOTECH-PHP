@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
-import { baseUrl } from "../../../BaseUrl";
+import { baseUrl } from "../../../../components/BaseUrl";
 
 
 export const getServerSideProps=async (context)=>{

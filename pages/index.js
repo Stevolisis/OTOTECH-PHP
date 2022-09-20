@@ -8,7 +8,7 @@ import Mainscreen from '../components/Mainscreen';
 import axios from 'axios';
 import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
-import {baseUrl} from './BaseUrl';
+import { baseUrl } from '../components/BaseUrl';
 
 export const getServerSideProps=async (context)=>{
 let error;

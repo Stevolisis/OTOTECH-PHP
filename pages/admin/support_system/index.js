@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import Link from 'next/link';
 import axios from "axios";
-import { baseUrl } from "../../BaseUrl";
+import { baseUrl } from "../../../components/BaseUrl";
 
 
 

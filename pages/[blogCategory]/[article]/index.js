@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
-import {baseUrl} from "../../BaseUrl";
+import {baseUrl} from '../../../components/BaseUrl'
 
 
 

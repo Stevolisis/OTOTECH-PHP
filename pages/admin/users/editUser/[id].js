@@ -1,7 +1,7 @@
 import { useEffect ,useState} from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
-import { baseUrl } from "../../../BaseUrl";
+import { baseUrl } from "../../../../components/BaseUrl";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;

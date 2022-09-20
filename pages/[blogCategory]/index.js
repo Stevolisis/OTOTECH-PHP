@@ -9,7 +9,7 @@ import $ from 'jquery';
 import Mainscreen from "../../components/Mainscreen";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {baseUrl} from "../BaseUrl";
+import { baseUrl } from "../../components/BaseUrl";
 
 
 
@@ -47,6 +47,7 @@ export default function BlogCategory({category,blogData,error}){
         error,
         'warning'
       )
+      console.log(error)
 }
 
     function dropdown1(){
