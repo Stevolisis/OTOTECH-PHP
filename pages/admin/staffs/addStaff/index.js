@@ -14,16 +14,22 @@ export default function AddStaff(){
     const [instagram,setinstagram]=useState({status:'active',link:''})
 
     
-const options = [
-    { value: 'Category', label: 'Category' },
-    { value: 'Articles', label: 'Articles' },
-    { value: 'Comments', label: 'Comments' },
-    { value: 'Users', label: 'Users' },
-    { value: 'Staffs', label: 'Staffs' },
-    { value: 'Analytics', label: 'Analytics' },
-    { value: 'Customer Care Sysytem', label: 'Customer Care Sysytem' },
-  ];
-
+    const options = [
+        { value: 'addCategory', label: 'Add Category' },
+        { value: 'editCategory', label: 'Edit Category' },
+        { value: 'deleteCategory', label: 'Delete Category' },
+        { value: 'addArticles', label: 'Add Articles' },
+        { value: 'editArticles', label: 'Edit Articles' },
+        { value: 'deleteArticles', label: 'Delete Articles' },
+        { value: 'deleteComments', label: 'Delete Comments' },
+        { value: 'editUsers', label: 'Edit Users' },
+        { value: 'deleteUsers', label: 'Delete Users'},
+        { value: 'addStaffs', label: 'Add Staffs' },
+        { value: 'editStaffs', label: 'Edit Staffs' },
+        { value: 'deleteStaffs', label: 'Delete Staffs' },
+        { value: 'editSupportSystem', label: 'Edit Support System' },
+    ];
+    
   
 
   function handleSubmit(e){

@@ -1,26 +1,37 @@
 import styles from '../styles/login.module.css';
 import axios from 'axios'
 import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 export default function Login(){
+const router=useRouter();
+const {next}=router.query;
 
-    function handleSubmit(e){
+// alert(next)
+
+function handleSubmit(e){
         e.preventDefault();
         const formData=new FormData(e.target);
-        axios.post('http://localhost:80/auth/signin',formData,{withCredentials:true})
+        axios.post(`/api/authentication/signin`,formData,{withCredentials:true})
         .then(res=>{
-            let data=res.data.data;
-            if(data==='success'){
-            setTrigger(false);
+            let status=res.data.status;
+
+            if(status==='success'){
+            router.push(next||'/admin');
+            
             }else{
             Swal.fire(
                 'Alert!',
-                `${data}`,
+                `${status}`,
                 'info'
-                )
+            )
             }
-        }).catch(e=>{
-            alert(e);
+        }).catch(err=>{
+            Swal.fire(
+                'Alert!',
+                 err,
+                'error'
+            )
         })
      }
 

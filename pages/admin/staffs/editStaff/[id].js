@@ -71,17 +71,20 @@ export default function EditStaff({error,editId,editSelectedOption,editFull_name
   }
     
 const options = [
-    { value: 'Add Category', label: 'Add Category' },
-    { value: 'Edit Category', label: 'Edit Category' },
-    { value: 'Add Articles', label: 'Add Articles' },
-    { value: 'Edit Articles', label: 'Edit Articles' },
-    { value: 'Comments', label: 'Comments' },
-    { value: 'Edit Users', label: 'Edit Users' },
-    { value: 'Add Staffs', label: 'Add Staffs' },
-    { value: 'Edit Staffs', label: 'Edit Staffs' },
-    { value: 'Analytics', label: 'Analytics' },
-    { value: 'Support System', label: 'Support System' },
-  ];
+    { value: 'addCategory', label: 'Add Category' },
+    { value: 'editCategory', label: 'Edit Category' },
+    { value: 'deleteCategory', label: 'Delete Category' },
+    { value: 'addArticles', label: 'Add Articles' },
+    { value: 'editArticles', label: 'Edit Articles' },
+    { value: 'deleteArticles', label: 'Delete Articles' },
+    { value: 'deleteComments', label: 'Delete Comments' },
+    { value: 'editUsers', label: 'Edit Users' },
+    { value: 'deleteUsers', label: 'Delete Users'},
+    { value: 'addStaffs', label: 'Add Staffs' },
+    { value: 'editStaffs', label: 'Edit Staffs' },
+    { value: 'deleteStaffs', label: 'Delete Staffs' },
+    { value: 'editSupportSystem', label: 'Edit Support System' },
+];
 
 
 

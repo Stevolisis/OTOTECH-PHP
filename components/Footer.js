@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 export default function Footer(){
   const [phone_number,setphone_number]=useState({status:'',link:''})
