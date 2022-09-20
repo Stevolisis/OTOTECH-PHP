@@ -6,6 +6,7 @@ import NavbarController from './NavbarController'
 import $ from 'jquery';
 import axios from "axios";
 import Swal from "sweetalert2";
+import PageLoader from "./PageLoader";
 
 export default function Header({res}){
   const [navStatus,setnavStatus]=useState(false);
