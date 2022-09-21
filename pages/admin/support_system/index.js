@@ -1,10 +1,9 @@
 import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
-import { MultiSelect } from "react-multi-select-component";
 import Link from 'next/link';
 import axios from "axios";
 import { baseUrl } from "../../../components/BaseUrl";
-
+import { useLoader } from "../../_app";
 
 
 export const getServerSideProps=async (context)=>{
@@ -40,7 +39,9 @@ export default function AddSupportSystem({error,editPhone_number,editGmail,editL
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [whatsapp,setwhatsapp]=useState({status:'active',link:''})
     const [facebook,setfacebook]=useState({status:'active',link:''})
-    const [google_chat,setgoogle_chat]=useState({status:'active',link:''})
+    const [google_chat,setgoogle_chat]=useState({status:'active',link:''});
+    const {loading,setloading}=useLoader()
+
     if(error){
         Swal.fire(
           'Error at ServerSideProps',
@@ -64,6 +65,7 @@ function handleSubmit(e){
         confirmButtonText: 'Yes, Edit it!'
       }).then((result) => {
         if (result.isConfirmed) {
+        setloading(true)
     const formData=new FormData(e.target);
     formData.append('phone_number',JSON.stringify(phone_number));
     formData.append('gmail',JSON.stringify(gmail));
@@ -74,6 +76,7 @@ function handleSubmit(e){
     axios.post('/api/supports/editSupport/',formData)
     .then(res=>{
         let status=res.data.status;
+        setloading(false)
         if(status==='success'){
             Swal.fire(
                 'Successful!',
@@ -88,7 +91,7 @@ function handleSubmit(e){
             )  
         }
     }).catch(err=>{
-        console.log(err);
+        setloading(false)
         Swal.fire(
             'Error!',
             err.message,

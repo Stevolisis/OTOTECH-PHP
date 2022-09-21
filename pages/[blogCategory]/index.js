@@ -10,7 +10,7 @@ import Mainscreen from "../../components/Mainscreen";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { baseUrl } from "../../components/BaseUrl";
-
+import { useLoader } from "../_app";
 
 
 export const getServerSideProps=async (context)=>{
@@ -39,6 +39,7 @@ export default function BlogCategory({category,blogData,error}){
     const [articlesSlide,setarticlesSlide]=useState([]);
     const [categories,setcategories]=useState([]);
     const [articles,setarticles]=useState([]);
+    const { loading, setloading } = useLoader();
     let limit=useRef(1);
 
     if(error){
@@ -91,12 +92,13 @@ export default function BlogCategory({category,blogData,error}){
       
 
         function loadArticlesByCategory(){
-          console.log('momo',router.query.blogCategory)
+          setloading(true);
           axios.get(`/api/articles/loadArticlesByCategory?category=${router.query.blogCategory}&limit=${limit.current}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
               console.log(data)
+              setloading(false)
               if(status==='success'){
                   setarticles(data)
               }else{
@@ -107,9 +109,10 @@ export default function BlogCategory({category,blogData,error}){
                   )
               }
           }).catch(err=>{
+            setloading(false);
               Swal.fire(
                   'Error Soil2',
-                  'Error Occured at Axios',
+                  err.message,
                   'warning'
               )           
           });            
@@ -226,7 +229,8 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
 
      <div className='categoriesCon3'>
       
-      <BlogList articles={articles}/>
+      
+      {articles.length !==0 ? <BlogList articles={articles}/> : '... no data Found'}
 
 
       <div className='blogNavCon'>
@@ -237,7 +241,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
       </div>
 
 
-        <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>
+      {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: '... no data Found'}
         </>
     )
 }

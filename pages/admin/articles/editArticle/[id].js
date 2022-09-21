@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next/router";
-
+import { useLoader } from "../../../_app";
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false });
 
@@ -18,6 +18,7 @@ export default function EditArticle(){
     const editorRef=useRef();
     const [authors,setAuthors]=useState([]);
     const [categories,setCategories]=useState([]);
+    const {loading,setloading}=useLoader();
     const router=useRouter();
     const {id}=router.query;
     console.log('routerId',id)
@@ -114,12 +115,14 @@ export default function EditArticle(){
             confirmButtonText: 'Yes, Edit it!'
           }).then((result) => {
             if (result.isConfirmed) {
+                setloading(true)
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         formData.append('id',id);
         axios.post('/api/articles/editArticle/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
+            setloading(false)
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -134,7 +137,7 @@ export default function EditArticle(){
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
             Swal.fire(
                 'Error!',
                 err.message,

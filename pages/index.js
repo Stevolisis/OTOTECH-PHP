@@ -9,6 +9,7 @@ import axios from 'axios';
 import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../components/BaseUrl';
+import { useLoader } from './_app';
 
 export const getServerSideProps=async (context)=>{
 let error;
@@ -31,7 +32,9 @@ try{
 }
 
 export default function Home({categories,blogData,error}) {
-  const [articlesSlide,setarticlesSlide]=useState([])
+  const [articlesSlide,setarticlesSlide]=useState([]);
+  const { loading, setloading } = useLoader();
+
   if(error){
     Swal.fire(
       'Error at ServerSideProps',
@@ -60,35 +63,15 @@ export default function Home({categories,blogData,error}) {
   }
 
 
-//   function loadCategories(){
-//     axios.get('/api/categories/getCategories')
-//     .then(res=>{
-//         let status=res.data.status;
-//         let data=res.data.data;
-//         if(status==='success'){
-//             setcategories(data)
-//         }else{
-//             Swal.fire(
-//                 'Error',
-//                 res.data.status,
-//                 'warning'
-//             )
-//         }
-//     }).catch(err=>{
-//         Swal.fire(
-//             'Error',
-//             'Error Occured at Axios',
-//             'warning'
-//         )           
-//     });
-// }
-
 
 function loadArticles(){
+  setloading(true)
   axios.get(`/api/articles/getArticles?limit=${limit.current}`)
   .then(res=>{
       let status=res.data.status;
       let data=res.data.data;
+      setloading(false);
+
       if(status==='success'){
           setarticles(data)
       }else{
@@ -99,9 +82,10 @@ function loadArticles(){
           )
       }
   }).catch(err=>{
+    setloading(false);
       Swal.fire(
           'Error',
-          'Error Occured at Axios',
+          err.message,
           'warning'
       )           
   });
@@ -180,7 +164,7 @@ useEffect(()=>{
           <h2>World-class articles, delivered weekly.</h2>
           <form>
             <input type='email' placeholder='Enter your email'/>  
-            <button>Submit</button>
+            <button disabled>Submit</button>
           </form>
         </div>
       </div>
@@ -204,7 +188,7 @@ useEffect(()=>{
 
 
 
-      <BlogList articles={articles}/>
+      {articles.length !==0 ? <BlogList articles={articles}/> : '... no data Found'}
 
 
 
@@ -236,7 +220,7 @@ useEffect(()=>{
   </div>
 
 
-<SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>
+  {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: '... no data Found'}
 
 
 

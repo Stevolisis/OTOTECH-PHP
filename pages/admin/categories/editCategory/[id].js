@@ -3,7 +3,7 @@ import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
 import { baseUrl } from "../../../../components/BaseUrl";
-
+import { useLoader } from "../../../_app";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
@@ -38,7 +38,8 @@ export default function EditCategory({error,editId,editName,editDescription,edit
     const [description,setdescription]=useState('');
     const [icon,seticon]=useState('');
     const [status,setstatus]=useState('');
-    
+    const {loading,setloading}=useLoader();
+
     if(error){
         Swal.fire(
           'Error at ServerSideProps',
@@ -60,11 +61,13 @@ export default function EditCategory({error,editId,editName,editDescription,edit
             confirmButtonText: 'Yes, Edit it!'
           }).then((result) => {
             if (result.isConfirmed) {
+                setloading(true)
         const formData=new FormData(e.target);
         formData.append('id',id);
         axios.post('/api/categories/editCategory/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
+            setloading(false)
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -79,7 +82,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
             Swal.fire(
                 'Error!',
                 err.message,

@@ -3,10 +3,14 @@ import axios from "axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
+import { useLoader } from "../../_app";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function AdminUsers(){
     const [users,setusers]=useState([]);
     const [backup,setbackup]=useState([]);
+    const [dataLoad,setdataLoad]=useState(false);
+    const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterUsers=Array.from(users);
     let limit=useRef(1);
@@ -16,11 +20,12 @@ export default function AdminUsers(){
 
   
   function loadUsers(){
+    setdataLoad(true)
     axios.get(`/api/users/getUsers?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
-
+        setdataLoad(false)
         if(status==='success'){
             setusers(data);
             setbackup(data);
@@ -33,6 +38,7 @@ export default function AdminUsers(){
             )
         }
     }).catch(err=>{
+        setdataLoad(false)
         Swal.fire(
             'Warning',
             err,
@@ -45,7 +51,6 @@ export default function AdminUsers(){
 
   
   function deleteUser(id){
-    console.log(id)
     Swal.fire({
         title: 'Are you sure?',
         text: "Confirm Delete of User",
@@ -56,10 +61,11 @@ export default function AdminUsers(){
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+            setloading(true);
     axios.post('/api/users/deleteUser',{id:id})
     .then(res=>{
        let status=res.data.status;
-
+       setloading(false)
        if(status==='success'){
         Swal.fire(
             'Successful',
@@ -75,6 +81,7 @@ export default function AdminUsers(){
         )
        }
     }).catch(err=>{
+        setloading(false);
         Swal.fire(
             'Warning',
             err,
@@ -191,6 +198,19 @@ useEffect(()=>{
 </div>
 </div>
 <div className='adminmorebtn'>
+<div>
+{dataLoad&&<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/>}
+</div>
+
 <button onClick={loadLimitUser}>See More</button>
 </div>
 </div>

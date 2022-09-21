@@ -2,6 +2,7 @@ import { useState } from "react"
 import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import axios from "axios";
+import { useLoader } from "../../../_app";
 
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
@@ -12,7 +13,7 @@ export default function AddStaff(){
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [twitter,settwitter]=useState({status:'active',link:''})
     const [instagram,setinstagram]=useState({status:'active',link:''})
-
+    const {loading,setloading}=useLoader()
     
     const options = [
         { value: 'addCategory', label: 'Add Category' },
@@ -34,6 +35,7 @@ export default function AddStaff(){
 
   function handleSubmit(e){
     e.preventDefault();
+    setloading(true)
     const formData=new FormData(e.target);
     formData.append('whatsapp',JSON.stringify(whatsapp));
     formData.append('dribble',JSON.stringify(dribble));
@@ -46,6 +48,7 @@ export default function AddStaff(){
     axios.post('/api/staffs/addStaff',formData,{withCredentials:true})
     .then(res=>{
         let data=res.data.status;
+        setloading(false)
         if(data==='success'){
             Swal.fire(
                 'Successful!',
@@ -60,7 +63,12 @@ export default function AddStaff(){
             )  
         }
     }).catch(err=>{
-        console.log(err);
+        setloading(false);
+        Swal.fire(
+            'Error!',
+            err.message,
+            'error'
+        ) 
     })
 }
 

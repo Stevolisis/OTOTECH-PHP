@@ -33,7 +33,6 @@ export default function Header({res}){
     
 
     function loadCategories(){
-console.log('rr',$(window).innerWidth())
       if($(window).innerWidth() > 780){
         axios.get('/api/categories/getCategories')
         .then(res=>{

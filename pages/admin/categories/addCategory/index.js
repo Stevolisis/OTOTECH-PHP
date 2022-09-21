@@ -1,19 +1,23 @@
 import axios from "axios";
 import { useState } from "react"
 import Swal from 'sweetalert2';
+import { useLoader } from "../../../_app";
 
 export default function AddCategory(){
     const [imgpreview,setImgpreview]=useState('');
     const [icon,setIcon]=useState('rocket');
+    const {loading,setloading}=useLoader();
 
     function handleSubmit(e){
         e.preventDefault();
+        setloading(true)
         const formData=new FormData(e.target);
         console.log(formData)
         axios.post('/api/categories/addCategory',formData,{withCredentials:true})
         .then(res=>{
-            let data=res.data.status;
-            if(data==='success'){
+            let status=res.data.status;
+            setloading(false)
+            if(status==='success'){
                 Swal.fire(
                     'Successful!',
                     'Category Added',
@@ -22,12 +26,17 @@ export default function AddCategory(){
             }else{
                 Swal.fire(
                     'Error!',
-                    data,
+                    status,
                     'warning'
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
+            Swal.fire(
+                'Error!',
+                err.message,
+                'error'
+            )
         })
     }
 
@@ -48,7 +57,7 @@ export default function AddCategory(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Name</p>
-            <input type='text' name='name'/>
+            <input type='text' name='name' required='required'/>
             </div>
         </div>
         
@@ -56,7 +65,7 @@ export default function AddCategory(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <textarea type='text' name='description'/><p>description should not be more than 150 words</p>
+            <textarea type='text' name='description' required='required'/><p>description should not be more than 150 words</p>
         </div>
         </div>
 
@@ -64,7 +73,7 @@ export default function AddCategory(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Icon</p>
-            <select name='icon' value={icon} onChange={(e)=>setIcon(e.target.value)}>
+            <select name='icon' value={icon} onChange={(e)=>setIcon(e.target.value)} required='required'>
             <option value='dollar' defaultValue>Dollars</option>
             <option value='rocket'>Rocket</option>
             <option value='pencil'>Pencil</option>
@@ -116,7 +125,7 @@ export default function AddCategory(){
             <img src={imgpreview}/>
             </div>
 
-            <input type='file' name='img_link' onChange={imgPreview}/>
+            <input type='file' name='img_link' onChange={imgPreview} required='required'/>
 
         </div>
         </div>

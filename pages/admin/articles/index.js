@@ -3,10 +3,14 @@ import Image from 'next/image'
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useLoader } from "../../_app";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function AdminArticles(){
     const [articles,setarticles]=useState([]);
     const [backup,setbackup]=useState([]);
+    const [dataLoad,setdataLoad]=useState(false);
+    const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterArticles=Array.from(articles);
     let limit=useRef(1);
@@ -39,19 +43,16 @@ export default function AdminArticles(){
     console.log("weekNumber "+weekNumber)
     return 'HI'
 
-    // var adjust=day+dayy;
-    // let prefixes=['0','1','2','3','4','5'];
-    // let week=parseInt(prefixes[0 | adjust/7])+1;
-    // console.log(first.getMonth());
     
   }
 
   function loadArticles(){
+    setdataLoad(true)
     axios.get(`/api/articles/getArticles?limit=${limit.current}&section=admin`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
-
+        setdataLoad(false)
         if(status==='success'){
             setarticles(data);
             setbackup(data);
@@ -63,9 +64,10 @@ export default function AdminArticles(){
             )
         }
     }).catch(err=>{
+        setdataLoad(false)
         Swal.fire(
             'Warning',
-            err,
+            err.message,
             'error'
         )
         console.log(err)
@@ -74,7 +76,6 @@ export default function AdminArticles(){
 
 
   function deleteArticle(id){
-    console.log(id)
     Swal.fire({
         title: 'Are you sure?',
         text: "Confirm Delete of Article",
@@ -85,9 +86,11 @@ export default function AdminArticles(){
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+            setloading(true)
     axios.post('/api/articles/deleteArticle',{id:id})
     .then(res=>{
        let status=res.data.status;
+       setloading(false);
 
        if(status==='success'){
         Swal.fire(
@@ -104,6 +107,8 @@ export default function AdminArticles(){
         )
        }
     }).catch(err=>{
+        setloading(false);
+
         Swal.fire(
             'Warning',
             err,
@@ -250,6 +255,19 @@ useEffect(()=>{
 </div>
 </div>
 <div className='adminmorebtn'>
+<div>
+{dataLoad&&<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/>}
+</div>
+
 <button onClick={loadLimitArticle}>See More</button>
 </div>
 </div>

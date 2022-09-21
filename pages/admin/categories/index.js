@@ -3,22 +3,28 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { useLoader } from "../../_app";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function AdminCategories(){
     const [categories,setcategories]=useState([]);
     const [backup,setbackup]=useState([]);
+    const [dataLoad,setdataLoad]=useState(false);
+    const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterCategories=Array.from(categories);
     let limit=useRef(1);
+    
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
   function loadCategories(){
+    setdataLoad(true)
     axios.get(`/api/categories/getCategories?limit=${limit.current}&section=admin`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
-
+        setdataLoad(false)
         if(status==='success'){
             setcategories(data);
             setbackup(data);
@@ -27,13 +33,14 @@ export default function AdminCategories(){
             Swal.fire(
                 'Error',
                 data,
-                'error'
+                'warning'
             )
         }
     }).catch(err=>{
+        setdataLoad(false)
         Swal.fire(
             'Warning',
-            err,
+            err.message,
             'error'
         )
         console.log(err)
@@ -53,10 +60,11 @@ export default function AdminCategories(){
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+            setloading(true)
     axios.post('/api/categories/deleteCategory',{id:id})
     .then(res=>{
        let status=res.data.status;
-
+       setloading(false);
        if(status==='success'){
         Swal.fire(
             'Successful',
@@ -72,6 +80,8 @@ export default function AdminCategories(){
         )
        }
     }).catch(err=>{
+        setloading(false);
+
         Swal.fire(
             'Warning',
             err,
@@ -203,6 +213,19 @@ useEffect(()=>{
 </div>
 </div>
 <div className='adminmorebtn'>
+<div>
+{dataLoad&&<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/>}
+</div>
+
 <button onClick={loadLimitCategory}>See More</button>
 </div>
 </div>

@@ -3,7 +3,7 @@ import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import axios from 'axios';
 import { baseUrl } from "../../../../components/BaseUrl";
-
+import { useLoader } from "../../../_app";
 
 
 export const getServerSideProps=async (context)=>{
@@ -44,7 +44,7 @@ export const getServerSideProps=async (context)=>{
 export default function EditStaff({error,editId,editSelectedOption,editFull_name,editEmail,
     editPosition,editDescription,editStatus,editWhatsapp,editDribble,editGithub,
     editLinkedin,editTwitter,editInstagram,editImg}){
-   
+    const {loading,setloading}=useLoader()
     const [id,setid]=useState('')
     const [selectedOption,setselectedOption]=useState([])
     const [full_name,setfull_name]=useState('');
@@ -91,6 +91,7 @@ const options = [
     
     function handleSubmit(e){
         e.preventDefault();
+        setloading(true)
         Swal.fire({
             title: 'Are you sure?',
             text: "Confirm Action On Staff",
@@ -113,6 +114,7 @@ const options = [
         axios.post('/api/staffs/editStaff/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
+            setloading(false)
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -127,7 +129,7 @@ const options = [
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
             Swal.fire(
                 'Error!',
                 err.message,

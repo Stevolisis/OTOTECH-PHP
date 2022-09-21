@@ -89,7 +89,7 @@ export default function Footer(){
         <textarea placeholder='Your Message'>
 
         </textarea>
-        <button>SEND MESSAGE</button>
+        <button disabled>SEND MESSAGE</button>
         </form>
       </div>
     </div>

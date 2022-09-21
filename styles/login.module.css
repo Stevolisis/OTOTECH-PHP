@@ -84,6 +84,27 @@ box-sizing: border-box;
 }
     
 
+
+
+
+
+
+
+
+
+@media (prefers-color-scheme: dark) {
+    .loginCon{
+        background: #141414;
+    }
+    .signincon{
+        background: #1b1b1b;
+    }
+
+    .admineditname p{
+        color:#f7f7f7 !important;
+        }
+}
+
 @media (max-width:780px) {
     .signincon{
         width: 88vw;

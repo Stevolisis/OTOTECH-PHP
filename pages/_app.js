@@ -14,30 +14,37 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import {useRouter,Router} from 'next/router';
 import PageLoader from '../components/PageLoader'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, createContext } from 'react'
+
+
+const LoaderContext = createContext()
+export const useLoader = () => useContext(LoaderContext);
 
 function MyApp({ Component, pageProps }) {
   const router=useRouter()
   const childrenName=router.pathname;
   const admin=childrenName.split('/')[1]; 
-  const [loading,setLoading]=useState(false);
+  const [loading,setloading]=useState(false);
+
 
 useEffect(()=>{
-  const handleRouteChange  = (url, { shallow}) => {
-    setLoading(true)
+  const handleRouteChange  = () => {
+    setloading(true)
   }
-  const routeChangeComplete = (url, { shallow}) => {
-    setLoading(false)
-  }
+  const routeChangeComplete = () => {
+    setloading(false)
+}
 
   Router.events.on("routeChangeStart", handleRouteChange );
   Router.events.on("routeChangeError", routeChangeComplete);
   Router.events.on("routeChangeComplete", routeChangeComplete);
 
-},[])
+},[]);
+
 
   return(
-    <Layout>{loading&&<PageLoader/>}
+    <Layout> {loading&&<PageLoader/>}
+    <LoaderContext.Provider value={{ loading, setloading }}>
        {admin==='admin' ? 
         <>
             <AdminHeader>
@@ -53,6 +60,7 @@ useEffect(()=>{
          <Footer/>
          </>
          }
+    </LoaderContext.Provider>
     </Layout>
   )
 }

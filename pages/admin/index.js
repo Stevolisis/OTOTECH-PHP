@@ -4,7 +4,7 @@ import HighchartsReact from 'highcharts-react-official';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../../components/BaseUrl';
-
+import { ThreeDots } from 'react-loader-spinner'
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
@@ -37,6 +37,8 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
     const [likeCurrentMonth,setlikeCurrentMonth]=useState('');
     const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [likeStat,setlikeStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
+    const [dataLoad1,setdataLoad1]=useState(true);
+    const [dataLoad2,setdataLoad2]=useState(true);
 
     if(error){
         Swal.fire(
@@ -50,6 +52,7 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
 
 
     function getViewStat(){
+        setdataLoad1(true);
     axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
     .then(res=>{
         let status=res.data.status;
@@ -74,11 +77,13 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
                 week5.push(data[i])
             }                   
             }
-            console.log('ppppppp',week2)
+            setdataLoad1(false);
+
 setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
             console.log('luuup',viewStat.week1.length)
         }else{
+            setdataLoad1(false)
             Swal.fire(
                 'Unsuccessful',
                 status,
@@ -86,6 +91,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
             )
         }
     }).catch(err=>{
+        setdataLoad1(false)
         Swal.fire(
             'Unsuccessful',
             err,
@@ -99,6 +105,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
 
         function getLikeStat(){
+            setdataLoad2(true);
             axios.get(`/api/likes/getLikeStat?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
             .then(res=>{
                 let status=res.data.status;
@@ -123,11 +130,12 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                         week5.push(data[i])
                     }                   
                   }
-                  console.log('ppppppp',week2)
+                  setdataLoad2(false)
     setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
                   console.log('luuup',likeStat.week1.length)
                 }else{
+                    setdataLoad2(false);
                     Swal.fire(
                         'Unsuccessful',
                         status,
@@ -135,12 +143,12 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                     )
                 }
             }).catch(err=>{
+                setdataLoad2(false)
                 Swal.fire(
                     'Unsuccessful',
                     err,
                     'error'
                 )
-                console.log(err)
             })
         }
 
@@ -279,10 +287,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Views Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options}
                 />
+                {dataLoad1&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
                 <div className='chartfilterscon'>
     <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -324,10 +343,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Likes Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options2}
                 />
+                {dataLoad1&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
                 <div className='chartfilterscon'>
     <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>

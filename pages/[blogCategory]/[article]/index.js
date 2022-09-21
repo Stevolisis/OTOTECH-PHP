@@ -9,7 +9,7 @@ import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
 import {baseUrl} from '../../../components/BaseUrl'
-
+import { useLoader } from "../../_app";
 
 
 
@@ -52,8 +52,9 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
           'warning'
         )
   }
-  console.log('ooooooo',baseUrl)
-  console.log('laaaaaaaa',error)
+  const { loading, setloading } = useLoader();
+
+
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
     const [articlesSlide,setarticlesSlide]=useState([]);
@@ -64,8 +65,6 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     const [comments, setcomments]=useState(''); 
 
 
-    console.log(months[new Date('2022-09-05T19:23:12.861+00:00').getMonth()])
-// alert(categoryId)
 
     const Toast = Swal.mixin({
         toast: true,
@@ -78,37 +77,6 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
           toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
       })
-
-
-    // function loadContent(){
-    // axios.get('/api/articles/getArticle')
-    // .then(res=>{
-    //     let data=res.data.data[0];
-    //     let status=res.data.status;
-
-    //     if(status==='success'){
-    //         setContent(data);
-    //         setpageId(data._id);
-    //         setcategoryId(data.category);
-    //         setimg_link(data.img.url)
-    //         setimg_link2(data.author.img.url)
-    //         setwhatsapp(data.author.whatsapp)
-    //         setdribble(data.author.dribble)
-    //         setgithub(data.author.github)
-    //         setlinkedin(data.author.linkedin)
-    //         settwitter(data.author.twitter)
-    //         setinstagram(data.author.instagram);
-    //     }else{
-    //         Swal(
-    //             'Error Occured',
-    //             status,
-    //             'warning'
-    //         )
-    //     }
-    // }).catch(err=>{
-    //     console.log(err);
-    // })
-    // }
 
     function checkLike(){
         let checkTracker=localStorage.getItem('likeTracker');
@@ -129,7 +97,6 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     }
 
     function handleLikeBtn(){
-        console.log(window.location.href);
         if(liked===false){
             axios.post('/api/likes/addLike',{page_link:window.location.href,pageId:pageId})
             .then(res=>{
@@ -139,8 +106,6 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
                 if(status==='success'){
                 if (typeof window !== 'undefined') {
                     let item = localStorage.getItem('likeTracker');
-                    console.log(item)
-
 
                 if(item){
                     let likeTracker =JSON.parse(localStorage.getItem('likeTracker'));
@@ -216,6 +181,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
      function setComment(e){
         e.preventDefault();
+        setloading(true);
         const formData=new FormData(e.target);
         formData.append('page_link',window.location.href);
         formData.append('pageId',pageId);
@@ -224,6 +190,8 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
+            setloading(false);
+
             if(status==='success') alert(status)
             loadComments();
             userAuth();
@@ -231,7 +199,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
            
         }).catch(err=>{
             console.log(err)
-            
+            setloading(false);
         })
      }
 
@@ -449,9 +417,9 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
         <form onSubmit={setComment}>
             <h3>Leave a Comment</h3>
-        <input type='text' name='full_name' placeholder="Full Name" value={full_name} onChange={(e)=>setfull_name(e.target.value)}/>
-        <input type='email' name='email' placeholder="E-mail Address" value={email} onChange={(e)=>setemail(e.target.value)}/>
-        <textarea placeholder="Your Comment" name='comment'/>
+        <input required='required' type='text' name='full_name' placeholder="Full Name" value={full_name} onChange={(e)=>setfull_name(e.target.value)}/>
+        <input required='required' type='email' name='email' placeholder="E-mail Address" value={email} onChange={(e)=>setemail(e.target.value)}/>
+        <textarea required='required' placeholder="Your Comment" name='comment'/>
         <button>Submit</button>
         </form>
 
@@ -459,7 +427,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
 
 <div className="articleCommentsCon">
-<h3>Comments</h3>
+<h3>{comments.length!==0 ? 'Comments' :'Comments (no comments yet)'}</h3>
 
 {comments && 
     comments.map((comment,i)=>{
@@ -487,7 +455,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
 </div>
 
-     <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>
+     {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>: '... no data Found'}
 
     </>
     )

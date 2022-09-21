@@ -2,7 +2,7 @@ import { useState,useRef, useEffect } from "react"
 import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
 import axios from "axios";
-
+import { useLoader } from "../../../_app";
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false });
 
@@ -12,6 +12,7 @@ export default function AddArticle(){
     const [authors,setAuthors]=useState([]);
     const [categories,setCategories]=useState([]);
     const editorRef=useRef();
+    const {loading,setloading}=useLoader();
 
     function loadAuthors(){
         axios.get('/api/staffs/getStaffs')
@@ -61,11 +62,13 @@ export default function AddArticle(){
 
     function handleSubmit(e){
         e.preventDefault();
+        setloading(true)
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent())
         axios.post('/api/articles/addArticle',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
+            setloading(false)
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -80,7 +83,7 @@ export default function AddArticle(){
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
             Swal.fire(
                 'Error!',
                 err.message,

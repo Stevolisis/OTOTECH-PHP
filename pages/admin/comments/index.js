@@ -2,10 +2,14 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { useLoader } from "../../_app";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function AdminComments(){
     const [comments,setcomments]=useState([]);
     const [backup,setbackup]=useState([]);
+    const {loading,setloading}=useLoader();
+    const [dataLoad,setdataLoad]=useState(false);
     const filterIndex=useRef('');
     const filterComments=Array.from(comments);
     let limit=useRef(1);
@@ -14,10 +18,12 @@ export default function AdminComments(){
 
 
   function loadComments(){
+    setdataLoad(true)
     axios.get(`/api/comments/getComments?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
+        setdataLoad(false)
 
         if(status==='success'){
             setcomments(data);
@@ -31,6 +37,7 @@ export default function AdminComments(){
             )
         }
     }).catch(err=>{
+        setdataLoad(false)
         Swal.fire(
             'Warning',
             err,
@@ -63,10 +70,11 @@ function deleteComment(id){
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+            setloading(true);
             axios.post('/api/comments/deleteComment',{id:id})
             .then(res=>{
                let status=res.data.status;
-        
+               setloading(false);
                if(status==='success'){
                 Swal.fire(
                     'Successful',
@@ -82,6 +90,7 @@ function deleteComment(id){
                 )
                }
             }).catch(err=>{
+                setloading(false);
                 Swal.fire(
                     'Warning',
                     err,
@@ -190,6 +199,19 @@ useEffect(()=>{
 </div>
 </div>
 <div className='adminmorebtn'>
+<div>
+{dataLoad&&<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/>}
+</div>
+
 <button onClick={loadLimitComment}>See More</button>
 </div>
 </div>

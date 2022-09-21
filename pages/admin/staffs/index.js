@@ -3,10 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import { useLoader } from "../../_app";
+import { ThreeDots } from 'react-loader-spinner'
 
 export default function AdminStaffs(){
     const [staffs,setstaffs]=useState([]);
     const [backup,setbackup]=useState([]);
+    const [dataLoad,setdataLoad]=useState(false);
+    const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterStaffs=Array.from(staffs);
     let limit=useRef(1);
@@ -15,11 +19,12 @@ export default function AdminStaffs(){
 
 
   function loadStaffs(){
+    setdataLoad(true)
     axios.get(`/api/staffs/getStaffs?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
-
+        setdataLoad(false)
         if(status==='success'){
             setstaffs(data);
             setbackup(data);
@@ -32,9 +37,10 @@ export default function AdminStaffs(){
             )
         }
     }).catch(err=>{
+        setdataLoad(false)
         Swal.fire(
             'Warning',
-            err,
+            err.message,
             'error'
         )
         console.log(err)
@@ -42,7 +48,6 @@ export default function AdminStaffs(){
   }
 
   function deleteStaff(id){
-    console.log(id)
     Swal.fire({
         title: 'Are you sure?',
         text: "Confirm Delete of Comment",
@@ -53,10 +58,11 @@ export default function AdminStaffs(){
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
+            setloading(true);
     axios.post('/api/staffs/deleteStaff',{id:id})
     .then(res=>{
        let status=res.data.status;
-
+       setloading(false)
        if(status==='success'){
         Swal.fire(
             'Successful',
@@ -72,6 +78,7 @@ export default function AdminStaffs(){
         )
        }
     }).catch(err=>{
+        setloading(false)
         Swal.fire(
             'Warning',
             err,
@@ -206,6 +213,19 @@ useEffect(()=>{
 </div>
 </div>
 <div className='adminmorebtn'>
+<div>
+{dataLoad&&<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/>}
+</div>
+
 <button onClick={loadLimitStaff}>See More</button>
 </div>
 </div>

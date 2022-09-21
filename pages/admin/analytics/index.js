@@ -4,7 +4,7 @@ import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import { baseUrl } from '../../../components/BaseUrl';
-
+import { ThreeDots } from 'react-loader-spinner'
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
@@ -58,6 +58,13 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
     const [articleStat,setarticleStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [categoryStat,setcategoryStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
 
+    const [dataLoad1,setdataLoad1]=useState(true);
+    const [dataLoad2,setdataLoad2]=useState(true);
+    const [dataLoad3,setdataLoad3]=useState(true);
+    const [dataLoad4,setdataLoad4]=useState(true);
+    const [dataLoad5,setdataLoad5]=useState(true);
+    const [dataLoad6,setdataLoad6]=useState(true);
+
     if(error){
         Swal.fire(
           'Error at ServerSideProps',
@@ -69,6 +76,7 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
 
 
     function getViewStat(){
+        setdataLoad1(true)
         axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -93,11 +101,12 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad1(false)
 setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',viewStat.week1.length)
             }else{
+                setdataLoad1(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -105,6 +114,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                 )
             }
         }).catch(err=>{
+            setdataLoad1(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -118,6 +128,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
 
     function getLikeStat(){
+        setdataLoad2(true)
         axios.get(`/api/likes/getLikeStat?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -142,11 +153,12 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad2(false)
 setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',likeStat.week1.length)
             }else{
+                setdataLoad2(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -154,6 +166,7 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                 )
             }
         }).catch(err=>{
+            setdataLoad2(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -165,6 +178,7 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
 
     function getCommentStat(){
+        setdataLoad3(true)
         axios.get(`/api/comments/getCommentStat?month=${commentCurrentMonth}&year=${commentCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -189,11 +203,12 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad3(false)
 setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',commentStat.week1.length)
             }else{
+                setdataLoad3(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -201,6 +216,7 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
                 )
             }
         }).catch(err=>{
+            setdataLoad3(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -212,6 +228,7 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
 
     function getUserStat(){
+        setdataLoad4(true)
         axios.get(`/api/users/getUserStat?month=${userCurrentMonth}&year=${userCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -236,11 +253,12 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad4(false)
 setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',userStat.week1.length)
             }else{
+                setdataLoad4(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -248,6 +266,7 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                 )
             }
         }).catch(err=>{
+            setdataLoad4(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -261,6 +280,7 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
 
     function getArticleStat(){
+        setdataLoad5(true)
         axios.get(`/api/articles/getArticleStat?month=${articleCurrentMonth}&year=${articleCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -285,11 +305,12 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad5(false)
 setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',articleStat.week1.length)
             }else{
+                setdataLoad5(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -297,6 +318,7 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
                 )
             }
         }).catch(err=>{
+            setdataLoad5(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -308,6 +330,7 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
 
     function getCategoryStat(){
+        setdataLoad6(true)
         axios.get(`/api/categories/getCategoryStat?month=${categoryCurrentMonth}&year=${categoryCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
@@ -332,11 +355,12 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
                     week5.push(data[i])
                 }                   
               }
-              console.log('ppppppp',week2)
+              setdataLoad6(false)
 setcategoryStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
               console.log('luuup',categoryStat.week1.length)
             }else{
+                setdataLoad6(false)
                 Swal.fire(
                     'Unsuccessful',
                     status,
@@ -344,6 +368,7 @@ setcategoryStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4
                 )
             }
         }).catch(err=>{
+            setdataLoad6(false)
             Swal.fire(
                 'Unsuccessful',
                 err,
@@ -660,10 +685,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Views Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options}
                 />
+                {dataLoad1&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -705,10 +741,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Likes Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options2}
                 />
+                {dataLoad2&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -758,10 +805,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Comments Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options3}
                 />
+                {dataLoad3&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -803,10 +861,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Users Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options4}
                 />
+                {dataLoad4&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -854,10 +923,21 @@ useEffect(()=>{
             <div className='adminstat2'>
                 <div className='adminstat2heading'><p>Articles Statistics</p></div>
                 <div className='adminstat2stat'>
+
                 <HighchartsReact
                 highcharts={Highcharts}
                 options={options5}
                 />
+                {dataLoad5&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>
@@ -903,6 +983,16 @@ useEffect(()=>{
                 highcharts={Highcharts}
                 options={options6}
                 />
+                {dataLoad6&&<ThreeDots
+                height="40" 
+                width="40" 
+                radius="9"
+                color="#945f0f" 
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+                />}
                 </div>
         <div className='chartfilterscon'>
         <div className='chartInfo'>Week 1 <p>(1th - 7th)</p></div>

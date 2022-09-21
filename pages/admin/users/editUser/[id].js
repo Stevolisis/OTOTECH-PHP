@@ -2,6 +2,7 @@ import { useEffect ,useState} from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
 import { baseUrl } from "../../../../components/BaseUrl";
+import { useLoader } from "../../../_app";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
@@ -26,6 +27,8 @@ export const getServerSideProps=async (context)=>{
   }
 
 export default function EditUser({error,editId,editFull_name,editEmail}){
+    const {loading,setloading}=useLoader();
+
     if(error){
         Swal.fire(
           'Error at ServerSideProps',
@@ -50,11 +53,13 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
             confirmButtonText: 'Yes, Edit it!'
           }).then((result) => {
             if (result.isConfirmed) {
+                setloading(true)
         const formData=new FormData(e.target);
         formData.append('id',id);
         axios.post('/api/users/editUser/',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
+            setloading(false);
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -69,7 +74,7 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                 )  
             }
         }).catch(err=>{
-            console.log(err);
+            setloading(false)
             Swal.fire(
                 'Error!',
                 err.message,
