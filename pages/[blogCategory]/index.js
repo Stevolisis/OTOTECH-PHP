@@ -230,7 +230,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
      <div className='categoriesCon3'>
       
       
-      {articles.length !==0 ? <BlogList articles={articles}/> : '... no data Found'}
+      {articles.length !==0 ? <BlogList articles={articles}/> : ''}
 
 
       <div className='blogNavCon'>
@@ -241,7 +241,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
       </div>
 
 
-      {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: '... no data Found'}
+      {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: ''}
         </>
     )
 }

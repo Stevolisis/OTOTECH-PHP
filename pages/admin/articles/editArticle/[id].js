@@ -4,8 +4,21 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useLoader } from "../../../_app";
+import { ThreeDots } from "react-loader-spinner";
 const TextEditor = dynamic(() =>
-import("../../../../components/TextEditor"), {   ssr: false });
+import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
+<div style={{width:'100%',height:'400px',background:'#f5f6f6',display:'flex',justifyContent:'center',alignItems:'center'}}>
+<ThreeDots
+height="40" 
+width="40" 
+radius="9"
+color="#945f0f" 
+ariaLabel="three-dots-loading"
+wrapperStyle={{}}
+wrapperClassName=""
+visible={true}
+/></div>
+});
 
 
 export default function EditArticle(){

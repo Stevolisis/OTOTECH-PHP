@@ -455,7 +455,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
 </div>
 
-     {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>: '... no data Found'}
+     {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>: ''}
 
     </>
     )

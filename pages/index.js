@@ -188,7 +188,7 @@ useEffect(()=>{
 
 
 
-      {articles.length !==0 ? <BlogList articles={articles}/> : '... no data Found'}
+      {articles.length !==0 ? <BlogList articles={articles}/> : ''}
 
 
 
@@ -220,7 +220,7 @@ useEffect(()=>{
   </div>
 
 
-  {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: '... no data Found'}
+  {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: ''}
 
 
 
