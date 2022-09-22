@@ -5,6 +5,7 @@ import path from "path";
 import fs from 'fs';
 import bcrypt from 'bcryptjs';
 import Cloudinary from '../../../serviceFunctions/cloudinary';
+import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
     api: {
@@ -22,6 +23,8 @@ export default async function handler(req,res){
         if (err) return err;
 
         if(req.method==='POST'){
+          const verify=await verifyTokenPriveledge(req.cookies.adminPass,'addStaffs')
+          if(req.cookies.adminPass !== undefined && verify===true){
 
            if(files.img_link.size===0){
             res.status(200).json({status:'No Img Link Why Bro?'})
@@ -85,6 +88,12 @@ export default async function handler(req,res){
               res.status(404).json({status:err.message})
             console.log(err.message)
             }
+
+          }else if(verify==='not Permitted'){
+            res.status(200).json({status:'not Permitted'})
+          }else{
+            res.status(200).json({status:'Invalid User'})
+          }
 
           }else{
               res.status(404).json({status:'error'})

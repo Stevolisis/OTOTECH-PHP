@@ -3,6 +3,7 @@ import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import url_slugify from 'slugify';
 import Cloudinary from '../../../serviceFunctions/cloudinary';
+import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
     api: {
@@ -14,12 +15,16 @@ export default async function handler(req,res){
     await dbConnect();
     const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
 
+        if(req.method==='POST'){
+    const verify=await verifyTokenPriveledge(req.cookies.adminPass,'addCategories')
+
+    if(req.cookies.adminPass !== undefined && verify===true){
     const form = new formidable.IncomingForm();
     
     form.parse(req,async function(err, fields, files) {
         if (err) return err;
 
-        if(req.method==='POST'){
+
           let cloudImg;
             try{
            if(files.img_link.size===0){
@@ -64,13 +69,18 @@ export default async function handler(req,res){
             // console.log(err.message)
             }
 
-          }else{
-              res.status(404).json({status:'error'})
-          }
 
       });
 
+    }else if(verify==='not Permitted'){
+      res.status(200).json({status:'not Permitted'})
+    }else{
+      res.status(200).json({status:'Invalid User'})
+    }
 
+          }else{
+              res.status(404).json({status:'error'})
+          }
 
 
 }

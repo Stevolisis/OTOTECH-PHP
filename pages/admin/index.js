@@ -47,7 +47,6 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
           'warning'
         )
   }
-  console.log('jaaaaapa',error)
 
 
 
@@ -81,7 +80,6 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
 
 setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-            console.log('luuup',viewStat.week1.length)
         }else{
             setdataLoad1(false)
             Swal.fire(
@@ -97,7 +95,6 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
             err,
             'error'
         )
-        console.log(err)
     })
 }
 
@@ -133,7 +130,6 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                   setdataLoad2(false)
     setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-                  console.log('luuup',likeStat.week1.length)
                 }else{
                     setdataLoad2(false);
                     Swal.fire(

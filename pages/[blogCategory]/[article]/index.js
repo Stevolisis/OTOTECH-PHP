@@ -217,7 +217,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             if(status==='success'){
                 setcomments(data);
             }else{
-                console.log('commentsSec',data);
+                console.log('commentsSec',status);
             }
         }).catch(err=>{
             console.log('commentsErr',err);
@@ -445,7 +445,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
         </div>
 
         <div className="articleAuthor" >
-        <p>{comment.user.full_name} ({`${comment.day}/${comment.month}/${comment.year}`})</p>
+        <p>{comment.user&&comment.user.full_name} ({`${comment.day}/${comment.month}/${comment.year}`})</p>
         <p>{comment.comment}</p>
         </div>
         </div>

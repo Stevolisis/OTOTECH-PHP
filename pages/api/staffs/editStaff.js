@@ -1,8 +1,7 @@
 import Staffs from "../../../db/Model/staffSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from 'path'
-import fs from 'fs';
+import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 import Cloudinary from '../../../serviceFunctions/cloudinary';
 
 export const config = {
@@ -14,7 +13,11 @@ export const config = {
 export default async function handler(req,res){
     await dbConnect();
 
+    
     if(req.method==='POST'){
+      const verify=await verifyTokenPriveledge(req.cookies.adminPass,'editStaffs')
+      if(req.cookies.adminPass !== undefined && verify===true){
+
         const form = new formidable.IncomingForm();
         const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
 
@@ -61,6 +64,11 @@ export default async function handler(req,res){
 
         });
 
+      }else if(verify==='not Permitted'){
+        res.status(200).json({status:'not Permitted'})
+      }else{
+        res.status(200).json({status:'Invalid User'})
+      }
 
           }else{
               res.status(404).json({status:'error'})

@@ -41,7 +41,7 @@ export default async function handler(req,res){
                 const commentSave=await comment.save();
 
                 await Promise.all([commentSave]).then(result=>{
-                setCookie('userAuth', token, { req, res, maxAge: 60 * 60 * 24 * 30 * 3 
+                setCookie('userAuth', token, { req, res, maxAge: 60 * 60 * 24 * 30 * 10 
                     ,httpOnly:true,secure:true,sameSite:true,path:'/'});
                 res.status(200).json({status:'success'})                    
                 })

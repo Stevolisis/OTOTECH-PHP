@@ -71,9 +71,9 @@ export default function EditStaff({error,editId,editSelectedOption,editFull_name
   }
     
 const options = [
-    { value: 'addCategory', label: 'Add Category' },
-    { value: 'editCategory', label: 'Edit Category' },
-    { value: 'deleteCategory', label: 'Delete Category' },
+    { value: 'addCategories', label: 'Add Categories' },
+    { value: 'editCategories', label: 'Edit Categories' },
+    { value: 'deleteCategories', label: 'Delete Categories' },
     { value: 'addArticles', label: 'Add Articles' },
     { value: 'editArticles', label: 'Edit Articles' },
     { value: 'deleteArticles', label: 'Delete Articles' },

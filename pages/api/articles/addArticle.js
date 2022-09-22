@@ -4,6 +4,7 @@ import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 const url_slugify=require('slugify');
 import Cloudinary from '../../../serviceFunctions/cloudinary';
+import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
     api: {
@@ -15,12 +16,17 @@ export default async function handler(req,res){
     await dbConnect();
     const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
 
+        if(req.method==='POST'){
+
+        const verify=await verifyTokenPriveledge(req.cookies.adminPass,'addArticles')
+
+        if(req.cookies.adminPass !== undefined && verify===true){
     const form = new formidable.IncomingForm();
     
     form.parse(req,async function(err, fields, files) {
       if (err) throw new Error('Error at Parsing');
 
-        if(req.method==='POST'){
+
 
            if(files.img_link.size===0){
             res.status(200).json({status:'No Img Link Why Bro?'})
@@ -37,7 +43,6 @@ export default async function handler(req,res){
            let categorySlug=await Categories.findOne({_id:fields.category}).select('slug');
            let stripSlug=url_slugify(slug.replace(/[^\w\s']|_/g,' ').replaceAll("'",' '));
            let cloudImg;
-          //  console.log(files);
 
             try{
               cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
@@ -68,13 +73,17 @@ export default async function handler(req,res){
             console.log(err.message)
             }
 
-          }else{
-              res.status(404).json({status:'error'})
-          }
 
       });
 
+    }else if(verify==='not Permitted'){
+      res.status(200).json({status:'not Permitted'})
+    }else{
+      res.status(200).json({status:'Invalid User'})
+    }
 
-
+          }else{
+              res.status(404).json({status:'error'})
+          }
 
 }

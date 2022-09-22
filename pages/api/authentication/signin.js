@@ -22,7 +22,7 @@ export default async function handler(req,res){
         console.log(fields)
         
         try{
-            const userExist=await Staffs.findOne({email:fields.email}).select('password');
+            const userExist=await Staffs.findOne({email:fields.email,status:'active'}).select('password');
             console.log(userExist);
 
             if(userExist){
@@ -31,7 +31,7 @@ export default async function handler(req,res){
                 if(passStatus===true){
 
             let token=jwt.sign({email:fields.email},process.env.JWT_PASS,{expiresIn:60*60*24*30*12});
-            setCookie('adminPass', token, { req, res, maxAge: 60 * 3 
+            setCookie('adminPass', token, { req, res, maxAge: 60 * 12 
                 ,httpOnly:true,secure:true,sameSite:true,path:'/'});
                     res.status(200).json({status:'success'})
 

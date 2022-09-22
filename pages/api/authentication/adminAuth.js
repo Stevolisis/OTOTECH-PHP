@@ -1,6 +1,6 @@
 import dbConnect from "../../../db/dbConnect";
 import Staffs from '../../../db/Model/staffSchema';
-const jwt=require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 import { getCookie, hasCookie } from 'cookies-next'
 
 export const config = {
@@ -11,26 +11,29 @@ export const config = {
   
 export default async function handler(req,res){
     await dbConnect();
+    
 
         if(req.method==='GET'){    
+            const {cookie}=req.query;
 
             try{
-            if(hasCookie('userAuth',{ req, res })){
-
-            let token=getCookie('adminPass', { req, res })
-            const verify=jwt.verify(token,process.env.JWT_PASS);
+            const verify=jwt.verify(cookie,process.env.JWT_PASS);
             console.log('Veeeeeerify',verify);
-            let data=await Staffs.findOne({email:verify.email}).select('email')
-            console.log('Verified Token',data);
-            res.status(200).json({status:'success',data:data})
+            console.log('Veeeeeerify2',cookie);
+            // let data=await Staffs.findOne({email:verify.email}).select('email')
+            // console.log('Verified Token',data);
+            // if(verify===''){
 
-            }else{
-                res.status(200).json({status:'Cookie not found'})
-            }
+            // }else{
+
+            // }
+            res.status(200).json({status:'valid'});
 
     }catch(err){
-        res.status(404).json({status:'Error'})   
+        res.status(404).json({status:err.message})   
     }
+}else{
+    res.status(404).json({status:'Error not GET'}) 
 }
 
 }

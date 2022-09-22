@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Swal from 'sweetalert2';
 import axios from 'axios';
@@ -10,6 +9,7 @@ export default function AdminComments(){
     const [backup,setbackup]=useState([]);
     const {loading,setloading}=useLoader();
     const [dataLoad,setdataLoad]=useState(false);
+    const [id,setid]=useState('');
     const filterIndex=useRef('');
     const filterComments=Array.from(comments);
     let limit=useRef(1);
@@ -28,6 +28,7 @@ export default function AdminComments(){
         if(status==='success'){
             setcomments(data);
             setbackup(data);
+            setid(data._id)
             
         }else{
             Swal.fire(
@@ -93,7 +94,7 @@ function deleteComment(id){
                 setloading(false);
                 Swal.fire(
                     'Warning',
-                    err,
+                    err.message,
                     'error'
                 )
             })
