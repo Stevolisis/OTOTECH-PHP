@@ -10,7 +10,7 @@ export default async function middleware(req) {
 
       if(req.cookies.get('adminPass')== undefined){
 
-        return NextResponse.redirect(new URL(next, request.url)); 
+        return NextResponse.redirect(new URL(next, NextResponse.url)); 
 
       }else{
 
@@ -19,7 +19,7 @@ export default async function middleware(req) {
        if(res.status!==404){
         return NextResponse.next();
       }else{
-        return NextResponse.redirect(new URL(next, request.url));
+        return NextResponse.redirect(new URL(next, NextResponse.url));
       }
 
       }
