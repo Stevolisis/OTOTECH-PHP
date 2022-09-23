@@ -19,7 +19,8 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-            router.push(next||'/admin');
+            // router.push(next||'/admin');
+            router.push(next);
             
             }else{
             Swal.fire(

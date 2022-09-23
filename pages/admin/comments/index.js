@@ -9,7 +9,6 @@ export default function AdminComments(){
     const [backup,setbackup]=useState([]);
     const {loading,setloading}=useLoader();
     const [dataLoad,setdataLoad]=useState(false);
-    const [id,setid]=useState('');
     const filterIndex=useRef('');
     const filterComments=Array.from(comments);
     let limit=useRef(1);
@@ -28,7 +27,6 @@ export default function AdminComments(){
         if(status==='success'){
             setcomments(data);
             setbackup(data);
-            setid(data._id)
             
         }else{
             Swal.fire(

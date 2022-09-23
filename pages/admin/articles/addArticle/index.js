@@ -1,9 +1,11 @@
 import { useState,useRef, useEffect } from "react"
 import Swal from 'sweetalert2';
 import dynamic from "next/dynamic";
+import { useRouter } from 'next/router';
 import axios from "axios";
 import { useLoader } from "../../../_app";
 import { ThreeDots } from "react-loader-spinner";
+import {baseUrl} from '../../../../components/BaseUrl';
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
 <div style={{width:'100%',height:'400px',background:'#f5f6f6',display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -27,6 +29,8 @@ export default function AddArticle(){
     const [categories,setCategories]=useState([]);
     const editorRef=useRef();
     const {loading,setloading}=useLoader();
+    const router=useRouter();
+    const next=router.pathname.split(baseUrl)[1];
 
     function loadAuthors(){
         axios.get('/api/staffs/getStaffs')
@@ -89,6 +93,8 @@ export default function AddArticle(){
                     'Article Added',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+                router.push(`/login/?next=${next}`)
             }else{
                 Swal.fire(
                     'Error!',
