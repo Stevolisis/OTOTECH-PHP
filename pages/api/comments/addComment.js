@@ -76,7 +76,7 @@ export default async function handler(req,res){
                 await Promise.all([commentSave])
                 .then(result=>{
                     setCookie('userAuth', token, { req, res,
-                    maxAge: 60 * 3,httpOnly:true,secure:true,sameSite:true,path:'/'});
+                    maxAge: 60 * 60 * 24 * 30 * 10,httpOnly:true,secure:true,sameSite:true,path:'/'});
                     res.status(200).json({status:'success'})
                 });
                 console.log('User Does Not Exist Task Done');
