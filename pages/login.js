@@ -19,7 +19,7 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-            Router.push(next||'/admin');
+            Router.push(next||'/admin/categories');
             // router.push(next);
             
             }else{
