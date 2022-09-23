@@ -1,12 +1,12 @@
 import styles from '../styles/login.module.css';
 import axios from 'axios'
 import Swal from 'sweetalert2';
-import { useRouter } from 'next/router';
+import Router,{ useRouter } from 'next/router';
 import { useLoader } from './_app';
 
 export default function Login(){
-const router=useRouter();
-const {next}=router.query;
+const router2=useRouter();
+const {next}=router2.query;
 const { loading, setloading } = useLoader();
 // alert(next)
 
@@ -19,7 +19,7 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-            router.push(next||'/admin');
+            Router.push(next||'/admin');
             // router.push(next);
             
             }else{
