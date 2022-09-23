@@ -19,7 +19,7 @@ export default async function middleware(req) {
        if(res.status!==404){
         return NextResponse.next();
       }else{
-        return NextResponse.redirect(`${baseUrl}/login?next=${req.url.split(baseUrl)[1]}`);
+        return NextResponse.redirect(`${baseUrl+'/login?next='}${req.url.split(baseUrl)[1]}`);
       }
 
       }
