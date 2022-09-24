@@ -4,6 +4,7 @@ import Link from 'next/link';
 import axios from "axios";
 import { baseUrl } from "../../../components/BaseUrl";
 import { useLoader } from "../../_app";
+import { useRouter } from "next/router";
 
 
 export const getServerSideProps=async (context)=>{
@@ -41,6 +42,7 @@ export default function AddSupportSystem({error,editPhone_number,editGmail,editL
     const [facebook,setfacebook]=useState({status:'active',link:''})
     const [google_chat,setgoogle_chat]=useState({status:'active',link:''});
     const {loading,setloading}=useLoader()
+    const router=useRouter();
 
     if(error){
         Swal.fire(
@@ -83,6 +85,9 @@ function handleSubmit(e){
                 'Support System Edited',
                 'success'
             )
+        }else if(status==='Invalid User'){
+               
+            router.push(`/login?next=${router.asPath}`)
         }else{
             Swal.fire(
                 'Error!',

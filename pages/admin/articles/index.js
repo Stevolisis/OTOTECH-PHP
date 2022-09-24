@@ -5,6 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
+import { useRouter } from "next/router";
 
 export default function AdminArticles(){
     const [articles,setarticles]=useState([]);
@@ -13,6 +14,7 @@ export default function AdminArticles(){
     const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterArticles=Array.from(articles);
+    const router=useRouter();
     let limit=useRef(1);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
@@ -99,7 +101,10 @@ export default function AdminArticles(){
             'success'
         )
         loadArticles()
-       }else{
+       }else if(status==='Invalid User'){
+               
+        router.push(`/login?next=${router.asPath}`)
+    }else{
         Swal.fire(
             'Warning',
             status,

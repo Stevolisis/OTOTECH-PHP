@@ -5,12 +5,14 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
+import { useRouter } from "next/router";
 
 export default function AdminCategories(){
     const [categories,setcategories]=useState([]);
     const [backup,setbackup]=useState([]);
     const [dataLoad,setdataLoad]=useState(false);
     const {loading,setloading}=useLoader();
+    const router=useRouter();
     const filterIndex=useRef('');
     const filterCategories=Array.from(categories);
     let limit=useRef(1);
@@ -72,7 +74,10 @@ export default function AdminCategories(){
             'success'
         )
         loadCategories()
-       }else{
+       }else if(status==='Invalid User'){
+               
+        router.push(`/login?next=${router.asPath}`)
+    }else{
         Swal.fire(
             'Warning',
             status,

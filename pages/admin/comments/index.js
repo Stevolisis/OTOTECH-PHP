@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import axios from 'axios';
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
+import { useRouter } from "next/router";
 
 export default function AdminComments(){
     const [comments,setcomments]=useState([]);
@@ -11,6 +12,7 @@ export default function AdminComments(){
     const [dataLoad,setdataLoad]=useState(false);
     const filterIndex=useRef('');
     const filterComments=Array.from(comments);
+    const router=useRouter();
     let limit=useRef(1);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
@@ -81,7 +83,10 @@ function deleteComment(id){
                     'success'
                 )
                 loadComments()
-               }else{
+               }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
+            }else{
                 Swal.fire(
                     'Warning',
                     status,

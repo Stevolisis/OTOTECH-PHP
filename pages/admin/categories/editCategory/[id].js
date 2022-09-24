@@ -39,6 +39,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
     const [icon,seticon]=useState('');
     const [status,setstatus]=useState('');
     const {loading,setloading}=useLoader();
+    const router=useRouter();
 
     if(error){
         Swal.fire(
@@ -74,6 +75,9 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                     'Category Edited',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
                     'Error!',

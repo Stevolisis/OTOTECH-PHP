@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useRouter } from "next/router";
 import { useState } from "react"
 import Swal from 'sweetalert2';
 import { useLoader } from "../../../_app";
@@ -7,6 +8,7 @@ export default function AddCategory(){
     const [imgpreview,setImgpreview]=useState('');
     const [icon,setIcon]=useState('rocket');
     const {loading,setloading}=useLoader();
+    const router=useRouter();
 
     function handleSubmit(e){
         e.preventDefault();
@@ -23,6 +25,9 @@ export default function AddCategory(){
                     'Category Added',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
                     'Error!',

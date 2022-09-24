@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useEffect, useRef, useState } from "react";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
+import { useRouter } from "next/router";
 
 export default function AdminUsers(){
     const [users,setusers]=useState([]);
@@ -13,6 +14,7 @@ export default function AdminUsers(){
     const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterUsers=Array.from(users);
+    const router=useRouter();
     let limit=useRef(1);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
@@ -73,7 +75,10 @@ export default function AdminUsers(){
             'success'
         )
         loadUsers()
-       }else{
+       }else if(status==='Invalid User'){
+               
+        router.push(`/login?next=${router.asPath}`)
+    }else{
         Swal.fire(
             'Warning',
             status,

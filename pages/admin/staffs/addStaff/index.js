@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import axios from "axios";
 import { useLoader } from "../../../_app";
+import { useRouter } from "next/router";
 
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
@@ -13,7 +14,8 @@ export default function AddStaff(){
     const [linkedin,setlinkedin]=useState({status:'active',link:''})
     const [twitter,settwitter]=useState({status:'active',link:''})
     const [instagram,setinstagram]=useState({status:'active',link:''})
-    const {loading,setloading}=useLoader()
+    const {loading,setloading}=useLoader();
+    const router=useRouter()
     
     const options = [
         { value: 'addCategories', label: 'Add Categories' },
@@ -55,6 +57,9 @@ export default function AddStaff(){
                 'Staff Added',
                 'success'
             )
+        }else if(status==='Invalid User'){
+               
+            router.push(`/login?next=${router.asPath}`)
         }else{
             Swal.fire(
                 'Error!',

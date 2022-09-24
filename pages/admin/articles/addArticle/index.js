@@ -30,7 +30,7 @@ export default function AddArticle(){
     const editorRef=useRef();
     const {loading,setloading}=useLoader();
     const router=useRouter();
-    const next=router.pathname;
+    const next=router.asPath;
 
     function loadAuthors(){
         axios.get('/api/staffs/getStaffs')
@@ -95,7 +95,7 @@ export default function AddArticle(){
                 )
             }else if(status==='Invalid User'){
                
-                router.push(`/login/next=${next}`)
+                router.push(`/login?next=${next}`)
             }else{
                 Swal.fire(
                     'Error!',

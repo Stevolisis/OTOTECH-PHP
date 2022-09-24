@@ -4,6 +4,7 @@ import { MultiSelect } from "react-multi-select-component";
 import axios from 'axios';
 import { baseUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
+import { useRouter } from "next/router";
 
 
 export const getServerSideProps=async (context)=>{
@@ -59,6 +60,7 @@ export default function EditStaff({error,editId,editSelectedOption,editFull_name
     const [twitter,settwitter]=useState({status:'active',link:''})
     const [instagram,setinstagram]=useState({status:'active',link:''})
     const [imgpreview,setImgpreview]=useState('');
+    const router=useRouter();
 
 
     if(error){
@@ -121,6 +123,9 @@ const options = [
                     'Staff Edited',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
                     'Error!',

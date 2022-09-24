@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import { baseUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
+import { useRouter } from "next/router";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
@@ -28,6 +29,7 @@ export const getServerSideProps=async (context)=>{
 
 export default function EditUser({error,editId,editFull_name,editEmail}){
     const {loading,setloading}=useLoader();
+    const router=useRouter();
 
     if(error){
         Swal.fire(
@@ -66,6 +68,9 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                     'User Edited',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
                     'Error!',

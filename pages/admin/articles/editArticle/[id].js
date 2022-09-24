@@ -142,6 +142,9 @@ export default function EditArticle(){
                     'Article Edited',
                     'success'
                 )
+            }else if(status==='Invalid User'){
+               
+                router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
                     'Error!',

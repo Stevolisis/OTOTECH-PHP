@@ -5,6 +5,7 @@ import Image from "next/image";
 import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
+import { useRouter } from "next/router";
 
 export default function AdminStaffs(){
     const [staffs,setstaffs]=useState([]);
@@ -13,6 +14,7 @@ export default function AdminStaffs(){
     const {loading,setloading}=useLoader();
     const filterIndex=useRef('');
     const filterStaffs=Array.from(staffs);
+    const router=useRouter();
     let limit=useRef(1);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
@@ -70,7 +72,10 @@ export default function AdminStaffs(){
             'success'
         )
         loadStaffs()
-       }else{
+       }else if(status==='Invalid User'){
+               
+        router.push(`/login?next=${router.asPath}`)
+    }else{
         Swal.fire(
             'Warning',
             status,
