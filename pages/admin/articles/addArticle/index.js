@@ -95,7 +95,7 @@ export default function AddArticle(){
                 )
             }else if(status==='Invalid User'){
                
-                router.push(`/login?next=${next}`)
+                router.push(`/login/next=${next}`)
             }else{
                 Swal.fire(
                     'Error!',

@@ -1,16 +1,16 @@
-import styles from '../styles/login.module.css';
+import styles from '../../styles/login.module.css';
 import axios from 'axios'
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
-import { useLoader } from './_app';
-import { baseUrl } from '../components/BaseUrl';
+import { useLoader } from '../_app';
+import { baseUrl } from '../../components/BaseUrl';
+import { useEffect } from 'react';
 
 export default function Login(){
 const router=useRouter();
 const {next}= router.query;
-const {from}= router.query;
 const { loading, setloading } = useLoader();
-// alert(next)
+
 
 function handleSubmit(e){
         e.preventDefault();
@@ -21,12 +21,7 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-                if(from==='adminRoutes'){
-                    router.push(baseUrl+router.pathname||`${baseUrl}/admin`);
-                }else{
-                    router.push(baseUrl+next||`${baseUrl}/admin`);
-                }
-            
+            router.push(baseUrl+router.query.next||`${baseUrl}/admin`);
             // router.push(next);
             
             }else{
@@ -46,6 +41,9 @@ function handleSubmit(e){
         })
      }
 
+     useEffect(()=>{
+        console.log(router.pathname)
+     },[])
     return(
         <>
         <div className={styles.loginCon}>
