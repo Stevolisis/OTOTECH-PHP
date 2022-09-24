@@ -23,7 +23,7 @@ function handleSubmit(e){
             setloading(false)
             if(status==='success'){
                 if(from==='adminRoutes'){
-                    router.push(next||`${baseUrl}/admin`);
+                    router.push(baseUrl+next||`${baseUrl}/admin`);
                 }else{
                     router.push(baseUrl+next||`${baseUrl}/admin`);
                 }

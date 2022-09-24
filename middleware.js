@@ -9,8 +9,11 @@ export default async function middleware(req) {
     if (req.url.includes('/admin')) {
 
       if(req.cookies.get('adminPass')== undefined){
+        if (req.method == "HEAD") {
+          return NextResponse.error();
+        }
 
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
+        return NextResponse.redirect(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
 
       }else{
 
@@ -19,7 +22,11 @@ export default async function middleware(req) {
        if(res.status!==404){
         return NextResponse.next();
       }else{
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+        if (req.method == "HEAD") {
+          return NextResponse.error();
+        }
+
+        return NextResponse.redirect(`${baseUrl}/login?next=${next}&from=adminRoutes`);
       }
 
       }
