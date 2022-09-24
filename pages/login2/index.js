@@ -9,7 +9,6 @@ export default function Login(){
 const router=useRouter();
 const {next}= router.query;
 const { loading, setloading } = useLoader();
-alert(next)
 
 function handleSubmit(e){
         e.preventDefault();
