@@ -12,7 +12,9 @@ const {next}= router.query;
 const {from}= router.query;
 const { loading, setloading } = useLoader();
 // alert(next)
-
+function redirect(){
+    router.push(baseUrl+next);
+}
 function handleSubmit(e){
         e.preventDefault();
         setloading(true)
@@ -23,7 +25,7 @@ function handleSubmit(e){
             setloading(false)
             if(status==='success'){
                 if(from==='adminRoutes'){
-                    router.back();
+                    redirect();
                 }else{
                     router.push(baseUrl+next||`${baseUrl}/admin`);
                 }
