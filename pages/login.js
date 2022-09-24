@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useLoader } from './_app';
 import { baseUrl } from '../components/BaseUrl';
+import { useEffect } from 'react';
 
 export default function Login(){
 const router=useRouter();
@@ -22,7 +23,7 @@ function handleSubmit(e){
             setloading(false)
             if(status==='success'){
                 if(from==='adminRoutes'){
-                    router.push(baseUrl+router.pathname||`${baseUrl}/admin`);
+                    router.push(baseUrl+next||`${baseUrl}/admin`);
                 }else{
                     router.push(baseUrl+next||`${baseUrl}/admin`);
                 }
@@ -45,6 +46,10 @@ function handleSubmit(e){
             )
         })
      }
+
+     useEffect(()=>{
+        console.log('reqqs',router)
+     })
 
     return(
         <>
