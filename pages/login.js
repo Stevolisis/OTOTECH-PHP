@@ -3,10 +3,11 @@ import axios from 'axios'
 import Swal from 'sweetalert2';
 import Router,{ useRouter } from 'next/router';
 import { useLoader } from './_app';
+import { baseUrl } from '../components/BaseUrl';
 
 export default function Login(){
 const router2=useRouter();
-const {next}=router2.query;
+const {next}= router2.query;
 const { loading, setloading } = useLoader();
 // alert(next)
 
@@ -19,7 +20,7 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-            Router.push(next||'/admin/categories');
+            router2.push(baseUrl+next||`${baseUrl}/admin`);
             // router.push(next);
             
             }else{
@@ -30,6 +31,7 @@ function handleSubmit(e){
             )
             }
         }).catch(err=>{
+            setloading(false)
             Swal.fire(
                 'Alert!',
                  err,

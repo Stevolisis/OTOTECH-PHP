@@ -30,7 +30,7 @@ export default function AddArticle(){
     const editorRef=useRef();
     const {loading,setloading}=useLoader();
     const router=useRouter();
-    const next=router.pathname.split(baseUrl)[1];
+    const next=router.pathname;
 
     function loadAuthors(){
         axios.get('/api/staffs/getStaffs')
@@ -86,7 +86,7 @@ export default function AddArticle(){
         axios.post('/api/articles/addArticle',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
-            setloading(false)
+            setloading(false);
             if(status==='success'){
                 Swal.fire(
                     'Successful!',
@@ -94,7 +94,8 @@ export default function AddArticle(){
                     'success'
                 )
             }else if(status==='Invalid User'){
-                router.push(`/login/?next=${next}`)
+               
+                router.push(`/login?next=${next}`)
             }else{
                 Swal.fire(
                     'Error!',

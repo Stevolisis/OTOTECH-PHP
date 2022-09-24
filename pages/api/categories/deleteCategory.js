@@ -1,4 +1,5 @@
 import Categories from "../../../db/Model/categorySchema";
+import Articles from '../../../db/Model/articleSchema';
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import Cloudinary from '../../../serviceFunctions/cloudinary';
@@ -31,6 +32,7 @@ export default async function handler(req,res){
               console.log(imgDelete)
 
               await Promise.all([
+                Articles.updateMany({category:fields.id},{$set:{status:'inactive'}}),
                 Categories.deleteOne({_id:fields.id}),
                 Cloudinary.uploader.destroy(imgDelete.img.public_id)
               ]).then(res.status(200).json({status:'success'}));

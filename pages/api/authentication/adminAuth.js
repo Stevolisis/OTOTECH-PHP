@@ -1,7 +1,5 @@
 import dbConnect from "../../../db/dbConnect";
-import Staffs from '../../../db/Model/staffSchema';
 import jwt from "jsonwebtoken";
-import { getCookie, hasCookie } from 'cookies-next'
 
 export const config = {
     api: {
@@ -30,6 +28,7 @@ export default async function handler(req,res){
             res.status(200).json({status:'valid'});
 
     }catch(err){
+        console.log('JWT Verify',err.message)
         res.status(404).json({status:err.message})   
     }
 }else{

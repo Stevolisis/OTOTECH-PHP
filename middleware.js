@@ -15,11 +15,11 @@ export default async function middleware(req) {
       }else{
 
        const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
-      
+      console.log('limaaaaao',res.status)
        if(res.status!==404){
         return NextResponse.next();
       }else{
-        return NextResponse.redirect(`${baseUrl}/login?next=${next}`);
+        return NextResponse.rewrite(`${baseUrl}/login?next=${next}`);
       }
 
       }

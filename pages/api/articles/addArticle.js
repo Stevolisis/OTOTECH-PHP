@@ -68,7 +68,6 @@ export default async function handler(req,res){
 
              
             }catch(err){
-              await Cloudinary.uploader.destroy(cloudImg.public_id);
               res.status(404).json({status:err.message})
             console.log(err.message)
             }
