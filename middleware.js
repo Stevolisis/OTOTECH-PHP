@@ -10,10 +10,10 @@ export default async function middleware(req) {
       if (req.method == "HEAD") {
         return NextResponse.error();
       }
-      
+
       if(req.cookies.get('adminPass')== undefined){
 
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
+        return NextResponse.redirect(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
 
       }else{
 
@@ -22,7 +22,7 @@ export default async function middleware(req) {
        if(res.status!==404){
         return NextResponse.next();
       }else{
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+        return NextResponse.redirect(`${baseUrl}/login?next=${next}&from=adminRoutes`);
       }
 
       }
