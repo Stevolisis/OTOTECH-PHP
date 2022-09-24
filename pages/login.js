@@ -22,11 +22,8 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-                if(from==='adminRoutes'){
+
                     router.push(baseUrl+next||`${baseUrl}/admin`);
-                }else{
-                    router.push(baseUrl+next||`${baseUrl}/admin`);
-                }
             
             // router.push(next);
             
