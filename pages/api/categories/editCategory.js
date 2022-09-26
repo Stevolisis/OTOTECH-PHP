@@ -2,9 +2,7 @@ import Categories from "../../../db/Model/categorySchema";
 import Articles from "../../../db/Model/articleSchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-import path from 'path'
-import fs from 'fs';
-import Cloudinary from '../../../serviceFunctions/cloudinary';
+import cloudinary from '../../../serviceFunctions/cloudinary';
 import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
@@ -41,14 +39,19 @@ export default async function handler(req,res){
             return;
             }
             
-            cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath);
+            cloudImg=await cloudinary.uploader.upload(files.img_link.filepath);
+            let delImg=await cloudinary.uploader.destroy(imgDelete.img.public_id);
+            let yuyu=imgDelete.img.public_id;
+            console.log('imgDel', delImg);
           }
 
 
             
           let category=fields;
+          
           {files.img_link.size===0 ? '' : category.img={public_id:cloudImg.public_id,url:cloudImg.url}}
-
+          console.log('gaga',await cloudinary.uploader.upload(files.img_link.filepath));
+          // console.log('gaga2',files.img_link);
 
           await Categories.updateOne({_id:id},{$set:category});
 
@@ -58,12 +61,13 @@ export default async function handler(req,res){
           }
 
 
-          if(files.img_link.size!==0) await Cloudinary.uploader.destroy(imgDelete.img.public_id);
+          // if(files.img_link.size!==0) await cloudinary.uploader.destroy(imgDelete.img.public_id);
+
           res.status(200).json({status:'success'});
 
           }catch(err){
           res.status(404).json({status:err.message})
-          console.log(err.message)
+          console.log(err)
           }
 
         });

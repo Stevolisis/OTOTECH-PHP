@@ -15,12 +15,11 @@ export default async function handler(req,res){
                 data=await Categories.find({}).select('name slug description icon img status day month year').limit(limit).sort({_id:-1}).lean();
                 for (let i = 0; i < data.length; i++) {
                     data[i].articles=await Articles.count({category:data[i]._id});
-                    console.log(data[i].category)
                 }
             }else{
                 data=await Categories.find({status:'active'}).select('name slug description icon img status').limit(limit).sort({_id:-1}).lean();
             }
-            // y=op
+  
             
             console.log('done')
 

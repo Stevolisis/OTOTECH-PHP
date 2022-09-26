@@ -2,7 +2,7 @@ import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 import url_slugify from 'slugify';
-import Cloudinary from '../../../serviceFunctions/cloudinary';
+import cloudinary from '../../../serviceFunctions/cloudinary';
 import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
@@ -42,7 +42,7 @@ export default async function handler(req,res){
 
 
 
-            cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
+            cloudImg=await cloudinary.uploader.upload(files.img_link.filepath)
               console.log(cloudImg);
  
               
