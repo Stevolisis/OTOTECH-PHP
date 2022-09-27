@@ -14,20 +14,25 @@ export const config = {
 export default async function handler(req,res){
     await dbConnect();
 
-
+console.log('one done')
 
     if(req.method==='POST'){
       const verify=await verifyTokenPriveledge(req.cookies.adminPass,'editCategories')
 
+      console.log('two done')
+
       if(req.cookies.adminPass !== undefined && verify===true){
         const form = new formidable.IncomingForm();
         const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
+
+        console.log('three done')
 
         form.parse(req,async function(err, fields, files) {
           if (err) throw new Error('Error at Parsing');
           let cloudImg;
           let imgDelete;
           const id=fields.id;
+          console.log(fields)
 
           try{
           if(files.img_link.size!==0){
@@ -40,8 +45,7 @@ export default async function handler(req,res){
             }
             
             cloudImg=await cloudinary.uploader.upload(files.img_link.filepath);
-            let delImg=await cloudinary.uploader.destroy(imgDelete.img.public_id);
-            let yuyu=imgDelete.img.public_id;
+            let delImg=await cloudinary.uploader.destroy(`${imgDelete.img.public_id}`);
             console.log('imgDel', delImg);
           }
 
@@ -50,7 +54,7 @@ export default async function handler(req,res){
           let category=fields;
           
           {files.img_link.size===0 ? '' : category.img={public_id:cloudImg.public_id,url:cloudImg.url}}
-          console.log('gaga',await cloudinary.uploader.upload(files.img_link.filepath));
+          // console.log('gaga',await cloudinary.uploader.upload(files.img_link.filepath));
           // console.log('gaga2',files.img_link);
 
           await Categories.updateOne({_id:id},{$set:category});
