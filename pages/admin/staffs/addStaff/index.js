@@ -4,6 +4,7 @@ import { MultiSelect } from "react-multi-select-component";
 import axios from "axios";
 import { useLoader } from "../../../_app";
 import { useRouter } from "next/router";
+import { baseUrl } from "../../../../components/BaseUrl";
 
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
@@ -47,7 +48,7 @@ export default function AddStaff(){
     formData.append('instagram',JSON.stringify(instagram));
     formData.append('priveldges',JSON.stringify(selectedOption));
     
-    axios.post('/api/staffs/addStaff',formData,{withCredentials:true})
+    axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
     .then(res=>{
         let data=res.data.status;
         setloading(false)

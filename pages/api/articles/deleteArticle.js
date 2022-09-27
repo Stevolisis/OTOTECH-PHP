@@ -29,15 +29,16 @@ export default async function handler(req,res){
 
 
             try{
-              let imgDelete=await Articles.findOne({_id:fields.id}).select('img_link');
+              let imgDelete=await Articles.findOne({_id:fields.id}).select('img');
                           
               await Promise.all([
-               Articles.deleteOne({id:fields.id}),
+               Articles.deleteOne({_id:fields.id}),
                Likes.deleteOne({pageId:fields.id}),
                Views.deleteOne({pageId:fields.id}),
                Comments.deleteOne({pageId:fields.id}),
-               Cloudinary.uploader.destroy(`${imgDelete.img.public_id}`)                
-              ]).then(res.status(200).json({status:'success'}))
+               Cloudinary.uploader.destroy(imgDelete.img.public_id)                
+              ])
+              res.status(200).json({status:'success'});
 
 
             }catch(err){

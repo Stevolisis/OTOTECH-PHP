@@ -445,7 +445,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
         </div>
 
         <div className="articleAuthor" >
-        <p>{comment.user&&comment.user.full_name} ({`${comment.day}/${comment.month}/${comment.year}`})</p>
+        <p>{comment.user&&comment.user.full_name} ({`${comment.day}/${parseInt(comment.month)+1}/${comment.year}`})</p>
         <p>{comment.comment}</p>
         </div>
         </div>
