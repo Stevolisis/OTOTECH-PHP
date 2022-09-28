@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useLoader } from "../../../_app";
 import { ThreeDots } from "react-loader-spinner";
+import { baseUrl } from "../../../../components/BaseUrl";
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
 <div style={{width:'100%',height:'400px',background:'#f5f6f6',display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -34,7 +35,6 @@ export default function EditArticle(){
     const {loading,setloading}=useLoader();
     const router=useRouter();
     const {id}=router.query;
-    console.log('routerId',id)
 
     function show(){
         console.log(editorRef.current.getContent())
@@ -118,6 +118,7 @@ export default function EditArticle(){
 
     function handleSubmit(e){
         e.preventDefault();
+
         Swal.fire({
             title: 'Are you sure?',
             text: "Confirm Action On Article",
@@ -132,8 +133,8 @@ export default function EditArticle(){
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         formData.append('id',id);
-        axios.post('/api/articles/editArticle/',formData,{withCredentials:true})
-        .then(res=>{
+        axios.post(`${baseUrl}/api/articles/editArticle`,formData,{withCredentials:true})
+        .then(res=>{        console.log('routerIddddddddd',id)
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
@@ -151,6 +152,7 @@ export default function EditArticle(){
                     status,
                     'warning'
                 )  
+                console.log('help',res.data)
             }
         }).catch(err=>{
             setloading(false)
@@ -159,6 +161,7 @@ export default function EditArticle(){
                 err.message,
                 'warning'
             )  
+            console.log('rrrrrrr',err)
         })
     }
     })

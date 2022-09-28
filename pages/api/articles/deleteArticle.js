@@ -37,7 +37,9 @@ export default async function handler(req,res){
                Views.deleteOne({pageId:fields.id}),
                Comments.deleteOne({pageId:fields.id}),
                Cloudinary.uploader.destroy(imgDelete.img.public_id)                
-              ])
+              ]).then(reslt=>{
+                console.log(reslt)
+              })
               res.status(200).json({status:'success'});
 
 

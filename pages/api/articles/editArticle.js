@@ -2,7 +2,7 @@ import Articles from "../../../db/Model/articleSchema";
 import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
-const url_slugify=require('slugify');
+import url_slugify from 'slugify';
 import Cloudinary from '../../../serviceFunctions/cloudinary';
 import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
@@ -30,7 +30,8 @@ export default async function handler(req,res){
           const id=fields.id;
           let stripSlug;
           let categorySlug;
-
+          console.log(fields)
+          
           try{
           if(files.img_link.size!==0){
             imgDelete=await Articles.findOne({_id:id}).select('img');
@@ -53,7 +54,8 @@ export default async function handler(req,res){
 
           let article=fields;
           {files.img_link.size===0 ? '' : article.img={public_id:cloudImg.public_id,url:cloudImg.url}}
-          {fields.title&&fields.category ? article.slug=`${categorySlug.slug}/${stripSlug}` : ''}
+          {fields.title&&fields.category ? article.slug=`/${stripSlug}` : ''}
+          {fields.title&&fields.category ? article.categorySlug=`${categorySlug.slug}` : ''}
           
           await Articles.updateOne({_id:id},{$set:article});
           if(files.img_link.size!==0) await Cloudinary.uploader.destroy(imgDelete.img.public_id);

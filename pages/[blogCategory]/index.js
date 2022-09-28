@@ -11,6 +11,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { baseUrl } from "../../components/BaseUrl";
 import { useLoader } from "../_app";
+import SlidingArticlesLoader from "../../components/SlidingArticlesLoader";
+import BlogLoader from "../../components/BlogLoader";
 
 
 export const getServerSideProps=async (context)=>{
@@ -36,9 +38,9 @@ export const getServerSideProps=async (context)=>{
   
 export default function BlogCategory({category,blogData,error}){
   let router=useRouter();
-    const [articlesSlide,setarticlesSlide]=useState([]);
-    const [categories,setcategories]=useState([]);
-    const [articles,setarticles]=useState([]);
+    const [articlesSlide,setarticlesSlide]=useState(null);
+    const [categories,setcategories]=useState(null);
+    const [articles,setarticles]=useState(null);
     const { loading, setloading } = useLoader();
     let limit=useRef(1);
 
@@ -211,9 +213,12 @@ export default function BlogCategory({category,blogData,error}){
 <div className={styles.categorySliderCon}>
 <div className={styles.categorySlider}>
   {
-    categories && categories.map((category,i)=>{
+    categories!==null ? categories.map((category,i)=>{
 return <Link href={category.slug&&category.slug} key={i}><a className={styles.categorySlide}><i className={`fa fa-${category.icon}`}/>{category.name}</a></Link>
-    })
+    }) :
+    [1,2,3,4].map((category,i)=>{
+      return <Link href='#' key={i}><a style={{width:'100px',height:'35px',background:'rgba(201, 197, 197,0.4)',margin:'0 12px'}}><i/></a></Link>
+          })
   }
   </div>
 </div>
@@ -230,7 +235,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
      <div className='categoriesCon3'>
       
       
-      {articles.length !==0 ? <BlogList articles={articles}/> : ''}
+      {articles!==null ? <BlogList articles={articles}/> : <BlogLoader/>}
 
 
       <div className='blogNavCon'>
@@ -241,7 +246,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
       </div>
 
 
-      {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: ''}
+      {articlesSlide!==null ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: <SlidingArticlesLoader/>}
         </>
     )
 }

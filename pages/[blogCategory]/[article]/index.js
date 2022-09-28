@@ -10,6 +10,9 @@ import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
 import {baseUrl} from '../../../components/BaseUrl'
 import { useLoader } from "../../_app";
+import SlidingArticlesLoader from "../../../components/SlidingArticlesLoader";
+import Comments from "../../../components/Comments";
+import CommentsLoader from "../../../components/CommentsLoader";
 
 
 
@@ -57,12 +60,12 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
-    const [articlesSlide,setarticlesSlide]=useState([]);
+    const [articlesSlide,setarticlesSlide]=useState(null);
     const [liked, setLiked]=useState(false);
     const [windowLink, setwindowLink]=useState('');
     const [email, setemail]=useState('');
     const [full_name, setfull_name]=useState('');
-    const [comments, setcomments]=useState(''); 
+    const [comments, setcomments]=useState(null); 
 
 
 
@@ -315,7 +318,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             src={img_link}
             alt='Cover Image'
             layout="fill"
-            quality={85}
+            quality={90}
             // objectFit="fill"
             blurDataURL="/favicon.io"
             placeholder="blur"
@@ -426,36 +429,13 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
      </div>
 
 
-<div className="articleCommentsCon">
-<h3>{comments.length!==0 ? 'Comments' :'Comments (no comments yet)'}</h3>
 
-{comments && 
-    comments.map((comment,i)=>{
-        return(
-        <div className='articleAuthorCon' style={{width:'100%'}} key={i}>
-        <div className='authorImg'>
-        <Image
-        src='/user.png'
-        width={40}
-        height={40}
-        style={{borderRadius:'50%'}}
-        placeholder='blur'
-        blurDataURL="/favicon.io"
-        />
-        </div>
 
-        <div className="articleAuthor" >
-        <p>{comment.user&&comment.user.full_name} ({`${comment.day}/${parseInt(comment.month)+1}/${comment.year}`})</p>
-        <p>{comment.comment}</p>
-        </div>
-        </div>
-        )
-    })
-}
+{comments!==null ? <Comments comments={comments}/> : <CommentsLoader/>}
 
-</div>
 
-     {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>: ''}
+
+     {articlesSlide!==null ? <SlidingArticles articlesSlide={articlesSlide} title='Related Topics'/>: <SlidingArticlesLoader/>}
 
     </>
     )

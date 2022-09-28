@@ -45,12 +45,13 @@ export default async function handler(req,res){
            let cloudImg;
 
             try{
-              cloudImg=await cloudinary.uploader.upload(files.img_link.filepath)
+              cloudImg=await cloudinary.uploader.upload(files.img_link.filepath,{public_id:Date.now()+files.img_link.originalFilename.split('.')[0]})
               console.log('cloudinaaary',cloudImg);
               
              const article=new Articles({
              title:fields.title,
-             slug:`${categorySlug.slug}/${stripSlug}`,
+             slug:`/${stripSlug}`,
+             categorySlug:`${categorySlug.slug}`,
              category:fields.category,
              author:fields.author,
              content:fields.content,
