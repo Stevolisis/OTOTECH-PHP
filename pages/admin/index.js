@@ -42,9 +42,9 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
-          'warning'
+          'Error Occured',
+          'Please check your connection',
+          'error'
         )
   }
 
@@ -83,7 +83,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
         }else{
             setdataLoad1(false)
             Swal.fire(
-                'Unsuccessful',
+                'Error Occured',
                 status,
                 'warning'
             )
@@ -91,8 +91,8 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
     }).catch(err=>{
         setdataLoad1(false)
         Swal.fire(
-            'Unsuccessful',
-            err,
+            'Error Occured',
+            err.message,
             'error'
         )
     })
@@ -133,7 +133,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
                 }else{
                     setdataLoad2(false);
                     Swal.fire(
-                        'Unsuccessful',
+                        'Error Occured',
                         status,
                         'warning'
                     )
@@ -141,8 +141,8 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
             }).catch(err=>{
                 setdataLoad2(false)
                 Swal.fire(
-                    'Unsuccessful',
-                    err,
+                    'Error Occured',
+                    err.message,
                     'error'
                 )
             })

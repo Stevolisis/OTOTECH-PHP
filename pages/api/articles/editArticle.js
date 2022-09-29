@@ -30,7 +30,6 @@ export default async function handler(req,res){
           const id=fields.id;
           let stripSlug;
           let categorySlug;
-          console.log(fields)
           
           try{
           if(files.img_link.size!==0){
@@ -40,7 +39,10 @@ export default async function handler(req,res){
             if(!validImagetype.includes(files.img_link.mimetype.split('/')[1],0)) {
             res.status(200).json({status:'Invalid Image Type'});
             return;
-            }
+            }else if(files.img_link.size >=1048576 ) {
+              res.status(200).json({status:'Image Size must be less than 1mb'});
+              return;
+             }
 
             cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath);
                          
@@ -63,7 +65,6 @@ export default async function handler(req,res){
 
         }catch(err){
           res.status(404).json({status:err.message})
-          console.log(err)
           }          
 
         }); 

@@ -25,11 +25,9 @@ export default async function handler(req,res){
         
         form.parse(req,async function(err, fields, files) {
           if (err) throw new Error('Error at Parsing');
-          console.log(fields);
 
             try{
               let imgDelete=await Categories.findOne({_id:fields.id}).select('img');
-              console.log(imgDelete)
 
               await Promise.all([
                 Articles.updateMany({category:fields.id},{$set:{status:'inactive'}}),
@@ -39,7 +37,6 @@ export default async function handler(req,res){
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
         });

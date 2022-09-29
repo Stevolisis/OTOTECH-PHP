@@ -65,11 +65,10 @@ export default function EditStaff({error,editId,editSelectedOption,editFull_name
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
+          'Error Occured',
+          'Please check your Connection',
           'warning'
         )
-        console.log('laaaap',error)
   }
     
 const options = [
@@ -128,7 +127,7 @@ const options = [
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Error!',
+                    'Error Occured',
                     status,
                     'warning'
                 )  
@@ -136,7 +135,7 @@ const options = [
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 err.message,
                 'warning'
             )  

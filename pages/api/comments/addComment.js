@@ -3,7 +3,7 @@ import Users from '../../../db/Model/userSchema';
 import Comments from '../../../db/Model/commentSchema';
 import formidable from "formidable";
 const jwt=require("jsonwebtoken");
-import { getCookies, getCookie, setCookie, deleteCookie } from 'cookies-next'
+import { setCookie } from 'cookies-next'
 
 export const config = {
     api: {
@@ -18,16 +18,13 @@ export default async function handler(req,res){
         const form = new formidable.IncomingForm();
         form.parse(req,async function(err, fields, files) {
         if (err) throw new Error('Error at Parsing'); 
-        console.log(fields)
         try{
 
             const userExist=await Users.findOne({email:fields.email});
             let token=jwt.sign({email:fields.email},process.env.JWT_PASS,{expiresIn:60*60*24*30*12});
             let date=new Date();
-            console.log('userExist '+userExist);
     
             if(userExist !== null){
-                console.log('userExist2 '+userExist);
                 const comment=new Comments({
                 user:userExist.id,
                 page_link:fields.page_link,
@@ -47,7 +44,6 @@ export default async function handler(req,res){
                 })
 
                 
-                console.log('User Exist Task Done');
     
     
             }else{
@@ -59,8 +55,6 @@ export default async function handler(req,res){
                     year:date.getFullYear()
                 });
                 const userSave=await user.save();
-                console.log(userSave);
-                
                 const comment=new Comments({
                     user:userSave.id,
                     page_link:fields.page_link,
@@ -79,7 +73,6 @@ export default async function handler(req,res){
                     maxAge: 60 * 60 * 24 * 30 * 10,httpOnly:true,secure:true,sameSite:true,path:'/'});
                     res.status(200).json({status:'success'})
                 });
-                console.log('User Does Not Exist Task Done');
     
             }
 

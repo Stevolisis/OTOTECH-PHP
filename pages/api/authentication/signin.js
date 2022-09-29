@@ -19,11 +19,9 @@ export default async function handler(req,res){
         
         form.parse(req,async function(err, fields, files) {
         if (err) throw new Error('Error at Parsing'); 
-        console.log(fields)
         
         try{
             const userExist=await Staffs.findOne({email:fields.email,status:'active'}).select('password');
-            console.log(userExist);
 
             if(userExist){
             bcrypt.compare(fields.password,userExist.password)

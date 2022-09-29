@@ -2,8 +2,7 @@ import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import {useRouter} from 'next/router'
-import { useEffect,useRef,useState } from "react";
+import { useEffect,useState } from "react";
 import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
@@ -50,9 +49,9 @@ export const getServerSideProps=async (context)=>{
 export default function Article({error,content,pageId,categoryId,img_link,img_link2,whatsapp,dribble,github,linkedin,twitter,instagram}){
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
-          'warning'
+          'Error Occured',
+          'Please check your connection',
+          'error'
         )
   }
   const { loading, setloading } = useLoader();
@@ -122,7 +121,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
                     
                     Toast.fire({
                     icon: 'success',
-                    title: `You like this page on ${item}`
+                    title: ''
                     });
 
                 }else{
@@ -133,7 +132,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
                     Toast.fire({
                     icon: 'success',
-                    title: `You like this page on ${item}`
+                    title:''
                 });                
                     }
 
@@ -147,15 +146,14 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
                 }else{
                     Toast.fire({
-                        icon: 'error',
-                        title: 'You Unlike this page'
+                        icon: 'warning',
+                        title: ''
                     })
                 }
             }).catch(err=>{
-                console.log(err)
                 Toast.fire({
-                    icon: 'warning',
-                    title: 'Error Occured'
+                    icon: 'error',
+                    title: ''
                 })
             })
         }else{
@@ -163,9 +161,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             let indexTracker=likeTracker.indexOf(window.location.href);
             likeTracker.splice(indexTracker,indexTracker+1);
             localStorage.setItem('likeTracker',JSON.stringify(likeTracker));  
-            
-            console.log(indexTracker)
-        }
+                    }
     }
 
 
@@ -195,13 +191,11 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             let data=res.data.data;
             setloading(false);
 
-            if(status==='success') alert(status)
+            if(status==='success') Toast.fire({icon: 'success',title: ''})
             loadComments();
             userAuth();
-            console.log(data,status)
            
         }).catch(err=>{
-            console.log(err)
             setloading(false);
         })
      }
@@ -220,10 +214,10 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             if(status==='success'){
                 setcomments(data);
             }else{
-                console.log('commentsSec',status);
+                return;
             }
         }).catch(err=>{
-            console.log('commentsErr',err);
+           return;
         })
        }
     }
@@ -241,11 +235,11 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
                 setfull_name(data.full_name);
                 setemail(data.email);
             }else{
-                console.log('commentsSec',data);
+               return;
             }
 
          }).catch(err=>{
-             console.log('commentsErr',err);
+             return;
          })
      }
 
@@ -262,16 +256,16 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
                 setarticlesSlide(data)
             }else{
                 Swal.fire(
-                    'Error Soil',
+                    'Error Occured',
                     res.data.status,
                     'warning'
                 )
             }
         }).catch(err=>{
             Swal.fire(
-                'Error Soil2',
-                'Error Occured at Axios',
-                'warning'
+                'Error Occured',
+                err.message,
+                'error'
             )           
         });            
         }
@@ -296,7 +290,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     return(
     <>
     <Head>
-        <title>article</title>
+        <title>Ototech Articles</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
     </Head>
@@ -378,9 +372,9 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             onClick={() => console.log("shared successfully!")}>
             <button onClick={()=>navigator.share({title:`${content && content.title}`,text:'OTOTCH BLOG',url:`${windowLink}}`})}>Share <i className="fa fa-share"/></button>
             </RWebShare>
-                <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}}i&title=${content && content.title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>
-                <Link href={`https://twitter.com/intent/tweet?text=${windowLink}}`}><a><i className="fa fa-twitter"/></a></Link>
-                <Link href={`https://www.facebook.com/sharer/sharer.php?u=${windowLink}}`}><a><i className="fa fa-facebook"/></a></Link>
+                <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}i&title=${content && content.title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>
+                <Link href={`https://twitter.com/intent/tweet?text=${windowLink}`}><a><i className="fa fa-twitter"/></a></Link>
+                <Link href={`https://www.facebook.com/sharer/sharer.php?u=${windowLink}`}><a><i className="fa fa-facebook"/></a></Link>
             </div>
         </div>
 

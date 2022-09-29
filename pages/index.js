@@ -18,7 +18,7 @@ export const getServerSideProps=async (context)=>{
 let error;
 try{
   const res=await axios.get(`${baseUrl}/api/categories/getCategories`);
-  const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=1`);
+  const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=8`);
   const categories= res.data.data||null;
   const blogData= res3.data.data||null;
   
@@ -38,14 +38,13 @@ export default function Home({categories,blogData,error}) {
   const [articlesSlide,setarticlesSlide]=useState(null);
   const { loading, setloading } = useLoader();
   const [articles,setarticles]=useState(null)
-  let limit=useRef(1)
-  console.log(blogData)
+  let limit=useRef(8)
 
   if(error){
     Swal.fire(
-      'Error at ServerSideProps',
-      error,
-      'warning'
+      'Error Occured',
+      'Please check your connection',
+      'error'
     )
   }
 
@@ -80,7 +79,7 @@ function loadArticles(){
           setarticles(data)
       }else{
           Swal.fire(
-              'Error',
+              'Error Occured',
               res.data.status,
               'warning'
           )
@@ -88,9 +87,9 @@ function loadArticles(){
   }).catch(err=>{
     setloading(false);
       Swal.fire(
-          'Error',
+          'Error Occured',
           err.message,
-          'warning'
+          'error'
       )           
   });
 }
@@ -115,7 +114,7 @@ function loadArticlesByViews(){
   }).catch(err=>{
       Swal.fire(
           'Error',
-          'Error Occured at Axios',
+          err.message,
           'warning'
       )           
   });
@@ -123,7 +122,7 @@ function loadArticlesByViews(){
 
 
   function loadMore(){
-    limit.current=limit.current+1;
+    limit.current=limit.current+8;
     loadArticles()
   }
 

@@ -13,7 +13,7 @@ export default function AdminComments(){
     const filterIndex=useRef('');
     const filterComments=Array.from(comments);
     const router=useRouter();
-    let limit=useRef(1);
+    let limit=useRef(10);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
@@ -44,7 +44,6 @@ export default function AdminComments(){
             err,
             'error'
         )
-        console.log(err)
     })
   }
 
@@ -60,7 +59,6 @@ export default function AdminComments(){
 
 
 function deleteComment(id){
-    console.log(id)
     Swal.fire({
         title: 'Are you sure?',
         text: "Confirm Delete of Comment",
@@ -88,7 +86,7 @@ function deleteComment(id){
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Warning',
+                    'Error Occured',
                     status,
                     'error'
                 )
@@ -96,7 +94,7 @@ function deleteComment(id){
             }).catch(err=>{
                 setloading(false);
                 Swal.fire(
-                    'Warning',
+                    'Error Occured',
                     err.message,
                     'error'
                 )
@@ -106,7 +104,7 @@ function deleteComment(id){
   }
 
 function loadLimitComment(){
-    limit.current=limit.current+1;
+    limit.current=limit.current+10;
     loadComments();
   }
 

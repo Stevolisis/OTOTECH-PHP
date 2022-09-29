@@ -14,18 +14,14 @@ export const config = {
 export default async function handler(req,res){
     await dbConnect();
 
-console.log('one done')
-
     if(req.method==='POST'){
       const verify=await verifyTokenPriveledge(req.cookies.adminPass,'editCategories')
 
-      console.log('two done')
 
       if(req.cookies.adminPass !== undefined && verify===true){
         const form = new formidable.IncomingForm();
         const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
 
-        console.log('three done')
 
         form.parse(req,async function(err, fields, files) {
           if (err) throw new Error('Error at Parsing');
@@ -33,7 +29,6 @@ console.log('one done')
           let imgDelete;
           const id=fields.id;
           let stripSlug;
-          console.log(fields)
 
           try{
           if(files.img_link.size!==0){
@@ -42,11 +37,13 @@ console.log('one done')
             if(!validImagetype.includes(files.img_link.mimetype.split('/')[1],0)) {
             res.status(200).json({status:'Invalid Image Type'});
             return;
-            }
+            }else if(files.img_link.size >=1048576 ) {
+              res.status(200).json({status:'Image Size must be less than 1mb'});
+              return;
+             }
             
             cloudImg=await cloudinary.uploader.upload(files.img_link.filepath);
             let delImg=await cloudinary.uploader.destroy(`${imgDelete.img.public_id}`);
-            console.log('imgDel', delImg);
           }
 
           if(fields.name){
@@ -57,7 +54,6 @@ console.log('one done')
           let category=fields;
           
           {files.img_link.size===0 ? '' : category.img={public_id:cloudImg.public_id,url:cloudImg.url}}
-          // console.log('gaga',await cloudinary.uploader.upload(files.img_link.filepath));
           {fields.name ? category.slug=`/${stripSlug}` : ''}
 
 
@@ -76,7 +72,6 @@ console.log('one done')
 
           }catch(err){
           res.status(404).json({status:err.message})
-          console.log(err)
           }
 
         });

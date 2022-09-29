@@ -38,7 +38,7 @@ export default function AddStaff(){
 
   function handleSubmit(e){
     e.preventDefault();
-    setloading(true)
+    
     const formData=new FormData(e.target);
     formData.append('whatsapp',JSON.stringify(whatsapp));
     formData.append('dribble',JSON.stringify(dribble));
@@ -47,12 +47,12 @@ export default function AddStaff(){
     formData.append('twitter',JSON.stringify(twitter));
     formData.append('instagram',JSON.stringify(instagram));
     formData.append('priveldges',JSON.stringify(selectedOption));
-    
+    setloading(true)
     axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
     .then(res=>{
-        let data=res.data.status;
+        let status=res.data.status;
         setloading(false)
-        if(data==='success'){
+        if(status==='success'){
             Swal.fire(
                 'Successful!',
                 'Staff Added',
@@ -63,15 +63,15 @@ export default function AddStaff(){
             router.push(`/login?next=${router.asPath}`)
         }else{
             Swal.fire(
-                'Error!',
-                data,
+                'Error Occured',
+                status,
                 'warning'
             )  
         }
     }).catch(err=>{
         setloading(false);
         Swal.fire(
-            'Error!',
+            'Error Occured',
             err.message,
             'error'
         ) 

@@ -33,11 +33,10 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
-          'warning'
+          'Error Occured',
+          'Please check your Connection',
+          'error'
         )
-        console.log(error)
   }
   const [full_name,setfull_name]=useState('');
   const [email,setemail]=useState('');
@@ -73,7 +72,7 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Error!',
+                    'Error Occured',
                     status,
                     'warning'
                 )  
@@ -81,9 +80,9 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 err.message,
-                'warning'
+                'error'
             )  
         })
     }

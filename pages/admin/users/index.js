@@ -15,7 +15,7 @@ export default function AdminUsers(){
     const filterIndex=useRef('');
     const filterUsers=Array.from(users);
     const router=useRouter();
-    let limit=useRef(1);
+    let limit=useRef(10);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
@@ -34,8 +34,8 @@ export default function AdminUsers(){
             
         }else{
             Swal.fire(
-                'Error',
-                data,
+                'Error Occured',
+                status,
                 'error'
             )
         }
@@ -43,12 +43,11 @@ export default function AdminUsers(){
         setdataLoad(false)
         Swal.fire(
             'Warning',
-            err,
+            err.message,
             'error'
         )
-        console.log(err)
     })
-  }
+ }
 
 
   
@@ -80,16 +79,16 @@ export default function AdminUsers(){
         router.push(`/login?next=${router.asPath}`)
     }else{
         Swal.fire(
-            'Warning',
+            'Error Occured',
             status,
-            'error'
+            'warning'
         )
        }
     }).catch(err=>{
         setloading(false);
         Swal.fire(
-            'Warning',
-            err,
+            'Error Occured',
+            err.message,
             'error'
         )
     })
@@ -99,7 +98,7 @@ export default function AdminUsers(){
 
 
   function loadLimitUser(){
-    limit.current=limit.current+1;
+    limit.current=limit.current+10;
     loadUsers()
   }
 
