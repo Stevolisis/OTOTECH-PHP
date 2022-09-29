@@ -25,7 +25,8 @@ function handleSubmit(e){
             setloading(false)
             if(status==='success'){
                 if(from==='adminRoutes'){
-                    router.reload();
+                    // router.reload();
+                    router.push(baseUrl+router.asPath||`${baseUrl}/admin`,{ shallow: true })
                 }else{
                     router.push(baseUrl+next||`${baseUrl}/admin`);
                 }
