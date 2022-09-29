@@ -62,7 +62,7 @@ console.log('one done')
 
 
           await Categories.updateOne({_id:id},{$set:category});
-          await Articles.updateOne({category:id},{$set:{categorySlug:stripSlug}});
+          await Articles.updateMany({category:id},{$set:{categorySlug:`/${stripSlug}`}});
 
           {category.status==='inactive' ? 
           await Articles.updateMany({category:id},{$set:{status:'inactive'}})

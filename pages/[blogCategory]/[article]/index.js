@@ -20,7 +20,7 @@ export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
       const res=await axios.get(`${baseUrl}/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
-      const content= res.data.data[0];
+      const content= res.data.data;
       const pageId=content._id;
       const categoryId=content.category;
       const img_link=content.img.url;
