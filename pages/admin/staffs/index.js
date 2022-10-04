@@ -89,6 +89,9 @@ export default function AdminStaffs(){
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }

@@ -28,7 +28,7 @@ function handleSubmit(e){
                     router.reload();
                     // router.push(baseUrl+router.asPath||`${baseUrl}/admin`,{ shallow: true })
                 }else{
-                    router.push(baseUrl+next||`${baseUrl}/admin`);
+                    router.push(next||`${baseUrl}/admin`);
                 }
             
             // router.push(next);
@@ -43,8 +43,8 @@ function handleSubmit(e){
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Alert!',
-                 err,
+                'Error Occured',
+                 err.message,
                 'error'
             )
         })

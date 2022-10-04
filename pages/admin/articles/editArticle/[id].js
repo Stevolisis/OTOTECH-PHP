@@ -154,7 +154,6 @@ export default function EditArticle(){
                     status,
                     'warning'
                 )  
-                console.log('help',res.data)
             }
         }).catch(err=>{
             setloading(false)
@@ -164,6 +163,9 @@ export default function EditArticle(){
                 'error'
             )
         })
+    }else{
+        setloading(false);
+        return;
     }
     })
     }

@@ -91,6 +91,9 @@ export default function AdminArticles(){
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }

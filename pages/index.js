@@ -106,16 +106,16 @@ function loadArticlesByViews(){
           setarticlesSlide(data)
       }else{
           Swal.fire(
-              'Error',
+              'Error Occured',
               res.data.status,
               'warning'
           )
       }
   }).catch(err=>{
       Swal.fire(
-          'Error',
+          'Error Occured',
           err.message,
-          'warning'
+          'error'
       )           
   });
 }
@@ -141,6 +141,7 @@ useEffect(()=>{
         <title>OTOTECH BLOG</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#ec9735" />
       </Head>
 
 

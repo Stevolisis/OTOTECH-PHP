@@ -91,6 +91,9 @@ export default function AdminCategories(){
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }

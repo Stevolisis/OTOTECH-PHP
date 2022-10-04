@@ -102,6 +102,9 @@ function handleSubmit(e){
             'error'
         )  
     })
+}else{
+    setloading(false);
+    return;
 }
 })
 }

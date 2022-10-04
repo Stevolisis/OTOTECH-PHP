@@ -85,6 +85,9 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                 'error'
             )  
         })
+    }else{
+        setloading(false);
+        return;
     }
 })
     }

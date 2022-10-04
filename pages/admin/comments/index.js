@@ -99,6 +99,9 @@ function deleteComment(id){
                     'error'
                 )
             })
+        }else{
+            setloading(false);
+            return;
         }
       })
   }

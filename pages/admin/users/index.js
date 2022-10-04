@@ -92,6 +92,9 @@ export default function AdminUsers(){
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }

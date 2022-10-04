@@ -97,6 +97,9 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                 'error'
             )  
         })
+    }else{
+        setloading(false);
+        return;
     }
 })
     }
