@@ -48,34 +48,52 @@ export default function AddStaff(){
     formData.append('instagram',JSON.stringify(instagram));
     formData.append('priveldges',JSON.stringify(selectedOption));
     setloading(true)
-    axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
-    .then(res=>{
-        let status=res.data.status;
-        setloading(false)
-        if(status==='success'){
-            Swal.fire(
-                'Successful!',
-                'Staff Added',
-                'success'
-            )
-        }else if(status==='Invalid User'){
-               
-            router.push(`/login?next=${router.asPath}`)
-        }else{
+
+    Swal.fire({
+            title: 'Are you Sure?',
+            text: "Note: Only Admin is Permitted to edit your profile",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Continue!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+            
+        axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
+        .then(res=>{
+            let status=res.data.status;
+            setloading(false)
+            if(status==='success'){
+                Swal.fire(
+                    'Successful!',
+                    'Staff Added',
+                    'success'
+                )
+            }else if(status==='Invalid User'){
+                    
+                router.push(`/login?next=${router.asPath}`)
+            }else{
+                Swal.fire(
+                    'Error Occured',
+                    status,
+                    'warning'
+                )  
+            }
+        }).catch(err=>{
+            setloading(false);
             Swal.fire(
                 'Error Occured',
-                status,
-                'warning'
-            )  
+                err.message,
+                'error'
+            ) 
+        })
+        
+        }else{
+            setloading(false);
+            return;
         }
-    }).catch(err=>{
-        setloading(false);
-        Swal.fire(
-            'Error Occured',
-            err.message,
-            'error'
-        ) 
-    })
+});
 }
 
 

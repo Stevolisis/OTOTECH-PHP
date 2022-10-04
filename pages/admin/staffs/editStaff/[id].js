@@ -140,6 +140,9 @@ const options = [
                 'warning'
             )  
         })
+    }else{
+        setloading(false);
+        return;
     }
     })
     }

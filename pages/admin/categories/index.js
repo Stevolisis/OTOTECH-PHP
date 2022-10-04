@@ -52,7 +52,7 @@ export default function AdminCategories(){
   function deleteCategory(id){
     Swal.fire({
         title: 'Are you sure?',
-        text: "Confirm Delete of Comment",
+        text: "Note: All Articles in this category will be deactivated not deleted.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
