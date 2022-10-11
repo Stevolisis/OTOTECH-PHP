@@ -128,7 +128,7 @@ export default function Header({res}){
       {
         searchResult&& searchResult.map((searchRes,i)=>{
           if(searchRes!==null){
-            return <div key={i}><Link href={searchRes.slug}><a>{searchRes.title||searchRes.name}  <span style={{color:'#ec9735',fontSize:'12px'}}>{searchRes.title?'Article':'Category'}</span></a></Link></div>
+            return <div key={i}><Link href={searchRes.title ? searchRes.categorySlug + searchRes.slug : searchRes.slug}><a>{searchRes.title||searchRes.name}  <span style={{color:'#ec9735',fontSize:'12px'}}>{searchRes.title?'Article':'Category'}</span></a></Link></div>
           }
         })
       }
