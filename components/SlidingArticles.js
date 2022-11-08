@@ -9,10 +9,10 @@ export default function SlidingArticles({articlesSlide,title}){
 
   if(articlesSlide!== undefined){
     listing=articlesSlide.map((article,i)=>{
-     const {title,img,author,slug,views,likes,day,month,year}=article;
+     const {title,img,author,categorySlug,slug,views,likes,day,month,year}=article;
  
      return(
-     <Link href={slug} key={i}><a className='blogCon'>
+     <Link href={categorySlug+slug} key={i}><a className='blogCon'>
        <div className='blogImg'>
              <Image 
              src={img.url}

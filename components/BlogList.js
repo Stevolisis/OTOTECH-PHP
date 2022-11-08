@@ -9,10 +9,10 @@ export default function BlogList({articles}){
   let listing;
 
      listing=articles&&articles.map((article,i)=>{
-      const {title,img,author,slug,description,views,likes,day,month,year}=article;
+      const {title,img,author,slug,categorySlug,description,views,likes,day,month,year}=article;
 
       return(
-        <Link href={slug} key={i}><a className='blogCon' key={i}>
+        <Link href={categorySlug+slug} key={i}><a className='blogCon' key={i}>
         <div className='blogImg'>
               <Image 
               src={img.url}

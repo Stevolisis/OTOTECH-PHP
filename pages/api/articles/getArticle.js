@@ -7,21 +7,20 @@ export default async function handler(req,res){
 
     if(req.method==='GET'){
     const {category,article}=req.query;
-    let articleSlug=`/${category}/${article}`
+    let articleSlug=`/${article}`
+    let categorySlug=`/${category}`
   
 
 
 
             try{
-            let data=await Articles.find({slug:articleSlug,status:'active'}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' }).lean();
-
+            let data=await Articles.findOne({slug:articleSlug,categorySlug:categorySlug,status:'active'}).populate({ path: 'author',select:'full_name description img whatsapp dribble github linkedin twitter instagram' }).lean();
                 res.status(200).json({data:data,status:'success'});
 
 
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
           }else{

@@ -11,9 +11,9 @@ const nextConfig = {
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname
 },
-i18n: {
-  locales: ["en"],
-  defaultLocale: "en",
+i18n:{
+locales:["en"],
+defaultLocale:"en",
 }
 }
 

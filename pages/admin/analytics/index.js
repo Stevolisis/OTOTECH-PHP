@@ -67,12 +67,11 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
-          'warning'
+          'Error Occured',
+          'Please check your Connection',
+          'error'
         )
   }
-  console.log('jaaaaapa',error)
 
 
     function getViewStat(){
@@ -104,11 +103,10 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
               setdataLoad1(false)
 setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-              console.log('luuup',viewStat.week1.length)
             }else{
                 setdataLoad1(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -116,11 +114,10 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
         }).catch(err=>{
             setdataLoad1(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 
@@ -156,11 +153,10 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
               setdataLoad2(false)
 setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-              console.log('luuup',likeStat.week1.length)
             }else{
                 setdataLoad2(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -168,11 +164,10 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
         }).catch(err=>{
             setdataLoad2(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 
@@ -205,12 +200,11 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
               }
               setdataLoad3(false)
 setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
-
-              console.log('luuup',commentStat.week1.length)
+              
             }else{
                 setdataLoad3(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -218,11 +212,10 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
         }).catch(err=>{
             setdataLoad3(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 
@@ -256,11 +249,10 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
               setdataLoad4(false)
 setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-              console.log('luuup',userStat.week1.length)
             }else{
                 setdataLoad4(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -268,11 +260,10 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
         }).catch(err=>{
             setdataLoad4(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 
@@ -308,11 +299,10 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
               setdataLoad5(false)
 setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-              console.log('luuup',articleStat.week1.length)
             }else{
                 setdataLoad5(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -320,11 +310,10 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
         }).catch(err=>{
             setdataLoad5(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 
@@ -358,11 +347,10 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
               setdataLoad6(false)
 setcategoryStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
-              console.log('luuup',categoryStat.week1.length)
             }else{
                 setdataLoad6(false)
                 Swal.fire(
-                    'Unsuccessful',
+                    'Error Occured',
                     status,
                     'warning'
                 )
@@ -370,11 +358,10 @@ setcategoryStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4
         }).catch(err=>{
             setdataLoad6(false)
             Swal.fire(
-                'Unsuccessful',
-                err,
+                'Error Occured',
+                err.message,
                 'error'
             )
-            console.log(err)
         })
     }
 

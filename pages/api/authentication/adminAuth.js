@@ -16,8 +16,6 @@ export default async function handler(req,res){
 
             try{
             const verify=jwt.verify(cookie,process.env.JWT_PASS);
-            console.log('Veeeeeerify',verify);
-            console.log('Veeeeeerify2',cookie);
             // let data=await Staffs.findOne({email:verify.email}).select('email')
             // console.log('Verified Token',data);
             // if(verify===''){
@@ -28,7 +26,6 @@ export default async function handler(req,res){
             res.status(200).json({status:'valid'});
 
     }catch(err){
-        console.log('JWT Verify',err.message)
         res.status(404).json({status:err.message})   
     }
 }else{

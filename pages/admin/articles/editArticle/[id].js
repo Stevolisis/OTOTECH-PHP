@@ -5,6 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useLoader } from "../../../_app";
 import { ThreeDots } from "react-loader-spinner";
+import { baseUrl } from "../../../../components/BaseUrl";
+
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
 <div style={{width:'100%',height:'400px',background:'#f5f6f6',display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -34,30 +36,27 @@ export default function EditArticle(){
     const {loading,setloading}=useLoader();
     const router=useRouter();
     const {id}=router.query;
-    console.log('routerId',id)
 
-    function show(){
-        console.log(editorRef.current.getContent())
-     }
 
      function loadAuthors(){
         axios.get('/api/staffs/getStaffs')
         .then(res=>{
             let data=res.data.data;
-            if(res.data.status==='success'){
+            let status=res.data.status;
+            if(status==='success'){
                 setAuthors(data)
             }else{
                 Swal.fire(
-                    'Error',
-                    res.data.status,
+                    'Error Occured',
+                    status,
                     'warning'
                 )
             }
         }).catch(err=>{
             Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
+                'Error Occured',
+                err.message,
+                'error'
             )           
         });
     }
@@ -67,7 +66,9 @@ export default function EditArticle(){
     axios.get(`/api/articles/getArticleEdit/${id}`)
     .then(res=>{
         let data=res.data.data;
-        if(res.data.status==='success'){
+        let status=res.data.status;
+
+        if(status==='success'){
             settitle(data[0].title)
             setauthor(data[0].author)
             setcategory(data[0].category)
@@ -76,16 +77,16 @@ export default function EditArticle(){
             setstatus(data[0].status)
         }else{
             Swal.fire(
-                'Error',
-                res.data.status,
+                'Error Occured',
+                status,
                 'warning'
             )
         }
     }).catch(err=>{
         Swal.fire(
-            'Error',
-            'Error Occured at Axios',
-            'warning'
+            'Error Occured',
+            err.message,
+            'error'
         )           
     });
  }else{
@@ -102,22 +103,23 @@ export default function EditArticle(){
                 setCategories(data)
             }else{
                 Swal.fire(
-                    'Error',
-                    res.data.status,
+                    'Error Occured',
+                    status,
                     'warning'
                 )
             }
         }).catch(err=>{
             Swal.fire(
-                'Error',
-                'Error Occured at Axios',
-                'warning'
+                'Error Occured',
+                err.message,
+                'error'
             )           
         });
     }
 
     function handleSubmit(e){
         e.preventDefault();
+
         Swal.fire({
             title: 'Are you sure?',
             text: "Confirm Action On Article",
@@ -132,7 +134,7 @@ export default function EditArticle(){
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         formData.append('id',id);
-        axios.post(``,formData,{withCredentials:true})
+        axios.post(`${baseUrl}/api/articles/editArticle`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
@@ -147,7 +149,7 @@ export default function EditArticle(){
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Error!',
+                    'Error Occured',
                     status,
                     'warning'
                 )  
@@ -155,11 +157,14 @@ export default function EditArticle(){
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 err.message,
-                'warning'
-            )  
+                'error'
+            )
         })
+    }else{
+        setloading(false);
+        return;
     }
     })
     }
@@ -220,7 +225,7 @@ export default function EditArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <TextEditor editorRef={editorRef} show={show} initialValue={content}/>
+            <TextEditor editorRef={editorRef} initialValue={content}/>
             </div>
         </div>
 

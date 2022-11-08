@@ -12,24 +12,18 @@ export default async function handler(req,res){
             try{
             let data=await Articles.find({status:'active'}).populate({ path: 'author',select:'full_name' }).limit(10).lean();
             
-            let result=[];
             for (let i = 0; i < data.length; i++) {
                 // data[i].Views=Articles.getViews('3456789')   
                 data[i].likes=await Likes.count({pageId:data[i]._id});
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
-                console.log(data[i].likes)
-                console.log(data[i].views)
-                console.log(data[i].comments) 
             }
             
             let response=data.sort((a,b)=>a.views < b.views ? 1:-1)
-            console.log('done')
             res.status(200).json({data:response,status:'success'});
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
           }else{

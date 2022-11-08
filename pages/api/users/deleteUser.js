@@ -21,7 +21,6 @@ export default async function handler(req,res){
         
         form.parse(req,async function(err, fields, files) {
           if (err) throw new Error('Error at Parsing');
-          console.log(fields);
             try{
             await Promise.all([
               Users.deleteOne({_id:fields.id}),
@@ -30,7 +29,6 @@ export default async function handler(req,res){
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
         });

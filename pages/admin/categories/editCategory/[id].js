@@ -43,8 +43,8 @@ export default function EditCategory({error,editId,editName,editDescription,edit
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
+          'Error Occured',
+          'Please check your Connection',
           'warning'
         )
   }
@@ -65,11 +65,9 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                 
         const formData=new FormData(e.target);
         formData.append('id',id);
-        console.log('what is it?')
 
         setloading(true)
 
-        console.log('SiduoKit')
         axios.post(`${baseUrl}/api/categories/editCategory/`,formData)
         .then(res=>{
             
@@ -86,7 +84,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Error!',
+                    'Error Occured',
                     status,
                     'warning'
                 )  
@@ -94,11 +92,14 @@ export default function EditCategory({error,editId,editName,editDescription,edit
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 err.message,
-                'warning'
+                'error'
             )  
         })
+    }else{
+        setloading(false);
+        return;
     }
 })
     }

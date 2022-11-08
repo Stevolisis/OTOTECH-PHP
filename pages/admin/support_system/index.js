@@ -46,11 +46,10 @@ export default function AddSupportSystem({error,editPhone_number,editGmail,editL
 
     if(error){
         Swal.fire(
-          'Error at ServerSideProps',
-          error,
-          'warning'
+          'Error Occured',
+          'Please check your Connection',
+          'error'
         )
-        console.log('laaaaand',error)
   }
 
 
@@ -90,7 +89,7 @@ function handleSubmit(e){
             router.push(`/login?next=${router.asPath}`)
         }else{
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 status,
                 'warning'
             )  
@@ -98,11 +97,14 @@ function handleSubmit(e){
     }).catch(err=>{
         setloading(false)
         Swal.fire(
-            'Error!',
+            'Error Occured',
             err.message,
-            'warning'
+            'error'
         )  
     })
+}else{
+    setloading(false);
+    return;
 }
 })
 }

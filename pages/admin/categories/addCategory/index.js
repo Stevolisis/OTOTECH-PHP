@@ -14,9 +14,7 @@ export default function AddCategory(){
     function handleSubmit(e){
         e.preventDefault();
         setloading(true)
-        const formData=new FormData(e.target);
-        console.log(formData)
-        
+        const formData=new FormData(e.target);        
         axios.post(`${baseUrl}/api/categories/addCategory`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
@@ -32,7 +30,7 @@ export default function AddCategory(){
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
-                    'Error!',
+                    'Error Occured',
                     status,
                     'warning'
                 )  
@@ -40,7 +38,7 @@ export default function AddCategory(){
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Error!',
+                'Error Occured',
                 err.message,
                 'error'
             )

@@ -19,7 +19,7 @@ export const getServerSideProps=async (context)=>{
   let error=context.query;
   try{
     const res=await axios.get(`${baseUrl}/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
-    const res2=await axios.get(`${baseUrl}/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=1`);
+    const res2=await axios.get(`${baseUrl}/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=8`);
     const category= res.data.data||null;
     const blogData= res2.data.data||null;
     
@@ -42,15 +42,14 @@ export default function BlogCategory({category,blogData,error}){
     const [categories,setcategories]=useState(null);
     const [articles,setarticles]=useState(null);
     const { loading, setloading } = useLoader();
-    let limit=useRef(1);
+    let limit=useRef(8);
 
     if(error){
       Swal.fire(
-        'Error at ServerSideProps',
-        error,
+        'Error Occured',
+        'Please check your connection',
         'warning'
       )
-      console.log(error)
 }
 
     function dropdown1(){
@@ -78,16 +77,16 @@ export default function BlogCategory({category,blogData,error}){
                   setarticlesSlide(data)
               }else{
                   Swal.fire(
-                      'Error',
+                      'Error Occured',
                       res.data.status,
                       'warning'
                   )
               }
           }).catch(err=>{
               Swal.fire(
-                  'Error',
-                  'Error Occured at Axios',
-                  'warning'
+                  'Error Occured',
+                  err.message,
+                  'error'
               )           
           });
         }
@@ -105,7 +104,7 @@ export default function BlogCategory({category,blogData,error}){
                   setarticles(data)
               }else{
                   Swal.fire(
-                      'Error Soil',
+                      'Error Occured',
                       res.data.status,
                       'warning'
                   )
@@ -113,9 +112,9 @@ export default function BlogCategory({category,blogData,error}){
           }).catch(err=>{
             setloading(false);
               Swal.fire(
-                  'Error Soil2',
+                  'Error Occured',
                   err.message,
-                  'warning'
+                  'error'
               )           
           });            
   
@@ -132,46 +131,23 @@ export default function BlogCategory({category,blogData,error}){
             setcategories(data)
         }else{
             Swal.fire(
-                'Error',
+                'Error Occured',
                 res.data.status,
                 'warning'
             )
         }
     }).catch(err=>{
         Swal.fire(
-            'Error',
-            'Error Occured at Axios',
-            'warning'
+            'Error Occured',
+            err.message,
+            'error'
         )           
     });
 }
 
 
-// function loadCategory(){
-//   axios.get('/api/categories/getCategoryBySlug')
-//   .then(res=>{
-//       let status=res.data.status;
-//       let data=res.data.data;
-//       if(status==='success'){
-//           setcategory(data)
-//       }else{
-//           Swal.fire(
-//               'Error',
-//               res.data.status,
-//               'warning'
-//           )
-//       }
-//   }).catch(err=>{
-//       Swal.fire(
-//           'Error',
-//           'Error Occured at Axios',
-//           'warning'
-//       )           
-//   });
-// }
-
         function loadMore(){
-          limit.current=limit.current+1;
+          limit.current=limit.current+8;
           loadArticlesByCategory();
         }
 
@@ -183,6 +159,13 @@ export default function BlogCategory({category,blogData,error}){
           setarticles(blogData);
           loadCategories();
           loadArticlesByViews();
+          if(category===null){
+            Swal.fire(
+              'Error Occured',
+              'Category not Found',
+              'error'
+            )
+          }
         },[])
 
     
@@ -192,7 +175,7 @@ export default function BlogCategory({category,blogData,error}){
     return(
         <>
       <Head>
-        <title>OTOTECH blogCategory</title>
+        <title>OTOTECH Blog Category</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

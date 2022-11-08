@@ -77,5 +77,16 @@ color: $color3;
         border-radius: 5px;
         font-size: 13px;
     }
+
+    button{
+        padding: 10px 13px;
+        background: $color2;
+        color: $color3;
+        font-family: poppinsRegular;
+        border-radius: 5px;
+        font-size: 13px;
+        border:none;
+        cursor: pointer;
+    }
 }
 }

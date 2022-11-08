@@ -15,7 +15,7 @@ export default function AdminStaffs(){
     const filterIndex=useRef('');
     const filterStaffs=Array.from(staffs);
     const router=useRouter();
-    let limit=useRef(1);
+    let limit=useRef(10);
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
@@ -33,19 +33,18 @@ export default function AdminStaffs(){
             
         }else{
             Swal.fire(
-                'Error',
-                data,
-                'error'
+                'Error Occured',
+                status,
+                'warning'
             )
         }
     }).catch(err=>{
         setdataLoad(false)
         Swal.fire(
-            'Warning',
+            'Error Occured',
             err.message,
             'error'
         )
-        console.log(err)
     })
   }
 
@@ -77,7 +76,7 @@ export default function AdminStaffs(){
         router.push(`/login?next=${router.asPath}`)
     }else{
         Swal.fire(
-            'Warning',
+            'Error Occured',
             status,
             'error'
         )
@@ -85,18 +84,21 @@ export default function AdminStaffs(){
     }).catch(err=>{
         setloading(false)
         Swal.fire(
-            'Warning',
-            err,
+            'Error Occured',
+            err.message,
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }
 
 
   function loadLimitStaff(){
-    limit.current=limit.current+1;
+    limit.current=limit.current+10;
     loadStaffs()
   }
 

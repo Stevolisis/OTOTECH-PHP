@@ -1,7 +1,7 @@
 import Link from "next/link";
 import $ from 'jquery';
 
-export default function Navbar({section,navStatus,setnavStatus}){
+export default function Navbar({section,navStatus,setnavStatus,logout}){
     function navbaring2(){
         $('.navbar').css('margin-left','-80%');
         setnavStatus(false)
@@ -35,7 +35,7 @@ export default function Navbar({section,navStatus,setnavStatus}){
             </div>
             <div className="subNav2">
             {section==='Admin' ? 
-                <Link href='#'>Logout</Link>
+                <button onClick={logout}>Logout</button>
                 :
                 <Link href='#'>Lets Build your Project</Link>
             }

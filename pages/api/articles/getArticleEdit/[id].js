@@ -7,7 +7,6 @@ export default async function handler(req,res){
 
     if(req.method==='GET'){
     const {id}=req.query; 
-    console.log(id)
 
             try{
             let data=await Articles.find({_id:id});
@@ -16,7 +15,6 @@ export default async function handler(req,res){
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
           }else{

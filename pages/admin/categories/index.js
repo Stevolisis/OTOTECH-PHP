@@ -15,7 +15,7 @@ export default function AdminCategories(){
     const router=useRouter();
     const filterIndex=useRef('');
     const filterCategories=Array.from(categories);
-    let limit=useRef(1);
+    let limit=useRef(10);
     
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
@@ -33,8 +33,8 @@ export default function AdminCategories(){
             
         }else{
             Swal.fire(
-                'Error',
-                data,
+                'Error Occured',
+                status,
                 'warning'
             )
         }
@@ -45,16 +45,14 @@ export default function AdminCategories(){
             err.message,
             'error'
         )
-        console.log(err)
     })
   }
 
 
   function deleteCategory(id){
-    console.log(id)
     Swal.fire({
         title: 'Are you sure?',
-        text: "Confirm Delete of Comment",
+        text: "Note: All Articles in this category will be deactivated not deleted.",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -79,26 +77,29 @@ export default function AdminCategories(){
         router.push(`/login?next=${router.asPath}`)
     }else{
         Swal.fire(
-            'Warning',
+            'Error Occured',
             status,
-            'error'
+            'warning'
         )
        }
     }).catch(err=>{
         setloading(false);
 
         Swal.fire(
-            'Warning',
-            err,
+            'Error Occured',
+            err.message,
             'error'
         )
     })
+}else{
+    setloading(false);
+    return;
 }
       });
   }
 
   function loadLimitCategory(){
-    limit.current=limit.current+1;
+    limit.current=limit.current+10;
     loadCategories()
   }
 

@@ -19,7 +19,6 @@ export default async function handler(req,res){
             let token=getCookie('userAuth', { req, res })
             const verify=jwt.verify(token,process.env.JWT_PASS);
             let data=await Users.findOne({email:verify.email}).select('full_name email')
-            console.log('Verified Token',data);
             res.status(200).json({status:'success',data:data})
             }else{
                 res.status(200).json({status:'Cookie not found'})

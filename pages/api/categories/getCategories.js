@@ -21,12 +21,10 @@ export default async function handler(req,res){
             }
   
             
-            console.log('done')
 
             res.status(200).json({data:data,status:'success'})
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
           }else{

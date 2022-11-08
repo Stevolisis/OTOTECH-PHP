@@ -38,7 +38,7 @@ export default function AddStaff(){
 
   function handleSubmit(e){
     e.preventDefault();
-    setloading(true)
+    
     const formData=new FormData(e.target);
     formData.append('whatsapp',JSON.stringify(whatsapp));
     formData.append('dribble',JSON.stringify(dribble));
@@ -47,35 +47,53 @@ export default function AddStaff(){
     formData.append('twitter',JSON.stringify(twitter));
     formData.append('instagram',JSON.stringify(instagram));
     formData.append('priveldges',JSON.stringify(selectedOption));
-    
-    axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
-    .then(res=>{
-        let data=res.data.status;
-        setloading(false)
-        if(data==='success'){
+    setloading(true)
+
+    Swal.fire({
+            title: 'Are you Sure?',
+            text: "Note: Only Admin is Permitted to edit your profile",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Continue!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+            
+        axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
+        .then(res=>{
+            let status=res.data.status;
+            setloading(false)
+            if(status==='success'){
+                Swal.fire(
+                    'Successful!',
+                    'Staff Added',
+                    'success'
+                )
+            }else if(status==='Invalid User'){
+                    
+                router.push(`/login?next=${router.asPath}`)
+            }else{
+                Swal.fire(
+                    'Error Occured',
+                    status,
+                    'warning'
+                )  
+            }
+        }).catch(err=>{
+            setloading(false);
             Swal.fire(
-                'Successful!',
-                'Staff Added',
-                'success'
-            )
-        }else if(status==='Invalid User'){
-               
-            router.push(`/login?next=${router.asPath}`)
+                'Error Occured',
+                err.message,
+                'error'
+            ) 
+        })
+        
         }else{
-            Swal.fire(
-                'Error!',
-                data,
-                'warning'
-            )  
+            setloading(false);
+            return;
         }
-    }).catch(err=>{
-        setloading(false);
-        Swal.fire(
-            'Error!',
-            err.message,
-            'error'
-        ) 
-    })
+});
 }
 
 

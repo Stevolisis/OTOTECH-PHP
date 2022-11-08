@@ -19,7 +19,6 @@ export default async function handler(req,res){
     form.parse(req,async function(err, fields, files) {
         if (err) throw new Error('Error at Parsing');
         let subDiv=fields.page_link.split('//')[1].split('/');
-        console.log(fields);
         
         const like=new Likes({
             page_link:fields.page_link,

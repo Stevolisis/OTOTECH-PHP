@@ -22,16 +22,12 @@ export default async function handler(req,res){
                 data[i].likes=await Likes.count({pageId:data[i]._id});
                 data[i].views=await Views.count({pageId:data[i]._id});
                 data[i].description=data[i].content.slice(0,130)+'...';
-                console.log(data[i].likes)
-                console.log(data[i].views)
             }
             
-            console.log('done')
             res.status(200).json({data:data,status:'success'});
 
             }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err.message)
             }
 
           }else{

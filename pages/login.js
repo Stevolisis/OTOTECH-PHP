@@ -24,11 +24,11 @@ function handleSubmit(e){
             let status=res.data.status;
             setloading(false)
             if(status==='success'){
-                if(from==='adminRoutes'){
+                if(router.pathname!==router.asPath.split('?')[0]){
                     router.reload();
+                    // router.push(baseUrl+router.asPath||`${baseUrl}/admin`,{ shallow: true })
                 }else{
-                    // router.push(baseUrl+next||`${baseUrl}/admin`);
-                    router.reload()
+                    router.push(next||`${baseUrl}/admin`);
                 }
             
             // router.push(next);
@@ -43,8 +43,8 @@ function handleSubmit(e){
         }).catch(err=>{
             setloading(false)
             Swal.fire(
-                'Alert!',
-                 err,
+                'Error Occured',
+                 err.message,
                 'error'
             )
         })

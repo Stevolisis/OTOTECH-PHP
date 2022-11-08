@@ -10,9 +10,8 @@ export default async function handler(req,res){
     if(req.method==='GET'){
         try{
             if(key!==''){
-                const data1=await Articles.find({title:{$regex:key,$options:'i'},status:'active'}).populate({ path: 'category',select:'name' }).select('title slug category');
+                const data1=await Articles.find({title:{$regex:key,$options:'i'},status:'active'}).populate({ path: 'category',select:'name' }).select('title categorySlug slug category');
                 const data2=await Categories.find({name:{$regex:key,$options:'i'},status:'active'}).select('name slug');
-                console.log('iuytreswertyuioiuytre',data1.join(data2[0]))
             
                res.status(200).json({status:'success',data:data1.concat(data2[0])}); 
             }else{
@@ -22,7 +21,6 @@ export default async function handler(req,res){
 
         }catch(err){
             res.status(404).json({status:err.message})
-            console.log(err)
         }
     }
 }
