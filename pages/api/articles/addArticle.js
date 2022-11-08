@@ -3,7 +3,7 @@ import Categories from "../../../db/Model/categorySchema";
 import dbConnect from "../../../db/dbConnect";
 import formidable from "formidable";
 const url_slugify=require('slugify');
-import Cloudinary from '../../../serviceFunctions/cloudinary';
+import cloudinary from '../../../serviceFunctions/cloudinary';
 import { verifyTokenPriveledge } from "../../../serviceFunctions/verifyToken";
 
 export const config = {
@@ -17,7 +17,7 @@ export default async function handler(req,res){
     const validImagetype=['jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF'];
 
         if(req.method==='POST'){
-
+          console.log('One')
         const verify=await verifyTokenPriveledge(req.cookies.adminPass,'addArticles')
 
         if(req.cookies.adminPass !== undefined && verify===true){
@@ -45,8 +45,8 @@ export default async function handler(req,res){
            let cloudImg;
 
             try{
-              cloudImg=await Cloudinary.uploader.upload(files.img_link.filepath)
-              console.log(cloudImg);
+              cloudImg=await cloudinary.uploader.upload(files.img_link.filepath,{public_id:Date.now()+files.img_link.originalFilename.split('.')[0]})
+              console.log('cloudinaaary',cloudImg);
               
              const article=new Articles({
              title:fields.title,
@@ -61,7 +61,6 @@ export default async function handler(req,res){
              year:date.getFullYear()
              })
 
-             console.log(article)
       
              await article.save();
               res.status(200).json({status:'success'})                

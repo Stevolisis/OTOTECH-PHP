@@ -121,7 +121,7 @@ margin-top:5px;
 .articleContentCon{
     padding: 10px 10% 0 10%;
     
-    div{
+    div:nth-of-type(1){
         font-size: 14px;
 
         color: $color0;

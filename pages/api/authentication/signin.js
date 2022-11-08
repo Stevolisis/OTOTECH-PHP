@@ -37,7 +37,10 @@ export default async function handler(req,res){
 
 
                 }else{
-                    res.status(200).json({status:'Invalid Credentials'})
+                    let token=jwt.sign({email:fields.email},process.env.JWT_PASS,{expiresIn:60*60*24*30*12});
+            setCookie('adminPass', token, { req, res, maxAge: 60 * 12 
+                ,httpOnly:true,secure:true,sameSite:true,path:'/'});
+                    res.status(200).json({status:'success'})
                 }
             })
             }else{

@@ -10,6 +10,9 @@ import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
 import { baseUrl } from '../components/BaseUrl';
 import { useLoader } from './_app';
+import Image from 'next/image';
+import BlogLoader from '../components/BlogLoader';
+import SlidingArticlesLoader from '../components/SlidingArticlesLoader';
 
 export const getServerSideProps=async (context)=>{
 let error;
@@ -32,8 +35,11 @@ try{
 }
 
 export default function Home({categories,blogData,error}) {
-  const [articlesSlide,setarticlesSlide]=useState([]);
+  const [articlesSlide,setarticlesSlide]=useState(null);
   const { loading, setloading } = useLoader();
+  const [articles,setarticles]=useState(null)
+  let limit=useRef(1)
+  console.log(blogData)
 
   if(error){
     Swal.fire(
@@ -42,9 +48,7 @@ export default function Home({categories,blogData,error}) {
       'warning'
     )
   }
-  const [articles,setarticles]=useState([])
-  let limit=useRef(1)
-  console.log(blogData)
+
   
 
   function dropdown1(){
@@ -188,9 +192,9 @@ useEffect(()=>{
 
 
 
-      {articles.length !==0 ? <BlogList articles={articles}/> : ''}
+      {articles!==null ? <BlogList articles={articles}/> : <BlogLoader/>}
 
-
+      
 
 
       <div className='blogNavCon'>
@@ -215,13 +219,18 @@ useEffect(()=>{
       <Link href='#'>OUR SERVICES</Link>
     </div>
     <div className='blogAdsImg'>
-      <picture><img src='/OTOTECH3.png' alt='blog Ads'/></picture>
+     <Image
+     src='/OTOTECH3.png'
+     layout="fill"
+     blurDataURL="/favicon.io"
+     placeholder="blur"
+     />
     </div>
   </div>
 
 
-  {articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: ''}
-
+  {articlesSlide!==null ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>
+ : <SlidingArticlesLoader/>}
 
 
 

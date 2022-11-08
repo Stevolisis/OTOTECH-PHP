@@ -62,11 +62,17 @@ export default function EditCategory({error,editId,editName,editDescription,edit
             confirmButtonText: 'Yes, Edit it!'
           }).then((result) => {
             if (result.isConfirmed) {
-                setloading(true)
+                
         const formData=new FormData(e.target);
         formData.append('id',id);
-        axios.post('/api/categories/editCategory/',formData,{withCredentials:true})
+        console.log('what is it?')
+
+        setloading(true)
+
+        console.log('SiduoKit')
+        axios.post(`${baseUrl}/api/categories/editCategory/`,formData)
         .then(res=>{
+            
             let status=res.data.status;
             setloading(false)
             if(status==='success'){

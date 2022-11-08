@@ -17,7 +17,7 @@ if(staff&&priveledgeKey==='editStaffs'&&verify.email===staff.email){
       }else{
         return 'not Permitted'
       }
-      console.log('lapalapalapalapa',obj)
+
 
         }else{
             console.log(!staff)

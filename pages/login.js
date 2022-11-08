@@ -27,7 +27,8 @@ function handleSubmit(e){
                 if(from==='adminRoutes'){
                     router.reload();
                 }else{
-                    router.push(baseUrl+next||`${baseUrl}/admin`);
+                    // router.push(baseUrl+next||`${baseUrl}/admin`);
+                    router.reload()
                 }
             
             // router.push(next);

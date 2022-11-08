@@ -80,10 +80,10 @@ export default function AddArticle(){
 
     function handleSubmit(e){
         e.preventDefault();
-        setloading(true)
         const formData=new FormData(e.target);
-        formData.append('content',editorRef.current.getContent())
-        axios.post('/api/articles/addArticle',formData,{withCredentials:true})
+        formData.append('content',editorRef.current.getContent());
+        setloading(true);
+        axios.post(`${baseUrl}/api/articles/addArticle`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false);

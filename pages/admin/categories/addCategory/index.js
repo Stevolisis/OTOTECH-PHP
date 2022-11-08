@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react"
 import Swal from 'sweetalert2';
+import { baseUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
 
 export default function AddCategory(){
@@ -15,7 +16,8 @@ export default function AddCategory(){
         setloading(true)
         const formData=new FormData(e.target);
         console.log(formData)
-        axios.post('/api/categories/addCategory',formData,{withCredentials:true})
+        
+        axios.post(`${baseUrl}/api/categories/addCategory`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
