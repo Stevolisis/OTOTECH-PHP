@@ -23,7 +23,7 @@ export default function AdminUsers(){
   
   function loadUsers(){
     setdataLoad(true)
-    axios.get(`/api/users/getUsers?limit=${limit.current}`)
+    axios.post(`http://localhost/ototech_api/ototech_api/users/get-users.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -63,7 +63,9 @@ export default function AdminUsers(){
       }).then((result) => {
         if (result.isConfirmed) {
             setloading(true);
-    axios.post('/api/users/deleteUser',{id:id})
+            let formData=new FormData();
+            formData.append('id',id)
+    axios.post('http://localhost/ototech_api/ototech_api/users/delete-user.php',formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false)
@@ -74,7 +76,7 @@ export default function AdminUsers(){
             'success'
         )
         loadUsers()
-       }else if(status==='Invalid User'){
+       }else if(status==='Invalid User'||status==='no Cookie'){
                
         router.push(`/login?next=${router.asPath}`)
     }else{
@@ -189,8 +191,8 @@ useEffect(()=>{
     <td>{user.email}</td>
     <td>{user.comments}</td>
     <td>{user.day}th {months[user.month]}, {user.year}</td>
-    <td><Link href={`/admin/users/editUser/${user._id}`}><i className='fa fa-edit'/></Link></td>
-    <td><button onClick={()=>deleteUser(user._id)}>Delete</button></td>
+    <td><Link href={`/admin/users/editUser/${user.id}`}><i className='fa fa-edit'/></Link></td>
+    <td><button onClick={()=>deleteUser(user.id)}>Delete</button></td>
     </tr>
     )
 })}

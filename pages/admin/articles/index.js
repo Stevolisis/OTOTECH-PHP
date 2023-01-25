@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
 import { useRouter } from "next/router";
+import { phpUrl } from "../../../components/BaseUrl";
 
 export default function AdminArticles(){
     const [articles,setarticles]=useState([]);
@@ -22,7 +23,7 @@ export default function AdminArticles(){
 
   function loadArticles(){
     setdataLoad(true)
-    axios.get(`/api/articles/getArticles?limit=${limit.current}&section=admin`)
+    axios.get(`${phpUrl}/ototech_api/ototech_api/article/get-articles.php?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -60,7 +61,10 @@ export default function AdminArticles(){
       }).then((result) => {
         if (result.isConfirmed) {
             setloading(true)
-    axios.post('/api/articles/deleteArticle',{id:id})
+    const formData=new FormData()
+    formData.append('id',id)
+    axios.post(`${phpUrl}/ototech_api/ototech_api/article/delete-article.php`,formData,{withCredentials:true})
+
     .then(res=>{
        let status=res.data.status;
        setloading(false);
@@ -72,7 +76,7 @@ export default function AdminArticles(){
             'success'
         )
         loadArticles()
-       }else if(status==='Invalid User'){
+       }else if(status==='Invalid User'||status==='no Cookie'){
                
         router.push(`/login?next=${router.asPath}`)
     }else{
@@ -91,21 +95,18 @@ export default function AdminArticles(){
             'error'
         )
     })
-}else{
-    setloading(false);
-    return;
 }
       });
   }
 
   function loadLimitArticle(){
-    limit.current=limit.current+10;
+    limit.current=limit.current+1;
     loadArticles()
   }
 
   function filter(e){
     if(e==='ascend'){
-        setarticles(filterArticles.sort((a,b)=>a._id < b._id ? 1:-1));
+        setarticles(filterArticles.sort((a,b)=>a.id < b.id ? 1:-1));
     }else if(e==='likes'){
         setarticles(filterArticles.sort((a,b)=>a.likes < b.likes ? 1:-1));
     }else if(e==='views'){
@@ -113,7 +114,7 @@ export default function AdminArticles(){
     }else if(e==='comments'){
         setarticles(filterArticles.sort((a,b)=>a.comments < b.comments ? 1:-1));
     }else if(e==='descend'){
-        setarticles(filterArticles.sort((a,b)=>a._id < b._id ? -1:1));
+        setarticles(filterArticles.sort((a,b)=>a.id < b.id ? -1:1));
     }
   }
 
@@ -197,7 +198,7 @@ useEffect(()=>{
     <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
     // loader={'...loading'}
-    src={article.img.url}
+    src={article.image}
     alt="Picture of the author"
     layout="fill" 
     objectFit="contain"
@@ -216,8 +217,8 @@ useEffect(()=>{
     <td>{article.views}</td>
     {/* <td>{getWeekNumber(article.year,article.month,article.day)}</td> */}
     <td>{article.day}th {months[article.month]}, {article.year}</td>
-    <td><Link href={`/admin/articles/editArticle/${article._id}`}><i className='fa fa-edit'/></Link></td>
-    <td><button onClick={()=>deleteArticle(article._id)}>Delete</button></td>
+    <td><Link href={`/admin/articles/editArticle/${article.id}`}><i className='fa fa-edit'/></Link></td>
+    <td><button onClick={()=>deleteArticle(article.id)}>Delete</button></td>
     <td>{article.status}</td>
     </tr>
     )

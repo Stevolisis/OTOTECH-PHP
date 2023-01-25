@@ -8,20 +8,32 @@ import { useRouter } from "next/router";
 
 
 export const getServerSideProps=async (context)=>{
-    let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/supports/getSupport`);
+        // const res=await axios.get(`${baseUrl}/api/supports/getSupport`);
+        const res=await axios.get(`http://localhost/ototech_api/ototech_api/support/get-supports.php`);
       
-      const data= res.data.data[0];
-      const editPhone_number= data.phone_number;
-      const editGmail= data.gmail;
-      const editLinkedin= data.linkedin;
-      const editWhatsapp= data.whatsapp;
-      const editFacebook= data.facebook;
-      const editGoogle_chat= data.google_chat;
-      
+      const data= res.data.data||[];
+      let resStatus=res.data.status;
+      let editPhone_number,editGmail,editLinkedin,editWhatsapp,editFacebook,editGoogle_chat; 
+       
+     if(resStatus==='no Data'){
+       editPhone_number={};
+       editGmail={};
+       editLinkedin={};      
+       editWhatsapp={};      
+       editFacebook={};      
+       editGoogle_chat={};       
+     }else{
+       editPhone_number=JSON.parse(data.phone_number);
+       editGmail= JSON.parse(data.gmail);
+       editLinkedin= JSON.parse(data.linkedin);
+       editWhatsapp= JSON.parse(data.whatsapp);
+       editFacebook= JSON.parse(data.facebook);
+       editGoogle_chat= JSON.parse(data.google_chat);  
+     }
+  
       return {
-        props:{editPhone_number,editGmail,editWhatsapp,editLinkedin,editFacebook,editGoogle_chat}
+        props:{data,resStatus,editPhone_number,editGmail,editWhatsapp,editLinkedin,editFacebook,editGoogle_chat}
       }    
       
     }catch(err){
@@ -33,7 +45,7 @@ export const getServerSideProps=async (context)=>{
   }
 
 
-export default function AddSupportSystem({error,editPhone_number,editGmail,editLinkedin,
+export default function AddSupportSystem({error,data,resStatus,editPhone_number,editGmail,editLinkedin,
     editWhatsapp,editFacebook,editGoogle_chat}){
     const [phone_number,setphone_number]=useState({status:'active',link:''})
     const [gmail,setgmail]=useState({status:'active',link:''})
@@ -50,6 +62,7 @@ export default function AddSupportSystem({error,editPhone_number,editGmail,editL
           'Please check your Connection',
           'error'
         )
+        .log('error: ',error)
   }
 
 
@@ -74,7 +87,7 @@ function handleSubmit(e){
     formData.append('whatsapp',JSON.stringify(whatsapp));
     formData.append('facebook',JSON.stringify(facebook));
     formData.append('google_chat',JSON.stringify(google_chat));
-    axios.post('/api/supports/editSupport/',formData)
+    axios.post('http://localhost/ototech_api/ototech_api/support/insert.php',formData,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         setloading(false)
@@ -84,7 +97,7 @@ function handleSubmit(e){
                 'Support System Edited',
                 'success'
             )
-        }else if(status==='Invalid User'){
+        }else if(status==='Invalid User'||status==='no Cookie'){
                
             router.push(`/login?next=${router.asPath}`)
         }else{
@@ -111,12 +124,16 @@ function handleSubmit(e){
 
 
 useEffect(()=>{
-    setphone_number(editPhone_number);
-    setwhatsapp(editWhatsapp);
-    setgmail(editGmail);
-    setlinkedin(editLinkedin);
-    setfacebook(editFacebook);
-    setgoogle_chat(editGoogle_chat)
+    if(resStatus==='no Data'){
+        return
+    }else{
+    setphone_number({...phone_number,['link']:editPhone_number.link,['status']:editPhone_number.status});
+    setwhatsapp({...whatsapp,['link']:editWhatsapp.link,['status']:editWhatsapp.status});
+    setgmail({...gmail,['link']:editGmail.link,['status']:editGmail.status});
+    setlinkedin({...linkedin,['link']:editLinkedin.link,['status']:editLinkedin.status});
+    setfacebook({...facebook,['link']:editFacebook.link,['status']:editFacebook.status});
+    setgoogle_chat({...google_chat,['link']:editGoogle_chat.link,['status']:editGoogle_chat.status});
+    }
 },[]);
 
 

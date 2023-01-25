@@ -8,7 +8,7 @@ import Mainscreen from '../components/Mainscreen';
 import axios from 'axios';
 import CategoryList from '../components/CategoryList';
 import Swal from 'sweetalert2';
-import { baseUrl } from '../components/BaseUrl';
+import { baseUrl,phpUrl } from '../components/BaseUrl';
 import { useLoader } from './_app';
 import Image from 'next/image';
 import BlogLoader from '../components/BlogLoader';
@@ -17,8 +17,10 @@ import SlidingArticlesLoader from '../components/SlidingArticlesLoader';
 export const getServerSideProps=async (context)=>{
 let error;
 try{
-  const res=await axios.get(`${baseUrl}/api/categories/getCategories`);
-  const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=8`);
+  // const res=await axios.get(`${baseUrl}/api/categories/getCategories`);
+  // const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=8`);
+  const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categories.php?limit=400`);
+  const res3=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articles.php?limit=8`);
   const categories= res.data.data||null;
   const blogData= res3.data.data||null;
   
@@ -42,7 +44,7 @@ export default function Home({categories,blogData,error}) {
   
   if(error){
     Swal.fire(
-      'Error Occured',
+      error,
       'Please check your connection',
       'error'
     )
@@ -69,7 +71,7 @@ export default function Home({categories,blogData,error}) {
 
 function loadArticles(){
   setloading(true)
-  axios.get(`/api/articles/getArticles?limit=${limit.current}`)
+  axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articles.php?limit=${limit.current}`)
   .then(res=>{
       let status=res.data.status;
       let data=res.data.data;
@@ -98,7 +100,7 @@ function loadArticles(){
 
 
 function loadArticlesByViews(){
-  axios.get('/api/articles/getArticlesByViews')
+  axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articlesByViews.php?limit=${10}`)
   .then(res=>{
       let status=res.data.status;
       let data=res.data.data;

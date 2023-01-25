@@ -20,7 +20,7 @@ header{
     position: fixed;
     width: 100%;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 120;
 }
 
 .logoCon{
@@ -32,7 +32,8 @@ header{
 
     h3{
 	font-family: poppinsExtraBold;
-        font-size: 21px;
+    font-size: 21px;
+    cursor: pointer;
     }
 }
 

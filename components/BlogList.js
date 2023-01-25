@@ -9,29 +9,29 @@ export default function BlogList({articles}){
   let listing;
 
      listing=articles&&articles.map((article,i)=>{
-      const {title,img,author,slug,categorySlug,description,views,likes,day,month,year}=article;
+      const {title,image,author,slug,categorySlug,content,views,likes,day,month,year}=article;
 
       return(
-        <Link href={categorySlug+slug} key={i}><a className='blogCon' key={i}>
+        <Link href={categorySlug+'/'+slug} key={i}><a className='blogCon' key={i}>
         <div className='blogImg'>
-              <Image 
-              src={img.url}
-              layout="fill"
-              blurDataURL="/favicon.io"
-              placeholder="blur"
-              priority
-              />
+          <Image 
+          src={image}
+          layout="fill"
+          blurDataURL="/favicon.io"
+          placeholder="blur"
+          priority
+          />
         </div>
         <div className='blogInfo'>
   
         <div className="blogMetaData">
-        <div>by <span>{author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
+        <div>by <span>{author&&author.full_name}</span> / <span>{day}th {months[month]}, {year}</span></div>
         <div></div>
         </div>
   
         <div>
         <h3>{title}</h3>
-          <p>{parse(description)}</p> 
+          <p>{parse(content)}</p> 
         </div>
         </div>
   

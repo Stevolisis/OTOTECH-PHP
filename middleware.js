@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { baseUrl } from "./components/BaseUrl"
+import { baseUrl, phpUrl } from "./components/BaseUrl"
 
 export default async function middleware(req) {
   let cookie=req.cookies.get('adminPass');
@@ -17,9 +17,9 @@ export default async function middleware(req) {
 
       }else{
 
-       const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
-      console.log('limaaaaao',res.status)
-       if(res.status!==404){
+        const res=await fetch(`${phpUrl}/ototech_api/ototech_api/authentication/admin-auth.php?cookie=${cookie}`)
+      //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
+        if(res.status!==404){
         return NextResponse.next();
       }else{
         return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);

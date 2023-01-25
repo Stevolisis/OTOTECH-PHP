@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useLoader } from "../../../_app";
 import { ThreeDots } from "react-loader-spinner";
-import { baseUrl } from "../../../../components/BaseUrl";
+import { baseUrl, phpUrl } from "../../../../components/BaseUrl";
 
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
@@ -39,7 +39,7 @@ export default function EditArticle(){
 
 
      function loadAuthors(){
-        axios.get('/api/staffs/getStaffs')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=1000000`)
         .then(res=>{
             let data=res.data.data;
             let status=res.data.status;
@@ -63,18 +63,18 @@ export default function EditArticle(){
 
     function loadArticle(){
     if(id!==undefined){
-    axios.get(`/api/articles/getArticleEdit/${id}`)
+    axios.get(`${phpUrl}/ototech_api/ototech_api/article/get-article.php?id=${id}`)
     .then(res=>{
         let data=res.data.data;
         let status=res.data.status;
 
         if(status==='success'){
-            settitle(data[0].title)
-            setauthor(data[0].author)
-            setcategory(data[0].category)
-            setcontent(data[0].content)
-            setImgpreview(data[0].img.url)
-            setstatus(data[0].status)
+            settitle(data.title)
+            setauthor(data.authorId)
+            setcategory(data.categorySlug+'-'+data.categoryId)
+            setcontent(data.content)
+            setImgpreview(data.image)
+            setstatus(data.status)
         }else{
             Swal.fire(
                 'Error Occured',
@@ -95,7 +95,7 @@ export default function EditArticle(){
     }
 
     function loadCategories(){
-        axios.get('/api/categories/getCategories?section=admin')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=1000000`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -134,7 +134,8 @@ export default function EditArticle(){
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         formData.append('id',id);
-        axios.post(`${baseUrl}/api/articles/editArticle`,formData,{withCredentials:true})
+
+        axios.post(`${phpUrl}/ototech_api/ototech_api/article/update-article.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
@@ -144,7 +145,7 @@ export default function EditArticle(){
                     'Article Edited',
                     'success'
                 )
-            }else if(status==='Invalid User'){
+            }else if(status==='Invalid User'||status==='no Cookie'){
                
                 router.push(`/login?next=${router.asPath}`)
             }else{
@@ -162,9 +163,6 @@ export default function EditArticle(){
                 'error'
             )
         })
-    }else{
-        setloading(false);
-        return;
     }
     })
     }
@@ -204,7 +202,7 @@ export default function EditArticle(){
             <p>Category</p>
             <select name='category' value={category} onChange={(e)=>setcategory(e.target.value)}>
             {categories.map(category=>{
-                return <option value={category._id} key={category._id}>{category.name}</option>
+                return <option value={category.slug+'-'+category.id} key={category.id}>{category.name}</option>
             })}
             </select>
             </div>
@@ -216,7 +214,7 @@ export default function EditArticle(){
             <p>Author</p>
             <select name='author' value={author} onChange={(e)=>setauthor(e.target.value)}>
             {authors.map(author=>{
-                return <option value={author._id} key={author._id}>{author.full_name} ({author.position})</option>
+                return <option value={author.id} key={author.id}>{author.full_name} ({author.position})</option>
             })}
             </select>
             </div>

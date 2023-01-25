@@ -3,20 +3,18 @@ import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
-import { baseUrl } from '../../components/BaseUrl';
+import { baseUrl, phpUrl } from '../../components/BaseUrl';
 import { ThreeDots } from 'react-loader-spinner'
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/views/getViewsCount`);
-      const res2=await axios.get(`${baseUrl}/api/articles/getArticlesCount`);
-      const res3=await axios.get(`${baseUrl}/api/categories/getCategoriesCount`);
+      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-analytics.php`);
 
-    
-      const viewsCount= res.data.data;
-      const articlesCount= res2.data.data;
-      const categoriesCount= res3.data.data;
+      const data=res.data.data;
+      const viewsCount= data.views;
+      const articlesCount= data.articles;
+      const categoriesCount= data.categories;
       
       return {
         props:{viewsCount,articlesCount,categoriesCount}
@@ -31,10 +29,10 @@ export const getServerSideProps=async (context)=>{
   }
 
 export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
-    const [viewCurrentYear,setviewCurrentYear]=useState('');
-    const [viewCurrentMonth,setviewCurrentMonth]=useState('');
-    const [likeCurrentYear,setlikeCurrentYear]=useState('');
-    const [likeCurrentMonth,setlikeCurrentMonth]=useState('');
+    const [viewCurrentYear,setviewCurrentYear]=useState(null);
+    const [viewCurrentMonth,setviewCurrentMonth]=useState(null);
+    const [likeCurrentYear,setlikeCurrentYear]=useState(null);
+    const [likeCurrentMonth,setlikeCurrentMonth]=useState(null);
     const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [likeStat,setlikeStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [dataLoad1,setdataLoad1]=useState(true);
@@ -52,7 +50,7 @@ export default function Admin({error,articlesCount,categoriesCount,viewsCount}){
 
     function getViewStat(){
         setdataLoad1(true);
-    axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
+    axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-views-stat.php?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -103,7 +101,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
         function getLikeStat(){
             setdataLoad2(true);
-            axios.get(`/api/likes/getLikeStat?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
+            axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-likes-stat.php?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
             .then(res=>{
                 let status=res.data.status;
                 let data=res.data.data;
@@ -151,9 +149,9 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
         function setTime(){
             const dateNow=new Date();
-            setviewCurrentMonth(dateNow.getMonth());
+            setviewCurrentMonth(dateNow.getMonth()+1);
             setviewCurrentYear(dateNow.getFullYear())
-            setlikeCurrentMonth(dateNow.getMonth());
+            setlikeCurrentMonth(dateNow.getMonth()+1);
             setlikeCurrentYear(dateNow.getFullYear())
         }
 
@@ -320,18 +318,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={viewCurrentMonth} onChange={(e)=>setviewCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                 </div>
             </div>
@@ -376,18 +374,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={likeCurrentMonth} onChange={(e)=>setlikeCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                 </div>
             </div>

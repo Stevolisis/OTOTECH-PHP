@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import axios from "axios";
 import { useLoader } from "../../../_app";
 import { ThreeDots } from "react-loader-spinner";
-import {baseUrl} from '../../../../components/BaseUrl';
+import {baseUrl,phpUrl} from '../../../../components/BaseUrl';
 const TextEditor = dynamic(() =>
 import("../../../../components/TextEditor"), {   ssr: false ,loading: () => 
 <div style={{width:'100%',height:'400px',background:'#f5f6f6',display:'flex',justifyContent:'center',alignItems:'center'}}>
@@ -33,7 +33,7 @@ export default function AddArticle(){
     const next=router.asPath;
 
     function loadAuthors(){
-        axios.get('/api/staffs/getStaffs')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=1000000`)
         .then(res=>{
             let data=res.data.data;
             if(res.data.status==='success'){
@@ -55,7 +55,7 @@ export default function AddArticle(){
     }
 
     function loadCategories(){
-        axios.get('/api/categories/getCategories?section=admin')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=1000000`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -83,7 +83,7 @@ export default function AddArticle(){
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         setloading(true);
-        axios.post(`${baseUrl}/api/articles/addArticle`,formData,{withCredentials:true})
+    axios.post(`${phpUrl}/ototech_api/ototech_api/article/add-article.php`,formData)
         .then(res=>{
             let status=res.data.status;
             setloading(false);
@@ -93,8 +93,7 @@ export default function AddArticle(){
                     'Article Added',
                     'success'
                 )
-            }else if(status==='Invalid User'){
-               
+            }else if(status==='Invalid User'||status==='no Cookie'){
                 router.push(`/login?next=${next}`)
             }else{
                 Swal.fire(
@@ -112,10 +111,6 @@ export default function AddArticle(){
             )
         })
     }
-
-    function show(){
-        console.log(editorRef.current.getContent())
-     }
 
     
     function imgPreview(e){
@@ -150,7 +145,7 @@ export default function AddArticle(){
             <p>Category</p>
             <select name='category'>
             {categories.map(category=>{
-                return <option value={category._id} key={category._id}>{category.name}</option>
+                return <option value={category.slug+'-'+category.id} key={category.id}>{category.name}</option>
             })}
             </select>
             </div>
@@ -161,7 +156,7 @@ export default function AddArticle(){
             <p>Author</p>
             <select name='author'>
             {authors.map(author=>{
-                return <option value={author._id} key={author._id}>{author.full_name} ({author.position})</option>
+                return <option value={author.id} key={author.id}>{author.full_name} ({author.position})</option>
             })}
             </select>
             </div>
@@ -170,7 +165,7 @@ export default function AddArticle(){
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Content</p>
-            <TextEditor editorRef={editorRef} show={show}/>
+            <TextEditor editorRef={editorRef}/>
             </div>
         </div>
 

@@ -3,16 +3,18 @@ import Staffs from '../db/Model/staffSchema';
 
 async function verifyTokenPriveledge(cookie,priveledgeKey){
 
-    try{
-        const verify=jwt.verify(cookie,process.env.JWT_PASS);
-        const staff=await Staffs.findOne({email:verify.email,status:'active'}).select('full_name email priveldges');
+try{
+    const verify=jwt.verify(cookie,process.env.JWT_PASS);
+    const staff=await Staffs.findOne({email:verify.email,status:'active'}).select('full_name email priveldges');
 
-///
-if(staff&&priveledgeKey==='editStaffs'&&verify.email===staff.email&&staff.full_name!=='admin'){
-  return 'not Permitted'
-// if(staff&&priveledgeKey==='editStaffs'&&verify.email===staff.email){
-//     return true
-}else{
+    ///cannot edit yourself(because you're not admin)
+    if(staff&&priveledgeKey==='editStaffs'&&verify.email===staff.email&&staff.full_name!=='admin'){
+      return 'not Permitted'
+ 
+    }else if(staff&&priveledgeKey==='deleteStaffs'&&verify.email===staff.email&&staff.full_name!=='admin'){
+      return 'not Permitted'
+
+    }else{
       if(staff&&priveledgeKey==='logout'){
         return true;
       }else if(staff){
@@ -28,7 +30,7 @@ if(staff&&priveledgeKey==='editStaffs'&&verify.email===staff.email&&staff.full_n
           return 'not Permitted';
       }  
 
-}
+    }
 
         
     }catch(err){

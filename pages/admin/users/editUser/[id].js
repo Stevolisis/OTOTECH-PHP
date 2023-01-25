@@ -8,15 +8,15 @@ import { useRouter } from "next/router";
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/users/getUser/${context.params.id}`);
-      
-      const data= res.data.data[0];
+      const res=await axios.get(`http://localhost/ototech_api/ototech_api/users/get-user.php?id=${context.params.id}`);
+
+      const data= res.data.data;
       const editFull_name= data.full_name;
       const editEmail= data.email;
-      const editId= data._id;
+      const editId= data.id;
       
       return {
-        props:{editFull_name,editId,editEmail}
+        props:{editFull_name,editId,editEmail,data}
       }    
       
     }catch(err){
@@ -25,9 +25,11 @@ export const getServerSideProps=async (context)=>{
       } 
     }
     
-  }
+}
 
-export default function EditUser({error,editId,editFull_name,editEmail}){
+
+export default function EditUser({error,editId,editFull_name,editEmail,data}){
+
     const {loading,setloading}=useLoader();
     const router=useRouter();
 
@@ -38,6 +40,7 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
           'error'
         )
   }
+  
   const [full_name,setfull_name]=useState('');
   const [email,setemail]=useState('');
   const [id,setid]=useState('');
@@ -57,7 +60,7 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                 setloading(true)
         const formData=new FormData(e.target);
         formData.append('id',id);
-        axios.post('/api/users/editUser/',formData,{withCredentials:true})
+        axios.post('http://localhost/ototech_api/ototech_api/users/update-user.php',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false);
@@ -67,7 +70,7 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
                     'User Edited',
                     'success'
                 )
-            }else if(status==='Invalid User'){
+            }else if(status==='Invalid User'||status==='no Cookie'){
                
                 router.push(`/login?next=${router.asPath}`)
             }else{
@@ -100,6 +103,10 @@ export default function EditUser({error,editId,editFull_name,editEmail}){
         setid(editId)
     },[])
 
+
+
+
+    
     return(
         <>
         <div className='mainHeading'>

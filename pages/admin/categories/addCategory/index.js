@@ -2,7 +2,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react"
 import Swal from 'sweetalert2';
-import { baseUrl } from "../../../../components/BaseUrl";
+import { phpUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
 
 export default function AddCategory(){
@@ -14,8 +14,9 @@ export default function AddCategory(){
     function handleSubmit(e){
         e.preventDefault();
         setloading(true)
-        const formData=new FormData(e.target);        
-        axios.post(`${baseUrl}/api/categories/addCategory`,formData,{withCredentials:true})
+        const formData=new FormData(e.target);
+        
+        axios.post(`${phpUrl}/ototech_api/ototech_api/category/add-category.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
@@ -25,7 +26,7 @@ export default function AddCategory(){
                     'Category Added',
                     'success'
                 )
-            }else if(status==='Invalid User'){
+            }else if(status==='Invalid User'||status==='no Cookie'){
                
                 router.push(`/login?next=${router.asPath}`)
             }else{

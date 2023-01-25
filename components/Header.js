@@ -7,12 +7,16 @@ import $ from 'jquery';
 import axios from "axios";
 import Swal from "sweetalert2";
 import PageLoader from "./PageLoader";
+import { phpUrl } from "./BaseUrl";
+import { useRouter } from "next/router";
+
 
 export default function Header({res}){
   const [navStatus,setnavStatus]=useState(false);
   const [categories,setcategories]=useState(false);
   const [searchResult,setsearchResult]=useState([]);
   const [searchKey,setsearchKey]=useState('');
+  const router=useRouter();
 
 
   function dropdown2(){
@@ -34,7 +38,7 @@ export default function Header({res}){
 
     function loadCategories(){
       if($(window).innerWidth() > 780){
-        axios.get('/api/categories/getCategories')
+        axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=400`)
         .then(res=>{
         let data=res.data.data;
         let status=res.data.status;
@@ -57,7 +61,7 @@ export default function Header({res}){
     
       if (searchKey.length >1){
       try{
-      axios.get(`/api/searchAll?key=${searchKey}`)
+      axios.get(`${phpUrl}/ototech_api/ototech_api/main/search.php?key=${searchKey}`)
         .then(res=>{
           let status=res.data.status;
           let data=res.data.data;
@@ -95,7 +99,7 @@ export default function Header({res}){
         <>
 
 <header>
-      <div className="logoCon"><h3>OTOTECH</h3></div>
+      <div className="logoCon" onClick={()=>router.push('/')}><h3>OTOTECH</h3></div>
       <div className="linksCon">
       <Link href='/'>Home</Link>
       <Link href='#'>About Us</Link>
@@ -128,7 +132,7 @@ export default function Header({res}){
       {
         searchResult&& searchResult.map((searchRes,i)=>{
           if(searchRes!==null){
-            return <div key={i}><Link href={searchRes.title ? searchRes.categorySlug + searchRes.slug : searchRes.slug}><a>{searchRes.title||searchRes.name}  <span style={{color:'#ec9735',fontSize:'12px'}}>{searchRes.title?'Article':'Category'}</span></a></Link></div>
+            return <div key={i}><Link href={searchRes.title ? searchRes.categorySlug+'/' + searchRes.slug : searchRes.slug}><a>{searchRes.title||searchRes.name}  <span style={{color:'#ec9735',fontSize:'12px'}}>{searchRes.title?'Article':'Category'}</span></a></Link></div>
           }
         })
       }

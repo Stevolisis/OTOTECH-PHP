@@ -3,23 +3,19 @@ import axios from 'axios'
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useLoader } from './_app';
-import { baseUrl } from '../components/BaseUrl';
-import { useEffect } from 'react';
+import { baseUrl, phpUrl } from '../components/BaseUrl';
 
 export default function Login(){
 const router=useRouter();
 const {next}= router.query;
 const {from}= router.query;
 const { loading, setloading } = useLoader();
-// alert(next)
-function redirect(){
-    
-}
+
 function handleSubmit(e){
         e.preventDefault();
         setloading(true)
         const formData=new FormData(e.target);
-        axios.post(`/api/authentication/signin`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/ototech_api/ototech_api/authentication/staff-login.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
@@ -30,9 +26,7 @@ function handleSubmit(e){
                 }else{
                     router.push(next||`${baseUrl}/admin`);
                 }
-            
-            // router.push(next);
-            
+                        
             }else{
             Swal.fire(
                 'Alert!',
@@ -50,9 +44,6 @@ function handleSubmit(e){
         })
      }
 
-     useEffect(()=>{
-        console.log('reqqs',router)
-     })
 
     return(
         <>

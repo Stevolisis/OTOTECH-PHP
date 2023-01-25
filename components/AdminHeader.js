@@ -51,7 +51,7 @@ export default function AdminHeader({children}){
     return(
         <>
         <header>
-      <div className="logoCon"><h3>OTOTECH</h3></div>
+      <div className="logoCon" onClick={()=>router.push('/')}><h3>OTOTECH</h3></div>
       <div className="linksCon">
       <Link href='/'>Home</Link>
       <Link href='#'>About Us</Link>

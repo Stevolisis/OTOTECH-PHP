@@ -3,27 +3,22 @@ import HighchartsReact from 'highcharts-react-official';
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import axios from 'axios';
-import { baseUrl } from '../../../components/BaseUrl';
+import { baseUrl,phpUrl } from '../../../components/BaseUrl';
 import { ThreeDots } from 'react-loader-spinner'
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/views/getViewsCount`);
-      const res2=await axios.get(`${baseUrl}/api/comments/getCommentsCount`);
-      const res3=await axios.get(`${baseUrl}/api/likes/getLikesCount`);
-      const res4=await axios.get(`${baseUrl}/api/users/getUsersCount`);
-      const res5=await axios.get(`${baseUrl}/api/articles/getArticlesCount`);
-      const res6=await axios.get(`${baseUrl}/api/categories/getCategoriesCount`);
-      const res7=await axios.get(`${baseUrl}/api/staffs/getStaffsCount`);
-    
-      const viewsCount= res.data.data;
-      const commentsCount= res2.data.data;
-      const likesCount= res3.data.data;
-      const usersCount= res4.data.data;
-      const articlesCount= res5.data.data;
-      const categoriesCount= res6.data.data;
-      const staffsCount= res7.data.data;
+      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-analytics.php`);
+
+      const data=res.data.data;
+      const viewsCount= data.views;
+      const commentsCount= data.comments;
+      const likesCount= data.likes;
+      const usersCount= data.users;
+      const articlesCount= data.articles;
+      const categoriesCount= data.categories;
+      const staffsCount= data.staffs;
       
       return {
         props:{viewsCount,commentsCount,likesCount,usersCount,articlesCount,categoriesCount,staffsCount}
@@ -38,18 +33,18 @@ export const getServerSideProps=async (context)=>{
   }
 
 export default function AdminAnalytics({error,viewsCount,commentsCount,likesCount,usersCount,articlesCount,categoriesCount,staffsCount}){
-    const [viewCurrentYear,setviewCurrentYear]=useState('');
-    const [viewCurrentMonth,setviewCurrentMonth]=useState('');
-    const [likeCurrentYear,setlikeCurrentYear]=useState('');
-    const [likeCurrentMonth,setlikeCurrentMonth]=useState('');
-    const [commentCurrentYear,setcommentCurrentYear]=useState('');
-    const [commentCurrentMonth,setcommentCurrentMonth]=useState('');
-    const [userCurrentYear,setuserCurrentYear]=useState('');
-    const [userCurrentMonth,setuserCurrentMonth]=useState('');
-    const [articleCurrentYear,setarticleCurrentYear]=useState('');
-    const [articleCurrentMonth,setarticleCurrentMonth]=useState('');
-    const [categoryCurrentYear,setcategoryCurrentYear]=useState('');
-    const [categoryCurrentMonth,setcategoryCurrentMonth]=useState('');
+    const [viewCurrentYear,setviewCurrentYear]=useState(null);
+    const [viewCurrentMonth,setviewCurrentMonth]=useState(null);
+    const [likeCurrentYear,setlikeCurrentYear]=useState(null);
+    const [likeCurrentMonth,setlikeCurrentMonth]=useState(null);
+    const [commentCurrentYear,setcommentCurrentYear]=useState(null);
+    const [commentCurrentMonth,setcommentCurrentMonth]=useState(null);
+    const [userCurrentYear,setuserCurrentYear]=useState(null);
+    const [userCurrentMonth,setuserCurrentMonth]=useState(null);
+    const [articleCurrentYear,setarticleCurrentYear]=useState(null);
+    const [articleCurrentMonth,setarticleCurrentMonth]=useState(null);
+    const [categoryCurrentYear,setcategoryCurrentYear]=useState(null);
+    const [categoryCurrentMonth,setcategoryCurrentMonth]=useState(null);
 
     const [viewStat,setviewStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
     const [likeStat,setlikeStat]=useState({week1:[],week2:[],week3:[],week4:[],week5:[]});
@@ -76,7 +71,7 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
 
     function getViewStat(){
         setdataLoad1(true)
-        axios.get(`/api/views/getViewStat?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-views-stat.php?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -101,7 +96,7 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
                 }                   
               }
               setdataLoad1(false)
-setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
+              setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['week5']:week5});
 
             }else{
                 setdataLoad1(false)
@@ -126,7 +121,7 @@ setviewStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
     function getLikeStat(){
         setdataLoad2(true)
-        axios.get(`/api/likes/getLikeStat?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-likes-stat.php?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -174,7 +169,7 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
     function getCommentStat(){
         setdataLoad3(true)
-        axios.get(`/api/comments/getCommentStat?month=${commentCurrentMonth}&year=${commentCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-comments-stat.php?month=${commentCurrentMonth}&year=${commentCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -222,7 +217,7 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
     function getUserStat(){
         setdataLoad4(true)
-        axios.get(`/api/users/getUserStat?month=${userCurrentMonth}&year=${userCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-users-stat.php?month=${userCurrentMonth}&year=${userCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -272,7 +267,7 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
     function getArticleStat(){
         setdataLoad5(true)
-        axios.get(`/api/articles/getArticleStat?month=${articleCurrentMonth}&year=${articleCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-articles-stat.php?month=${articleCurrentMonth}&year=${articleCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -320,7 +315,7 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
     function getCategoryStat(){
         setdataLoad6(true)
-        axios.get(`/api/categories/getCategoryStat?month=${categoryCurrentMonth}&year=${categoryCurrentYear}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-categories-stat.php?month=${categoryCurrentMonth}&year=${categoryCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -368,17 +363,17 @@ setcategoryStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4
 
     function setTime(){
         const dateNow=new Date();
-        setviewCurrentMonth(dateNow.getMonth());
+        setviewCurrentMonth(dateNow.getMonth()+1);
         setviewCurrentYear(dateNow.getFullYear())
-        setlikeCurrentMonth(dateNow.getMonth());
+        setlikeCurrentMonth(dateNow.getMonth()+1);
         setlikeCurrentYear(dateNow.getFullYear())
-        setcommentCurrentMonth(dateNow.getMonth());
+        setcommentCurrentMonth(dateNow.getMonth()+1);
         setcommentCurrentYear(dateNow.getFullYear())
-        setuserCurrentMonth(dateNow.getMonth());
+        setuserCurrentMonth(dateNow.getMonth()+1);
         setuserCurrentYear(dateNow.getFullYear())
-        setarticleCurrentMonth(dateNow.getMonth());
+        setarticleCurrentMonth(dateNow.getMonth()+1);
         setarticleCurrentYear(dateNow.getFullYear())
-        setcategoryCurrentMonth(dateNow.getMonth());
+        setcategoryCurrentMonth(dateNow.getMonth()+1);
         setcategoryCurrentYear(dateNow.getFullYear())
     }
 
@@ -546,7 +541,7 @@ setTime();
 },[])
 
 useEffect(()=>{
-getViewStat();
+    getViewStat();
 },[viewCurrentMonth,viewCurrentYear])
 
 useEffect(()=>{
@@ -709,18 +704,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={viewCurrentMonth} onChange={(e)=>setviewCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                   </div>
             </div>
@@ -765,18 +760,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={likeCurrentMonth} onChange={(e)=>setlikeCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                     </div>
                 
@@ -829,18 +824,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={commentCurrentMonth} onChange={(e)=>setcommentCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                     </div>
             </div>
@@ -885,18 +880,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={userCurrentMonth} onChange={(e)=>setuserCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                     </div>
                 
@@ -947,18 +942,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={articleCurrentMonth} onChange={(e)=>setarticleCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                     </div>
             </div>
@@ -1002,18 +997,18 @@ useEffect(()=>{
                     <option value='2027'>2027</option>
                     </select>
                     <select value={categoryCurrentMonth} onChange={(e)=>setcategoryCurrentMonth(e.target.value)}>
-                    <option value='0'>January</option>
-                    <option value='1'>February</option>
-                    <option value='2'>March</option>
-                    <option value='3'>April</option>
-                    <option value='4'>May</option>
-                    <option value='5'>June</option>
-                    <option value='6'>July</option>
-                    <option value='7'>August</option>
-                    <option value='8'>September</option>
-                    <option value='9'>October</option>
-                    <option value='10'>November</option>
-                    <option value='11'>December</option>
+                    <option value='1'>January</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                     </select>
                     </div>
                 

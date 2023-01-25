@@ -2,7 +2,7 @@ import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import { MultiSelect } from "react-multi-select-component";
 import axios from 'axios';
-import { baseUrl } from "../../../../components/BaseUrl";
+import { baseUrl,phpUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
 import { useRouter } from "next/router";
 
@@ -10,26 +10,26 @@ import { useRouter } from "next/router";
 export const getServerSideProps=async (context)=>{
     let error=context.params.id;
     try{
-      const res=await axios.get(`${baseUrl}/api/staffs/getStaff/${context.params.id}`);
-      
-      const data= res.data.data[0];
-      const editId=data._id;
+      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staff.php?id=${context.params.id}`);
+
+      const data= res.data.data;
+      const editId=data.id;
       const editFull_name= data.full_name;
       const editEmail= data.email;
-      const editSelectedOption= data.priveldges;
+      const editSelectedOption=data.priveledges!==""?JSON.parse(data.priveledges):[];
       const editPosition= data.position;
       const editDescription= data.description;
       const editStatus= data.status;
-      const editWhatsapp= data.whatsapp;
-      const editDribble= data.dribble;
-      const editGithub= data.github;
-      const editLinkedin= data.linkedin;
-      const editTwitter= data.twitter;
-      const editInstagram= data.instagram;
-      const editImg= data.img.url;
+      const editWhatsapp= JSON.parse(data.whatsapp);
+      const editDribble= JSON.parse(data.dribble);
+      const editGithub= JSON.parse(data.github);
+      const editLinkedin= JSON.parse(data.linkedin);
+      const editTwitter= JSON.parse(data.twitter);
+      const editInstagram= JSON.parse(data.instagram);
+      const editImg= data.image;
       
       return {
-        props:{editId,editFull_name,editEmail,editSelectedOption,editPosition,editDescription,
+        props:{editId,data,editFull_name,editEmail,editSelectedOption,editPosition,editDescription,
         editStatus,editWhatsapp,editDribble,editGithub,editLinkedin,editTwitter,
         editInstagram,editImg}
       }    
@@ -42,7 +42,7 @@ export const getServerSideProps=async (context)=>{
     
 }
 
-export default function EditStaff({error,editId,editSelectedOption,editFull_name,editEmail,
+export default function EditStaff({error,data,editId,editSelectedOption,editFull_name,editEmail,
     editPosition,editDescription,editStatus,editWhatsapp,editDribble,editGithub,
     editLinkedin,editTwitter,editInstagram,editImg}){
     const {loading,setloading}=useLoader()
@@ -62,11 +62,10 @@ export default function EditStaff({error,editId,editSelectedOption,editFull_name
     const [imgpreview,setImgpreview]=useState('');
     const router=useRouter();
 
-
     if(error){
         Swal.fire(
           'Error Occured',
-          'Please check your Connection',
+          error,
           'warning'
         )
   }
@@ -111,8 +110,8 @@ const options = [
         formData.append('linkedin',JSON.stringify(linkedin));
         formData.append('twitter',JSON.stringify(twitter));
         formData.append('instagram',JSON.stringify(instagram));
-        formData.append('priveldges',JSON.stringify(selectedOption));
-        axios.post('/api/staffs/editStaff/',formData,{withCredentials:true})
+        formData.append('priveledges',JSON.stringify(selectedOption));
+        axios.post(`${phpUrl}/ototech_api/ototech_api/staff/update-staff.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)
@@ -122,8 +121,7 @@ const options = [
                     'Staff Edited',
                     'success'
                 )
-            }else if(status==='Invalid User'){
-               
+            }else if(status==='Invalid User'||status==='no Cookie'){
                 router.push(`/login?next=${router.asPath}`)
             }else{
                 Swal.fire(
@@ -140,9 +138,8 @@ const options = [
                 'warning'
             )  
         })
-    }else{
-        setloading(false);
-        return;
+    }else{   
+        setloading(false)
     }
     })
     }

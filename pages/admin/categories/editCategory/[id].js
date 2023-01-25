@@ -2,21 +2,22 @@ import { useRouter } from "next/router";
 import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
-import { baseUrl } from "../../../../components/BaseUrl";
+import { baseUrl, phpUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/categories/getCategory/${context.params.id}`);
+      // const res=await axios.get(`${baseUrl}/api/categories/getCategory/${context.params.id}`);
+      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-category.php?id=${context.params.id}`);
     
-      const data= res.data.data[0];
-      const editId= data._id;
+      const data= res.data.data;
+      const editId= data.id;
       const editName= data.name;
       const editDescription=data.description;
       const editIcon= data.icon;
       const editStatus= data.status;
-      const editImg= data.img.url;
+      const editImg= data.image;
 
       return {
         props:{editId,editName,editDescription,editIcon,editImg,editStatus}
@@ -67,8 +68,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
         formData.append('id',id);
 
         setloading(true)
-
-        axios.post(`${baseUrl}/api/categories/editCategory/`,formData)
+        axios.post(`${phpUrl}/ototech_api/ototech_api/category/update-category.php`,formData,{withCredentials:true})
         .then(res=>{
             
             let status=res.data.status;
@@ -79,7 +79,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
                     'Category Edited',
                     'success'
                 )
-            }else if(status==='Invalid User'){
+            }else if(status==='Invalid User'||status==='no Cookie'){
                
                 router.push(`/login?next=${router.asPath}`)
             }else{
@@ -98,8 +98,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
             )  
         })
     }else{
-        setloading(false);
-        return;
+        setloading(false)
     }
 })
     }
@@ -116,7 +115,8 @@ export default function EditCategory({error,editId,editName,editDescription,edit
         seticon(editIcon);
         setstatus(editStatus)
         setImgpreview(editImg);
-    },[]);
+        
+        },[]);
 
     return(
         <>
@@ -137,7 +137,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
         <div className='admineditnamecon'>
             <div className='admineditname'>
             <p>Description</p>
-            <textarea type='text' name='decription' value={description} onChange={(e)=>setdescription(e.target.value)}/><p>description should not be more than 150 words</p>
+            <textarea type='text' name='description' value={description} onChange={(e)=>setdescription(e.target.value)}/><p>description should not be more than 150 words</p>
         </div>
         </div>
 

@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
 import { useRouter } from "next/router";
+import { phpUrl } from "../../../components/BaseUrl";
 
 export default function AdminCategories(){
     const [categories,setcategories]=useState([]);
@@ -52,7 +53,7 @@ export default function AdminCategories(){
   function deleteCategory(id){
     Swal.fire({
         title: 'Are you sure?',
-        text: "Note: All Articles in this category will be deactivated not deleted.",
+        text: "Confirm Delete of Comment",
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -61,7 +62,9 @@ export default function AdminCategories(){
       }).then((result) => {
         if (result.isConfirmed) {
             setloading(true)
-    axios.post('/api/categories/deleteCategory',{id:id})
+            const formData=new FormData();
+            formData.append('id',id)
+    axios.post(`${phpUrl}/ototech_api/ototech_api/category/delete-category.php`,formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false);
@@ -71,8 +74,8 @@ export default function AdminCategories(){
             'Category Deleted',
             'success'
         )
-        loadCategories()
-       }else if(status==='Invalid User'){
+        phpApi();
+       }else if(status==='Invalid User'||status==='no Cookie'){
                
         router.push(`/login?next=${router.asPath}`)
     }else{
@@ -91,44 +94,74 @@ export default function AdminCategories(){
             'error'
         )
     })
-}else{
-    setloading(false);
-    return;
 }
       });
   }
 
   function loadLimitCategory(){
-    limit.current=limit.current+10;
-    loadCategories()
+    limit.current=limit.current+1;
+    // loadCategories();
+     phpApi();
   }
+
 
   function filter(e){
     if(e==='ascend'){
-        setcategories(filterCategories.sort((a,b)=>a._id < b._id ? 1:-1));
+        setcategories(filterCategories.sort((a,b)=>a.id < b.id ? 1:-1));
     }else if(e==='articles'){
         setcategories(filterCategories.sort((a,b)=>a.articles < b.articles ? 1:-1));
     }else if(e==='descend'){
-        setcategories(filterCategories.sort((a,b)=>a._id < b._id ? -1:1));
+        setcategories(filterCategories.sort((a,b)=>a.id < b.id ? -1:1));
     }
   }
+
 
 function filterByName(e){
     filterIndex.current=e;
     let filterCategories2=[];
+    
     for (let i = 0; i < backup.length; i++) {
     if(backup[i].name.toLowerCase().includes(filterIndex.current.toLowerCase())){
     filterCategories2.push(backup[i]);
     }      
     }
+    
     setcategories(filterCategories2);
 }
 
 
+function phpApi(){
+    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=${limit.current}`)
+    .then(res=>{
+        let status=res.data.status;
+        let data=res.data.data;
+        setdataLoad(false)
+        if(status==='success'){
+            setcategories(data);
+            setbackup(data);
+        }else{
+            Swal.fire(
+                'Error Occured',
+                status,
+                'warning'
+            )
+        }
+
+    }).catch(err=>{
+        Swal.fire(
+            'Error Occured',
+            err.message,
+            'error'
+        ) 
+    });
+}
 
 useEffect(()=>{
-    loadCategories();
+    // loadCategories();
+     phpApi();
   },[]);
+
+
 
 
     return(
@@ -188,7 +221,7 @@ useEffect(()=>{
     <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
     <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
-    src={category.img.url}
+    src={category.image}
     alt="Picture of the author"
     layout="fill" 
     objectFit="contain"
@@ -202,8 +235,8 @@ useEffect(()=>{
     <td>{category.icon}</td>
     <td>{category.articles}</td>
     <td>{category.day}th {months[category.month]}, {category.year}</td>
-    <td><Link href={`/admin/categories/editCategory/${category._id}`}><i className='fa fa-edit'/></Link></td>
-    <td><button onClick={()=>deleteCategory(category._id)}>Delete</button></td>
+    <td><Link href={`/admin/categories/editCategory/${category.id}`}><i className='fa fa-edit'/></Link></td>
+    <td><button onClick={()=>deleteCategory(category.id)}>Delete</button></td>
     <td>{category.status}</td>
     </tr>
     )

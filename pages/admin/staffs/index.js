@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
 import { useRouter } from "next/router";
+import { phpUrl } from "../../../components/BaseUrl";
 
 export default function AdminStaffs(){
     const [staffs,setstaffs]=useState([]);
@@ -20,9 +21,88 @@ export default function AdminStaffs(){
   'August','September','October','November','December'];
 
 
+
+  function deleteStaff(id){
+Swal.fire({
+    title: 'Are you sure?',
+    text: "Confirm Delete of Comment",
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+    setloading(true);
+    const formData=new FormData();
+    formData.append('id',id)
+    axios.post(`${phpUrl}/ototech_api/ototech_api/staff/delete-staff.php`,formData,{withCredentials:true})
+    .then(res=>{
+       let status=res.data.status;
+       setloading(false)
+       if(status==='success'){
+        Swal.fire(
+            'Successful',
+            'Staff Deleted',
+            'success'
+        )
+        loadStaffs()
+       }else if(status==='Invalid User'||status==='no Cookie'){
+               
+        router.push(`/login?next=${router.asPath}`)
+    }else{
+        Swal.fire(
+            'Error Occured',
+            status,
+            'error'
+        )
+       }
+    }).catch(err=>{
+        setloading(false)
+        Swal.fire(
+            'Error Occured',
+            err.message,
+            'error'
+        )
+    })
+}
+      });
+  }
+
+
+  function loadLimitStaff(){
+    limit.current=limit.current+10;
+    loadStaffs()
+  }
+
+  function filter(e){
+    if(e==='ascend'){
+        setstaffs(filterStaffs.sort((a,b)=>a.id < b.id ? 1:-1));
+    }else if(e==='posted'){
+        setstaffs(filterStaffs.sort((a,b)=>a.post < b.post ? 1:-1));
+    }else if(e==='descend'){
+        setstaffs(filterStaffs.sort((a,b)=>a.id < b.id ? -1:1));
+    }
+  }
+
+function filterByFullName(e){
+    filterIndex.current=e;
+    let filterStaffs2=[];
+    for (let i = 0; i < backup.length; i++) {
+    if(backup[i].full_name.toLowerCase().includes(filterIndex.current.toLowerCase())){
+    filterStaffs2.push(backup[i]);
+    }      
+    }
+    setstaffs(filterStaffs2);
+}
+
+
+
+
+
   function loadStaffs(){
     setdataLoad(true)
-    axios.get(`/api/staffs/getStaffs?limit=${limit.current}`)
+    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=${limit.current}`,{withCredentials: true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -48,84 +128,10 @@ export default function AdminStaffs(){
     })
   }
 
-  function deleteStaff(id){
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "Confirm Delete of Comment",
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      }).then((result) => {
-        if (result.isConfirmed) {
-            setloading(true);
-    axios.post('/api/staffs/deleteStaff',{id:id})
-    .then(res=>{
-       let status=res.data.status;
-       setloading(false)
-       if(status==='success'){
-        Swal.fire(
-            'Successful',
-            'Staff Deleted',
-            'success'
-        )
-        loadStaffs()
-       }else if(status==='Invalid User'){
-               
-        router.push(`/login?next=${router.asPath}`)
-    }else{
-        Swal.fire(
-            'Error Occured',
-            status,
-            'error'
-        )
-       }
-    }).catch(err=>{
-        setloading(false)
-        Swal.fire(
-            'Error Occured',
-            err.message,
-            'error'
-        )
-    })
-}else{
-    setloading(false);
-    return;
-}
-      });
-  }
-
-
-  function loadLimitStaff(){
-    limit.current=limit.current+10;
-    loadStaffs()
-  }
-
-  function filter(e){
-    if(e==='ascend'){
-        setstaffs(filterStaffs.sort((a,b)=>a._id < b._id ? 1:-1));
-    }else if(e==='posted'){
-        setstaffs(filterStaffs.sort((a,b)=>a.post < b.post ? 1:-1));
-    }else if(e==='descend'){
-        setstaffs(filterStaffs.sort((a,b)=>a._id < b._id ? -1:1));
-    }
-  }
-
-function filterByFullName(e){
-    filterIndex.current=e;
-    let filterStaffs2=[];
-    for (let i = 0; i < backup.length; i++) {
-    if(backup[i].full_name.toLowerCase().includes(filterIndex.current.toLowerCase())){
-    filterStaffs2.push(backup[i]);
-    }      
-    }
-    setstaffs(filterStaffs2);
-}
-
 
 
 useEffect(()=>{
+    // loadStaffs();
     loadStaffs();
   },[]);
 
@@ -187,7 +193,7 @@ useEffect(()=>{
     <td style={{width:'100px',height:'90px',minWidth:'128px'}}>
     <div style={{width:'100%',height:'100%',position:'relative',}}>
     <Image
-    src={staff&&staff.img&&staff.img.url}
+    src={staff.image}
     alt="Picture of the author"
     layout="fill" 
     objectFit="contain"
@@ -200,10 +206,10 @@ useEffect(()=>{
     <td>{staff.full_name}</td>
     <td>{staff.email}</td>
     <td>{staff.position}</td>
-    <td>{staff.posts}</td>
-    <td>{staff.day}th {months[staff.month]}, {staff.year}</td>
-    <td><Link href={`/admin/staffs/editStaff/${staff._id}`}><i className='fa fa-edit'/></Link></td>
-    <td><button onClick={()=>deleteStaff(staff._id)}>Delete</button></td>
+    <td>{staff.posts??0}</td>
+    <td>{staff.day}th {months[parseInt(staff.month)-1]}, {staff.year}</td>
+    <td><Link href={`/admin/staffs/editStaff/${staff.id}`}><i className='fa fa-edit'/></Link></td>
+    <td><button onClick={()=>deleteStaff(staff.id)}>Delete</button></td>
     <td>{staff.status}</td>
     </tr>
     )

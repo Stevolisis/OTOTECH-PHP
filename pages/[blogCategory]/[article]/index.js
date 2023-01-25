@@ -2,12 +2,12 @@ import axios from "axios";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect,useState } from "react";
+import { useEffect,useState,useRef } from "react";
 import Swal from "sweetalert2";
 import SlidingArticles from "../../../components/SlidingArticles";
 import parse from 'html-react-parser';
 import { RWebShare } from "react-web-share";
-import {baseUrl} from '../../../components/BaseUrl'
+import {baseUrl,phpUrl} from '../../../components/BaseUrl'
 import { useLoader } from "../../_app";
 import SlidingArticlesLoader from "../../../components/SlidingArticlesLoader";
 import Comments from "../../../components/Comments";
@@ -18,18 +18,18 @@ import CommentsLoader from "../../../components/CommentsLoader";
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${baseUrl}/api/articles/getArticle?category=${context.params.blogCategory}&article=${context.params.article}`);
-      const content= res.data.data;
-      const pageId=content._id;
-      const categoryId=content.category;
-      const img_link=content.img.url;
-      const img_link2=content.author.img.url;
-      const whatsapp=content.author.whatsapp;
-      const dribble=content.author.dribble;
-      const github=content.author.github;
-      const linkedin=content.author.linkedin;
-      const twitter=content.author.twitter;
-      const instagram=content.author.instagram;
+      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/post/get-post.php?category=${context.params.blogCategory}&article=${context.params.article}`);
+      const content= res.data.data[0];
+      const pageId=content.id;
+      const categoryId=context.params.blogCategory;
+      const img_link=content.image;
+      const img_link2=content.author&&content.author.image||'';
+      const whatsapp=content.author&&JSON.parse(content.author.whatsapp);
+      const dribble=content.author&&JSON.parse(content.author.dribble);
+      const github=content.author&&JSON.parse(content.author.github);
+      const linkedin=content.author&&JSON.parse(content.author.linkedin);
+      const twitter=content.author&&JSON.parse(content.author.twitter);
+      const instagram=content.author&&JSON.parse(content.author.instagram);
       
       return {
         props:{content,pageId,categoryId,img_link,img_link2,whatsapp,dribble,github,linkedin,twitter,instagram}
@@ -50,12 +50,11 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     if(error){
         Swal.fire(
           'Error Occured',
-          'Please check your connection',
+          error,
           'error'
         )
   }
   const { loading, setloading } = useLoader();
-
 
     const months=['January','February','March','April','May','June','July',
     'August','September','October','November','December'];
@@ -65,6 +64,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     const [email, setemail]=useState('');
     const [full_name, setfull_name]=useState('');
     const [comments, setcomments]=useState(null); 
+    const limitview=useRef(1);
 
 
 
@@ -100,11 +100,14 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
     function handleLikeBtn(){
         if(liked===false){
-            axios.post('/api/likes/addLike',{page_link:window.location.href,pageId:pageId})
+            // axios.post('/api/likes/addLike',{page_link:window.location.href,pageId:pageId})
+            const formData=new FormData();
+            formData.append('pageId',pageId);
+            formData.append('page_link',window.location.href);
+            axios.post(`${phpUrl}/ototech_api/ototech_api/post/add-like.php`,formData)
             .then(res=>{
                 let status=res.data.status;
-            
-
+y
                 if(status==='success'){
                 if (typeof window !== 'undefined') {
                     let item = localStorage.getItem('likeTracker');
@@ -147,13 +150,13 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
                 }else{
                     Toast.fire({
                         icon: 'warning',
-                        title: ''
+                        title: status
                     })
                 }
             }).catch(err=>{
                 Toast.fire({
                     icon: 'error',
-                    title: ''
+                    title: err.message
                 })
             })
         }else{
@@ -161,7 +164,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             let indexTracker=likeTracker.indexOf(window.location.href);
             likeTracker.splice(indexTracker,indexTracker+1);
             localStorage.setItem('likeTracker',JSON.stringify(likeTracker));  
-                    }
+        }
     }
 
 
@@ -169,31 +172,36 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
         if(pageId===''){
             return;
         }else{
-            axios.post('/api/views/addView',{page_link:window.location.href,pageId:content && pageId})
-        .then(res=>{
-            return;
-        }).catch(err=>{
-            return;
-        })
+            const formData=new FormData();
+            formData.append('pageId',pageId);
+            formData.append('page_link',window.location.href);
+        
+            axios.post(`${phpUrl}/ototech_api/ototech_api/post/add-view.php`,formData)
+            .then(res=>{
+                return;
+            }).catch(err=>{
+                return;
+            })
         }
      }
 
-     function setComment(e){
+
+    function setComment(e){
         e.preventDefault();
         setloading(true);
         const formData=new FormData(e.target);
-        formData.append('page_link',window.location.href);
         formData.append('pageId',pageId);
 
-        axios.post('/api/comments/addComment',formData)
+        axios.post(`${phpUrl}/ototech_api/ototech_api/comment/add-comment.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
-            let data=res.data.data;
             setloading(false);
 
-            if(status==='success') Toast.fire({icon: 'success',title: ''})
+            if(status==='success'){
+                Toast.fire({icon: 'success',title: ''})
+                sessionStorage.setItem('userId','lantern')
+            } 
             loadComments();
-            userAuth();
            
         }).catch(err=>{
             setloading(false);
@@ -206,17 +214,19 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
        if(pageId===''){
        return;
        }else{
-        axios.get(`/api/comments/getPageComments?pageId=${pageId}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/comment/get-page-comments.php?pageId=${pageId}`,{withCredentials:true})
+        // axios.get(`/api/comments/getPageComments?pageId=${pageId}`)
         .then(res=>{
             let data=res.data.data;
             let status=res.data.status;
-    
+
             if(status==='success'){
                 setcomments(data);
             }else{
                 return;
             }
         }).catch(err=>{
+            alert(err.message)
            return;
         })
        }
@@ -227,7 +237,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
 
     function userAuth(){
-         axios.get('/api/users/userAuth')
+        axios.get(`${phpUrl}/ototech_api/ototech_api/authentication/user-auth.php`,{withCredentials:true})
          .then(res=>{
              let data=res.data.data;
              let status=res.data.status;
@@ -248,7 +258,8 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
         if(pageId===''){
             return;
         }else{
-        axios.get(`/api/articles/loadRelatedArticlesByCategory?id=${categoryId}`)
+        // axios.get(`${phpUrl}/ototech_api/ototech_api/new/get-categoryArticles.php?category=${categoryId}`)
+        axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${categoryId}&limit=10`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -257,16 +268,16 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             }else{
                 Swal.fire(
                     'Error Occured',
-                    res.data.status,
+                    res.data,
                     'warning'
                 )
             }
         }).catch(err=>{
-            Swal.fire(
-                'Error Occured',
-                err.message,
-                'error'
-            )           
+            // Swal.fire(
+            //     'Error Occured',
+            //     err.message,
+            //     'error'
+            // )           
         });            
         }
 
@@ -277,8 +288,11 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     checkLike()
     userAuth();
     loadComments()
-    setView();
     loadArticlesByCategory(); 
+    if(limitview.current===1){
+        setView();
+        limitview.current=0;
+    }else return
    },[])
 
     useEffect(()=>{
@@ -290,7 +304,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
     return(
     <>
     <Head>
-        <title>Ototech Articles</title>
+        <title>{content && content.title}</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
     </Head>
@@ -347,8 +361,8 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
 
             <div className="articleAuthor">
                 <p>AUTHOR</p>
-                <p>{content && content.author.full_name}</p>
-                <p>{content && content.author.description}</p>
+                <p>{content && content.author&& content.author.full_name}</p>
+                <p>{content && content.author&& content.author.description}</p>
             <div className="authorSocialLinks">
             {whatsapp&&whatsapp.status==='inactive'|| ''? '' :<Link href={`${whatsapp&&whatsapp.link}`}><a><i className='fa fa-whatsapp'/></a></Link>}
             {dribble&&dribble.status==='inactive'|| ''? '' :<Link href={`${dribble&&dribble.link}`}><a><i className='fa fa-dribble'/></a></Link>}
@@ -368,8 +382,8 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             text: "Like humans, flamingos make friends for life",
             url: `${windowLink}`,
             title: `${content && content.title}`,
-            }}
-            onClick={() => console.log("shared successfully!")}>
+            }}>
+
             <button onClick={()=>navigator.share({title:`${content && content.title}`,text:'OTOTCH BLOG',url:`${windowLink}}`})}>Share <i className="fa fa-share"/></button>
             </RWebShare>
                 <Link href={`https://www.linkedin.com/shareArticle?mini=true&url=${windowLink}i&title=${content && content.title}&source=OTOTECH Blog`}><a><i className="fa fa-linkedin"/></a></Link>

@@ -9,17 +9,15 @@ import $ from 'jquery';
 import Mainscreen from "../../components/Mainscreen";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { baseUrl } from "../../components/BaseUrl";
+import { baseUrl, phpUrl } from "../../components/BaseUrl";
 import { useLoader } from "../_app";
-import SlidingArticlesLoader from "../../components/SlidingArticlesLoader";
-import BlogLoader from "../../components/BlogLoader";
 
 
 export const getServerSideProps=async (context)=>{
   let error=context.query;
   try{
-    const res=await axios.get(`${baseUrl}/api/categories/getCategoryByName?category=${context.params.blogCategory}`);
-    const res2=await axios.get(`${baseUrl}/api/articles/loadArticlesByCategory?category=${context.params.blogCategory}&limit=8`);
+    const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categorybyslug.php?slug=${context.params.blogCategory}`);
+    const res2=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${context.params.blogCategory}&limit=10`);
     const category= res.data.data||null;
     const blogData= res2.data.data||null;
     
@@ -39,15 +37,15 @@ export const getServerSideProps=async (context)=>{
 export default function BlogCategory({category,blogData,error}){
   let router=useRouter();
     const [articlesSlide,setarticlesSlide]=useState(null);
-    const [categories,setcategories]=useState(null);
-    const [articles,setarticles]=useState(null);
+    const [categories,setcategories]=useState([]);
+    const [articles,setarticles]=useState([]);
     const { loading, setloading } = useLoader();
-    let limit=useRef(8);
+    let limit=useRef(10);
 
     if(error){
       Swal.fire(
-        'Error Occured',
-        'Please check your connection',
+        'Error at ServerSideProps',
+        error,
         'warning'
       )
 }
@@ -69,24 +67,24 @@ export default function BlogCategory({category,blogData,error}){
       
 
         function loadArticlesByViews(){
-          axios.get('/api/articles/getArticlesByViews')
+          axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articlesByViews.php?limit=${10}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
               if(status==='success'){
-                  setarticlesSlide(data)
+                setarticlesSlide(data);
               }else{
                   Swal.fire(
-                      'Error Occured',
+                      'Error',
                       res.data.status,
                       'warning'
                   )
               }
           }).catch(err=>{
               Swal.fire(
-                  'Error Occured',
-                  err.message,
-                  'error'
+                  'Error',
+                  'Error Occured at Axios',
+                  'warning'
               )           
           });
         }
@@ -94,17 +92,16 @@ export default function BlogCategory({category,blogData,error}){
 
         function loadArticlesByCategory(){
           setloading(true);
-          axios.get(`/api/articles/loadArticlesByCategory?category=${router.query.blogCategory}&limit=${limit.current}`)
+          axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${router.query.blogCategory}&limit=${limit.current}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
-              console.log(data)
               setloading(false)
               if(status==='success'){
                   setarticles(data)
               }else{
                   Swal.fire(
-                      'Error Occured',
+                      'Error Soil',
                       res.data.status,
                       'warning'
                   )
@@ -112,9 +109,9 @@ export default function BlogCategory({category,blogData,error}){
           }).catch(err=>{
             setloading(false);
               Swal.fire(
-                  'Error Occured',
+                  'Error Soil2',
                   err.message,
-                  'error'
+                  'warning'
               )           
           });            
   
@@ -123,7 +120,7 @@ export default function BlogCategory({category,blogData,error}){
 
         
   function loadCategories(){
-    axios.get('/api/categories/getCategories')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categories.php?limit=400`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -131,23 +128,22 @@ export default function BlogCategory({category,blogData,error}){
             setcategories(data)
         }else{
             Swal.fire(
-                'Error Occured',
+                'Error',
                 res.data.status,
                 'warning'
             )
         }
     }).catch(err=>{
         Swal.fire(
-            'Error Occured',
-            err.message,
-            'error'
+            'Error',
+            'Error Occured at Axios',
+            'warning'
         )           
     });
-}
-
+  }
 
         function loadMore(){
-          limit.current=limit.current+8;
+          limit.current=limit.current+10;
           loadArticlesByCategory();
         }
 
@@ -159,13 +155,6 @@ export default function BlogCategory({category,blogData,error}){
           setarticles(blogData);
           loadCategories();
           loadArticlesByViews();
-          if(category===null){
-            Swal.fire(
-              'Error Occured',
-              'Category not Found',
-              'error'
-            )
-          }
         },[])
 
     
@@ -175,7 +164,7 @@ export default function BlogCategory({category,blogData,error}){
     return(
         <>
       <Head>
-        <title>OTOTECH Blog Category</title>
+        <title>{category&&category.name}</title>
         <meta name="description" content="Web Technology, app development, content writing, web management, SEO" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -196,12 +185,9 @@ export default function BlogCategory({category,blogData,error}){
 <div className={styles.categorySliderCon}>
 <div className={styles.categorySlider}>
   {
-    categories!==null ? categories.map((category,i)=>{
+    categories && categories.map((category,i)=>{
 return <Link href={category.slug&&category.slug} key={i}><a className={styles.categorySlide}><i className={`fa fa-${category.icon}`}/>{category.name}</a></Link>
-    }) :
-    [1,2,3,4].map((category,i)=>{
-      return <Link href='#' key={i}><a style={{width:'100px',height:'35px',background:'rgba(201, 197, 197,0.4)',margin:'0 12px'}}><i/></a></Link>
-          })
+    })
   }
   </div>
 </div>
@@ -218,7 +204,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
      <div className='categoriesCon3'>
       
       
-      {articles!==null ? <BlogList articles={articles}/> : <BlogLoader/>}
+      {articles&&articles.length !==0 ? <BlogList articles={articles}/> : ''}
 
 
       <div className='blogNavCon'>
@@ -229,7 +215,7 @@ return <Link href={category.slug&&category.slug} key={i}><a className={styles.ca
       </div>
 
 
-      {articlesSlide!==null ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: <SlidingArticlesLoader/>}
+      {articlesSlide&&articlesSlide.length !==0 ? <SlidingArticles articlesSlide={articlesSlide} title='Most Read Articles'/>: ''}
         </>
     )
 }

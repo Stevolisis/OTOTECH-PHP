@@ -20,7 +20,8 @@ export default function AdminComments(){
 
   function loadComments(){
     setdataLoad(true)
-    axios.get(`/api/comments/getComments?limit=${limit.current}`)
+    // axios.get(`/api/comments/getComments?limit=${limit.current}`)
+    axios.post(`http://localhost/ototech_api/ototech_api/comment/get-comments.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -70,7 +71,9 @@ function deleteComment(id){
       }).then((result) => {
         if (result.isConfirmed) {
             setloading(true);
-            axios.post('/api/comments/deleteComment',{id:id})
+            let formData=new FormData();
+            formData.append('id',id)
+            axios.post('http://localhost/ototech_api/ototech_api/comment/delete-comment.php',formData,{withCredentials:true})
             .then(res=>{
                let status=res.data.status;
                setloading(false);
@@ -80,8 +83,8 @@ function deleteComment(id){
                     'Comment Deleted',
                     'success'
                 )
-                loadComments()
-               }else if(status==='Invalid User'){
+                loadComments();
+               }else if(status==='Invalid User'||status==='no Cookie'){
                
                 router.push(`/login?next=${router.asPath}`)
             }else{
@@ -187,7 +190,7 @@ useEffect(()=>{
     <td>{comment.pageId===null ? 'Invalid' : comment.pageId.title}</td>
     <td>{comment.user===null ? 'Invalid' :comment.user.email}</td>
     <td>{comment.day}th {months[comment.month]}, {comment.year}</td>
-    <td><button onClick={()=>deleteComment(comment._id)}>Delete</button></td>
+    <td><button onClick={()=>deleteComment(comment.id)}>Delete</button></td>
     <td><button onClick={()=>view(i)}>View</button></td>
     </tr>
     )

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import { phpUrl } from "./BaseUrl";
 
 export default function Footer(){
   const [phone_number,setphone_number]=useState({status:'',link:''})
@@ -13,16 +14,16 @@ export default function Footer(){
 
   
   function loadSupport(){
-    axios.get('/api/supports/getSupport')
+    axios.get(`${phpUrl}/ototech_api/ototech_api/support/get-supports.php`)
     .then(res=>{
         let data=res.data.data;
         if(res.data.status==='success'){
-            setphone_number(data[0].phone_number)
-            setgmail(data[0].gmail)
-            setfacebook(data[0].facebook)
-            setwhatsapp(data[0].whatsapp)
-            setgoogle_chat(data[0].google_chat)
-            setlinkedin(data[0].linkedin)
+            setphone_number(JSON.parse(data.phone_number))
+            setgmail(JSON.parse(data.gmail))
+            setfacebook(JSON.parse(data.facebook))
+            setwhatsapp(JSON.parse(data.whatsapp))
+            setgoogle_chat(JSON.parse(data.google_chat))
+            setlinkedin(JSON.parse(data.linkedin))
         }else{
             Swal.fire(
                 'Error',
@@ -54,12 +55,12 @@ export default function Footer(){
         <p> For more enquires and service placement please feel free to
            contact us through the following Social media's.</p>
            <ul>
-           {facebook.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-facebook'></i></Link></li>}
-           {phone_number.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-phone'></i></Link></li>}
-           {linkedin.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-linkedin'></i></Link></li>}
-           {whatsapp.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-whatsapp'></i></Link></li>}
-           {google_chat.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-google'></i></Link></li>}
-           {gmail.status==='inactive' ? '' :<li><Link href='#'><i className='fa fa-envelope'></i></Link></li>}
+           {facebook && facebook.status==='inactive' ? '' :<li><Link href={'https://'+facebook.link}><i className='fa fa-facebook'></i></Link></li>}
+           {phone_number && phone_number.status==='inactive' ? '' :<li><Link href={'https://'+phone_number.link}><i className='fa fa-phone'></i></Link></li>}
+           {linkedin && linkedin.status==='inactive' ? '' :<li><Link href={'https://'+linkedin.link}><i className='fa fa-linkedin'></i></Link></li>}
+           {whatsapp && whatsapp.status==='inactive' ? '' :<li><Link href={'https://'+whatsapp.link}><i className='fa fa-whatsapp'></i></Link></li>}
+           {google_chat && google_chat.status==='inactive' ? '' :<li><Link href={'https://'+google_chat.link}><i className='fa fa-google'></i></Link></li>}
+           {gmail && gmail.status==='inactive' ? '' :<li><Link href={'https://'+gmail.link}><i className='fa fa-envelope'></i></Link></li>}
            </ul>
       </div>
 

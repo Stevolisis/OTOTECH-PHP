@@ -4,7 +4,7 @@ import { MultiSelect } from "react-multi-select-component";
 import axios from "axios";
 import { useLoader } from "../../../_app";
 import { useRouter } from "next/router";
-import { baseUrl } from "../../../../components/BaseUrl";
+import { baseUrl,phpUrl } from "../../../../components/BaseUrl";
 
 export default function AddStaff(){
     const [imgpreview,setImgpreview]=useState('');
@@ -46,54 +46,35 @@ export default function AddStaff(){
     formData.append('linkedin',JSON.stringify(linkedin));
     formData.append('twitter',JSON.stringify(twitter));
     formData.append('instagram',JSON.stringify(instagram));
-    formData.append('priveldges',JSON.stringify(selectedOption));
-    setloading(true)
-
-    Swal.fire({
-            title: 'Are you Sure?',
-            text: "Note: Only Admin is Permitted to edit your profile",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, Continue!'
-          }).then((result) => {
-            if (result.isConfirmed) {
-            
-        axios.post(`${baseUrl}/api/staffs/addStaff`,formData,{withCredentials:true})
-        .then(res=>{
-            let status=res.data.status;
-            setloading(false)
-            if(status==='success'){
-                Swal.fire(
-                    'Successful!',
-                    'Staff Added',
-                    'success'
-                )
-            }else if(status==='Invalid User'){
-                    
-                router.push(`/login?next=${router.asPath}`)
-            }else{
-                Swal.fire(
-                    'Error Occured',
-                    status,
-                    'warning'
-                )  
-            }
-        }).catch(err=>{
-            setloading(false);
+    formData.append('priveledges',JSON.stringify(selectedOption));
+    setloading(true);
+    axios.post(`${phpUrl}/ototech_api/ototech_api/staff/add-staff.php`,formData,{withCredentials:true})
+    .then(res=>{
+        let status=res.data.status;
+        setloading(false)
+        if(status==='success'){
+            Swal.fire(
+                'Successful!',
+                'Staff Added',
+                'success'
+            )
+        }else if(status==='Invalid User'||status==='no Cookie'){
+            router.push(`/login?next=${router.asPath}`)
+        }else{
             Swal.fire(
                 'Error Occured',
-                err.message,
-                'error'
-            ) 
-        })
-        
-        }else{
-            setloading(false);
-            return;
+                status,
+                'warning'
+            )  
         }
-});
+    }).catch(err=>{
+        setloading(false);
+        Swal.fire(
+            'Error Occured',
+            err.message,
+            'error'
+        ) 
+    })
 }
 
 
@@ -248,7 +229,7 @@ export default function AddStaff(){
 
         <div className='admineditnamecon2'>
         <div className='admineditname'>
-        <p>Priveldges</p>
+        <p>Priveledges</p>
         <MultiSelect
         options={options}
         value={selectedOption}
