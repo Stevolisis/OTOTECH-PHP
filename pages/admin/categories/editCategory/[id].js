@@ -9,7 +9,7 @@ export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
       // const res=await axios.get(`${baseUrl}/api/categories/getCategory/${context.params.id}`);
-      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-category.php?id=${context.params.id}`);
+      const res=await axios.get(`${phpUrl}/category/get-category.php?id=${context.params.id}`);
     
       const data= res.data.data;
       const editId= data.id;
@@ -68,7 +68,7 @@ export default function EditCategory({error,editId,editName,editDescription,edit
         formData.append('id',id);
 
         setloading(true)
-        axios.post(`${phpUrl}/ototech_api/ototech_api/category/update-category.php`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/category/update-category.php`,formData,{withCredentials:true})
         .then(res=>{
             
             let status=res.data.status;

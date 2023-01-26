@@ -23,7 +23,7 @@ export default function AdminArticles(){
 
   function loadArticles(){
     setdataLoad(true)
-    axios.get(`${phpUrl}/ototech_api/ototech_api/article/get-articles.php?limit=${limit.current}`)
+    axios.get(`${phpUrl}/article/get-articles.php?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -63,7 +63,7 @@ export default function AdminArticles(){
             setloading(true)
     const formData=new FormData()
     formData.append('id',id)
-    axios.post(`${phpUrl}/ototech_api/ototech_api/article/delete-article.php`,formData,{withCredentials:true})
+    axios.post(`${phpUrl}/article/delete-article.php`,formData,{withCredentials:true})
 
     .then(res=>{
        let status=res.data.status;

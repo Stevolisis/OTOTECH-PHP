@@ -1,14 +1,14 @@
 import { useEffect ,useState} from "react"
 import Swal from 'sweetalert2';
 import axios from "axios";
-import { baseUrl } from "../../../../components/BaseUrl";
+import { baseUrl, phpUrl } from "../../../../components/BaseUrl";
 import { useLoader } from "../../../_app";
 import { useRouter } from "next/router";
 
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`http://localhost/ototech_api/ototech_api/users/get-user.php?id=${context.params.id}`);
+      const res=await axios.get(`${phpUrl}/users/get-user.php?id=${context.params.id}`);
 
       const data= res.data.data;
       const editFull_name= data.full_name;
@@ -60,7 +60,7 @@ export default function EditUser({error,editId,editFull_name,editEmail,data}){
                 setloading(true)
         const formData=new FormData(e.target);
         formData.append('id',id);
-        axios.post('http://localhost/ototech_api/ototech_api/users/update-user.php',formData,{withCredentials:true})
+        axios.post('${phpUrl}/users/update-user.php',formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false);

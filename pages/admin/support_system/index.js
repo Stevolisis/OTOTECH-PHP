@@ -2,7 +2,7 @@ import { useState,useEffect } from "react"
 import Swal from 'sweetalert2';
 import Link from 'next/link';
 import axios from "axios";
-import { baseUrl } from "../../../components/BaseUrl";
+import { baseUrl, phpUrl } from "../../../components/BaseUrl";
 import { useLoader } from "../../_app";
 import { useRouter } from "next/router";
 
@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 export const getServerSideProps=async (context)=>{
     try{
         // const res=await axios.get(`${baseUrl}/api/supports/getSupport`);
-        const res=await axios.get(`http://localhost/ototech_api/ototech_api/support/get-supports.php`);
+        const res=await axios.get(`${phpUrl}/support/get-supports.php`);
       
       const data= res.data.data||[];
       let resStatus=res.data.status;
@@ -87,7 +87,7 @@ function handleSubmit(e){
     formData.append('whatsapp',JSON.stringify(whatsapp));
     formData.append('facebook',JSON.stringify(facebook));
     formData.append('google_chat',JSON.stringify(google_chat));
-    axios.post('http://localhost/ototech_api/ototech_api/support/insert.php',formData,{withCredentials:true})
+    axios.post(`${phpUrl}/support/insert.php`,formData,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         setloading(false)

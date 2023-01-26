@@ -48,7 +48,7 @@ export default function AddStaff(){
     formData.append('instagram',JSON.stringify(instagram));
     formData.append('priveledges',JSON.stringify(selectedOption));
     setloading(true);
-    axios.post(`${phpUrl}/ototech_api/ototech_api/staff/add-staff.php`,formData,{withCredentials:true})
+    axios.post(`${phpUrl}/staff/add-staff.php`,formData,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         setloading(false)

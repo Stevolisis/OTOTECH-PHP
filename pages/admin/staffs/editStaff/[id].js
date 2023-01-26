@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 export const getServerSideProps=async (context)=>{
     let error=context.params.id;
     try{
-      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staff.php?id=${context.params.id}`);
+      const res=await axios.get(`${phpUrl}/staff/get-staff.php?id=${context.params.id}`);
 
       const data= res.data.data;
       const editId=data.id;
@@ -111,7 +111,7 @@ const options = [
         formData.append('twitter',JSON.stringify(twitter));
         formData.append('instagram',JSON.stringify(instagram));
         formData.append('priveledges',JSON.stringify(selectedOption));
-        axios.post(`${phpUrl}/ototech_api/ototech_api/staff/update-staff.php`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/staff/update-staff.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)

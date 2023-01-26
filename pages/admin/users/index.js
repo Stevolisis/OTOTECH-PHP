@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
 import { useRouter } from "next/router";
+import { phpUrl } from "../../../components/BaseUrl";
 
 export default function AdminUsers(){
     const [users,setusers]=useState([]);
@@ -23,7 +24,7 @@ export default function AdminUsers(){
   
   function loadUsers(){
     setdataLoad(true)
-    axios.post(`http://localhost/ototech_api/ototech_api/users/get-users.php?limit=${limit.current}`,{withCredentials:true})
+    axios.post(`${phpUrl}/users/get-users.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -65,7 +66,7 @@ export default function AdminUsers(){
             setloading(true);
             let formData=new FormData();
             formData.append('id',id)
-    axios.post('http://localhost/ototech_api/ototech_api/users/delete-user.php',formData,{withCredentials:true})
+    axios.post('${phpUrl}/users/delete-user.php',formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false)

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useLoader } from "../../_app";
 import { ThreeDots } from 'react-loader-spinner'
 import { useRouter } from "next/router";
+import { phpUrl } from "../../../components/BaseUrl";
 
 export default function AdminComments(){
     const [comments,setcomments]=useState([]);
@@ -21,7 +22,7 @@ export default function AdminComments(){
   function loadComments(){
     setdataLoad(true)
     // axios.get(`/api/comments/getComments?limit=${limit.current}`)
-    axios.post(`http://localhost/ototech_api/ototech_api/comment/get-comments.php?limit=${limit.current}`,{withCredentials:true})
+    axios.post(`${phpUrl}/comment/get-comments.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -73,7 +74,7 @@ function deleteComment(id){
             setloading(true);
             let formData=new FormData();
             formData.append('id',id)
-            axios.post('http://localhost/ototech_api/ototech_api/comment/delete-comment.php',formData,{withCredentials:true})
+            axios.post(`${phpUrl}/comment/delete-comment.php`,formData,{withCredentials:true})
             .then(res=>{
                let status=res.data.status;
                setloading(false);

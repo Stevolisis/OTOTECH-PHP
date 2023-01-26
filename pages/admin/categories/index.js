@@ -21,33 +21,6 @@ export default function AdminCategories(){
     const months=['January','February','March','April','May','June','July',
   'August','September','October','November','December'];
 
-  function loadCategories(){
-    setdataLoad(true)
-    axios.get(`/api/categories/getCategories?limit=${limit.current}&section=admin`)
-    .then(res=>{
-        let status=res.data.status;
-        let data=res.data.data;
-        setdataLoad(false)
-        if(status==='success'){
-            setcategories(data);
-            setbackup(data);
-            
-        }else{
-            Swal.fire(
-                'Error Occured',
-                status,
-                'warning'
-            )
-        }
-    }).catch(err=>{
-        setdataLoad(false)
-        Swal.fire(
-            'Warning',
-            err.message,
-            'error'
-        )
-    })
-  }
 
 
   function deleteCategory(id){
@@ -64,7 +37,7 @@ export default function AdminCategories(){
             setloading(true)
             const formData=new FormData();
             formData.append('id',id)
-    axios.post(`${phpUrl}/ototech_api/ototech_api/category/delete-category.php`,formData,{withCredentials:true})
+    axios.post(`${phpUrl}/category/delete-category.php`,formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false);
@@ -131,7 +104,7 @@ function filterByName(e){
 
 
 function phpApi(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=${limit.current}`)
+    axios.get(`${phpUrl}/category/get-categories.php?limit=${limit.current}`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;

@@ -36,7 +36,7 @@ Swal.fire({
     setloading(true);
     const formData=new FormData();
     formData.append('id',id)
-    axios.post(`${phpUrl}/ototech_api/ototech_api/staff/delete-staff.php`,formData,{withCredentials:true})
+    axios.post(`${phpUrl}/staff/delete-staff.php`,formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false)
@@ -102,7 +102,7 @@ function filterByFullName(e){
 
   function loadStaffs(){
     setdataLoad(true)
-    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=${limit.current}`,{withCredentials: true})
+    axios.get(`${phpUrl}/staff/get-staffs.php?limit=${limit.current}`,{withCredentials: true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;

@@ -39,7 +39,7 @@ export default function EditArticle(){
 
 
      function loadAuthors(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=1000000`)
+    axios.get(`${phpUrl}/staff/get-staffs.php?limit=1000000`)
         .then(res=>{
             let data=res.data.data;
             let status=res.data.status;
@@ -63,7 +63,7 @@ export default function EditArticle(){
 
     function loadArticle(){
     if(id!==undefined){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/article/get-article.php?id=${id}`)
+    axios.get(`${phpUrl}/article/get-article.php?id=${id}`)
     .then(res=>{
         let data=res.data.data;
         let status=res.data.status;
@@ -95,7 +95,7 @@ export default function EditArticle(){
     }
 
     function loadCategories(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=1000000`)
+    axios.get(`${phpUrl}/category/get-categories.php?limit=1000000`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -135,7 +135,7 @@ export default function EditArticle(){
         formData.append('content',editorRef.current.getContent());
         formData.append('id',id);
 
-        axios.post(`${phpUrl}/ototech_api/ototech_api/article/update-article.php`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/article/update-article.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)

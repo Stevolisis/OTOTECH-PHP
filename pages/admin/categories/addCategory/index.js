@@ -16,7 +16,7 @@ export default function AddCategory(){
         setloading(true)
         const formData=new FormData(e.target);
         
-        axios.post(`${phpUrl}/ototech_api/ototech_api/category/add-category.php`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/category/add-category.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false)

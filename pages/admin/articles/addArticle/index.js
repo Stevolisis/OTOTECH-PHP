@@ -33,7 +33,7 @@ export default function AddArticle(){
     const next=router.asPath;
 
     function loadAuthors(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/staff/get-staffs.php?limit=1000000`)
+    axios.get(`${phpUrl}/staff/get-staffs.php?limit=1000000`)
         .then(res=>{
             let data=res.data.data;
             if(res.data.status==='success'){
@@ -55,7 +55,7 @@ export default function AddArticle(){
     }
 
     function loadCategories(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/category/get-categories.php?limit=1000000`)
+    axios.get(`${phpUrl}/category/get-categories.php?limit=1000000`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -83,7 +83,7 @@ export default function AddArticle(){
         const formData=new FormData(e.target);
         formData.append('content',editorRef.current.getContent());
         setloading(true);
-    axios.post(`${phpUrl}/ototech_api/ototech_api/article/add-article.php`,formData)
+    axios.post(`${phpUrl}/article/add-article.php`,formData)
         .then(res=>{
             let status=res.data.status;
             setloading(false);
