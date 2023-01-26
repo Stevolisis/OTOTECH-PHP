@@ -9,7 +9,7 @@ import { ThreeDots } from 'react-loader-spinner'
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-analytics.php`);
+      const res=await axios.get(`${phpUrl}/analytics/get-analytics.php`);
 
       const data=res.data.data;
       const viewsCount= data.views;
@@ -71,7 +71,7 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
 
     function getViewStat(){
         setdataLoad1(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-views-stat.php?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-views-stat.php?month=${viewCurrentMonth}&year=${viewCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -121,7 +121,7 @@ export default function AdminAnalytics({error,viewsCount,commentsCount,likesCoun
 
     function getLikeStat(){
         setdataLoad2(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-likes-stat.php?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-likes-stat.php?month=${likeCurrentMonth}&year=${likeCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -169,7 +169,7 @@ setlikeStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
     function getCommentStat(){
         setdataLoad3(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-comments-stat.php?month=${commentCurrentMonth}&year=${commentCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-comments-stat.php?month=${commentCurrentMonth}&year=${commentCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -217,7 +217,7 @@ setcommentStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
     function getUserStat(){
         setdataLoad4(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-users-stat.php?month=${userCurrentMonth}&year=${userCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-users-stat.php?month=${userCurrentMonth}&year=${userCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -267,7 +267,7 @@ setuserStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,['w
 
     function getArticleStat(){
         setdataLoad5(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-articles-stat.php?month=${articleCurrentMonth}&year=${articleCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-articles-stat.php?month=${articleCurrentMonth}&year=${articleCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;
@@ -315,7 +315,7 @@ setarticleStat({['week1']:week1,['week2']:week2,['week3']:week3,['week4']:week4,
 
     function getCategoryStat(){
         setdataLoad6(true)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/analytics/get-categories-stat.php?month=${categoryCurrentMonth}&year=${categoryCurrentYear}`)
+        axios.get(`${phpUrl}/analytics/get-categories-stat.php?month=${categoryCurrentMonth}&year=${categoryCurrentYear}`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;

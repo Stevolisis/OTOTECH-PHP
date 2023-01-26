@@ -18,7 +18,7 @@ import CommentsLoader from "../../../components/CommentsLoader";
 export const getServerSideProps=async (context)=>{
     let error=context.query;
     try{
-      const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/post/get-post.php?category=${context.params.blogCategory}&article=${context.params.article}`);
+      const res=await axios.get(`${phpUrl}/post/get-post.php?category=${context.params.blogCategory}&article=${context.params.article}`);
       const content= res.data.data[0];
       const pageId=content.id;
       const categoryId=context.params.blogCategory;
@@ -104,7 +104,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             const formData=new FormData();
             formData.append('pageId',pageId);
             formData.append('page_link',window.location.href);
-            axios.post(`${phpUrl}/ototech_api/ototech_api/post/add-like.php`,formData)
+            axios.post(`${phpUrl}/post/add-like.php`,formData)
             .then(res=>{
                 let status=res.data.status;
 y
@@ -176,7 +176,7 @@ y
             formData.append('pageId',pageId);
             formData.append('page_link',window.location.href);
         
-            axios.post(`${phpUrl}/ototech_api/ototech_api/post/add-view.php`,formData)
+            axios.post(`${phpUrl}/post/add-view.php`,formData)
             .then(res=>{
                 return;
             }).catch(err=>{
@@ -192,7 +192,7 @@ y
         const formData=new FormData(e.target);
         formData.append('pageId',pageId);
 
-        axios.post(`${phpUrl}/ototech_api/ototech_api/comment/add-comment.php`,formData,{withCredentials:true})
+        axios.post(`${phpUrl}/comment/add-comment.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false);
@@ -214,7 +214,7 @@ y
        if(pageId===''){
        return;
        }else{
-        axios.get(`${phpUrl}/ototech_api/ototech_api/comment/get-page-comments.php?pageId=${pageId}`,{withCredentials:true})
+        axios.get(`${phpUrl}/comment/get-page-comments.php?pageId=${pageId}`,{withCredentials:true})
         // axios.get(`/api/comments/getPageComments?pageId=${pageId}`)
         .then(res=>{
             let data=res.data.data;
@@ -237,7 +237,7 @@ y
 
 
     function userAuth(){
-        axios.get(`${phpUrl}/ototech_api/ototech_api/authentication/user-auth.php`,{withCredentials:true})
+        axios.get(`${phpUrl}/authentication/user-auth.php`,{withCredentials:true})
          .then(res=>{
              let data=res.data.data;
              let status=res.data.status;
@@ -258,8 +258,8 @@ y
         if(pageId===''){
             return;
         }else{
-        // axios.get(`${phpUrl}/ototech_api/ototech_api/new/get-categoryArticles.php?category=${categoryId}`)
-        axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${categoryId}&limit=10`)
+        // axios.get(`${phpUrl}/new/get-categoryArticles.php?category=${categoryId}`)
+        axios.get(`${phpUrl}/main/get-categoryArticles.php?category=${categoryId}&limit=10`)
         .then(res=>{
             let status=res.data.status;
             let data=res.data.data;

@@ -19,8 +19,8 @@ let error;
 try{
   // const res=await axios.get(`${baseUrl}/api/categories/getCategories`);
   // const res3=await axios.get(`${baseUrl}/api/articles/getArticles?limit=8`);
-  const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categories.php?limit=400`);
-  const res3=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articles.php?limit=8`);
+  const res=await axios.get(`${phpUrl}/main/get-categories.php?limit=400`);
+  const res3=await axios.get(`${phpUrl}/main/get-articles.php?limit=8`);
   const categories= res.data.data||null;
   const blogData= res3.data.data||null;
   
@@ -71,7 +71,7 @@ export default function Home({categories,blogData,error}) {
 
 function loadArticles(){
   setloading(true)
-  axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articles.php?limit=${limit.current}`)
+  axios.get(`${phpUrl}/main/get-articles.php?limit=${limit.current}`)
   .then(res=>{
       let status=res.data.status;
       let data=res.data.data;
@@ -100,7 +100,7 @@ function loadArticles(){
 
 
 function loadArticlesByViews(){
-  axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articlesByViews.php?limit=${10}`)
+  axios.get(`${phpUrl}/main/get-articlesByViews.php?limit=${10}`)
   .then(res=>{
       let status=res.data.status;
       let data=res.data.data;

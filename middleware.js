@@ -17,7 +17,7 @@ export default async function middleware(req) {
 
       }else{
 
-        const res=await fetch(`${phpUrl}/ototech_api/ototech_api/authentication/admin-auth.php?cookie=${cookie}`)
+        const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`)
       //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
         if(res.status!==404){
         return NextResponse.next();

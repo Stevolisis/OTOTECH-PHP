@@ -16,8 +16,8 @@ import { useLoader } from "../_app";
 export const getServerSideProps=async (context)=>{
   let error=context.query;
   try{
-    const res=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categorybyslug.php?slug=${context.params.blogCategory}`);
-    const res2=await axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${context.params.blogCategory}&limit=10`);
+    const res=await axios.get(`${phpUrl}/main/get-categorybyslug.php?slug=${context.params.blogCategory}`);
+    const res2=await axios.get(`${phpUrl}/main/get-categoryArticles.php?category=${context.params.blogCategory}&limit=10`);
     const category= res.data.data||null;
     const blogData= res2.data.data||null;
     
@@ -67,7 +67,7 @@ export default function BlogCategory({category,blogData,error}){
       
 
         function loadArticlesByViews(){
-          axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-articlesByViews.php?limit=${10}`)
+          axios.get(`${phpUrl}/main/get-articlesByViews.php?limit=${10}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
@@ -92,7 +92,7 @@ export default function BlogCategory({category,blogData,error}){
 
         function loadArticlesByCategory(){
           setloading(true);
-          axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categoryArticles.php?category=${router.query.blogCategory}&limit=${limit.current}`)
+          axios.get(`${phpUrl}/main/get-categoryArticles.php?category=${router.query.blogCategory}&limit=${limit.current}`)
           .then(res=>{
               let status=res.data.status;
               let data=res.data.data;
@@ -120,7 +120,7 @@ export default function BlogCategory({category,blogData,error}){
 
         
   function loadCategories(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/main/get-categories.php?limit=400`)
+    axios.get(`${phpUrl}/main/get-categories.php?limit=400`)
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;

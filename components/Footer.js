@@ -14,7 +14,7 @@ export default function Footer(){
 
   
   function loadSupport(){
-    axios.get(`${phpUrl}/ototech_api/ototech_api/support/get-supports.php`)
+    axios.get(`${phpUrl}/support/get-supports.php`)
     .then(res=>{
         let data=res.data.data;
         if(res.data.status==='success'){
