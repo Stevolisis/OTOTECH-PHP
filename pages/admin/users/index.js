@@ -24,7 +24,7 @@ export default function AdminUsers(){
   
   function loadUsers(){
     setdataLoad(true)
-    axios.post(`${phpUrl}/users/get-users.php?limit=${limit.current}`,{withCredentials:true})
+    axios.get(`${phpUrl}/users/get-users.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
@@ -37,13 +37,13 @@ export default function AdminUsers(){
             Swal.fire(
                 'Error Occured',
                 status,
-                'error'
+                'warning'
             )
         }
     }).catch(err=>{
         setdataLoad(false)
         Swal.fire(
-            'Warning',
+            'Error Occured 2',
             err.message,
             'error'
         )
