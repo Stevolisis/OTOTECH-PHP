@@ -22,7 +22,7 @@ export default function AdminComments(){
   function loadComments(){
     setdataLoad(true)
     // axios.get(`/api/comments/getComments?limit=${limit.current}`)
-    axios.post(`${phpUrl}/comment/get-comments.php?limit=${limit.current}`,{withCredentials:true})
+    axios.get(`${phpUrl}/comment/get-comments.php?limit=${limit.current}`,{withCredentials:true})
     .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
