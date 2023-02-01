@@ -107,7 +107,7 @@ export default function Article({error,content,pageId,categoryId,img_link,img_li
             axios.post(`${phpUrl}/post/add-like.php`,formData)
             .then(res=>{
                 let status=res.data.status;
-y
+
                 if(status==='success'){
                 if (typeof window !== 'undefined') {
                     let item = localStorage.getItem('likeTracker');
@@ -121,7 +121,6 @@ y
                     likeTracker.push(`${window.location.href}`);
                     localStorage.setItem('likeTracker',JSON.stringify(likeTracker));                          
                     }
-                    
                     Toast.fire({
                     icon: 'success',
                     title: ''
