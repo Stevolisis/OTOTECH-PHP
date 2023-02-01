@@ -60,7 +60,7 @@ export default function EditUser({error,editId,editFull_name,editEmail,data}){
                 setloading(true)
         const formData=new FormData(e.target);
         formData.append('id',id);
-        axios.post('${phpUrl}/users/update-user.php',formData,{withCredentials:true})
+        axios.post(`${phpUrl}/users/update-user.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
             setloading(false);
