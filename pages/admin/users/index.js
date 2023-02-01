@@ -66,7 +66,7 @@ export default function AdminUsers(){
             setloading(true);
             let formData=new FormData();
             formData.append('id',id)
-    axios.post('${phpUrl}/users/delete-user.php',formData,{withCredentials:true})
+    axios.post(`${phpUrl}/users/delete-user.php`,formData,{withCredentials:true})
     .then(res=>{
        let status=res.data.status;
        setloading(false)
@@ -191,7 +191,7 @@ useEffect(()=>{
     <td>{user.full_name}</td>
     <td>{user.email}</td>
     <td>{user.comments}</td>
-    <td>{user.day}th {months[user.month]}, {user.year}</td>
+    <td>{user.day}th {months[parseInt(user.month)]}, {user.year}</td>
     <td><Link href={`/admin/users/editUser/${user.id}`}><i className='fa fa-edit'/></Link></td>
     <td><button onClick={()=>deleteUser(user.id)}>Delete</button></td>
     </tr>
