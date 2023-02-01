@@ -11,7 +11,7 @@ export default function Mainscreen({heading,description,imgLink,page}){
   useEffect(()=>{
     if (searchKey.length >1){
     try{
-      axios.get(`${phpUrl}/ototech_api/ototech_api/main/search.php?key=${searchKey}`)
+      axios.get(`${phpUrl}/main/search.php?key=${searchKey}`)
       .then(res=>{
         let status=res.data.status;
         let data=res.data.data;
