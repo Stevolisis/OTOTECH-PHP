@@ -17,7 +17,7 @@ export default async function middleware(req) {
 
       // }else{
 
-        const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovLzIzNDU2NzkwOTAuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2NzU1NDk3MDEsIm5iZiI6MTY3NTU0OTcwMSwiZXhwIjoxNjc4MTQxNzAxLCJhdWQiOiJodHRwczovL290b3RlY2gtYmxvZy52ZXJjZWwuYXBwLyIsImRhdGEiOiJhZG1pbkBnbWFpbC5jb20ifQ.HvU5F3WoQahB0zNtTZQdE21aaihqOZ4kzKlqjXqB80I`,{credentials:'include'})
+        const res=await fetch(`${phpUrl}/authentication/admin-auth.php`,{method: 'POST',credentials:'include'})
       //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
         if(res.status!==404){
         return NextResponse.next();
