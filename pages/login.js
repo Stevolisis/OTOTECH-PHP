@@ -15,8 +15,12 @@ function handleSubmit(e){
         e.preventDefault();
         setloading(true)
         const formData=new FormData(e.target);
-        axios.post(`${phpUrl}/authentication/admin-auth.php?cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovLzIzNDU2NzkwOTAuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2NzU1NDk3MDEsIm5iZiI6MTY3NTU0OTcwMSwiZXhwIjoxNjc4MTQxNzAxLCJhdWQiOiJodHRwczovL290b3RlY2gtYmxvZy52ZXJjZWwuYXBwLyIsImRhdGEiOiJhZG1pbkBnbWFpbC5jb20ifQ.HvU5F3WoQahB0zNtTZQdE21aaihqOZ4kzKlqjXqB80I`,formData,{withCredentials:true})
+        // axios.post(`${phpUrl}/authentication/admin-auth.php?cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovLzIzNDU2NzkwOTAuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2NzU1NDk3MDEsIm5iZiI6MTY3NTU0OTcwMSwiZXhwIjoxNjc4MTQxNzAxLCJhdWQiOiJodHRwczovL290b3RlY2gtYmxvZy52ZXJjZWwuYXBwLyIsImRhdGEiOiJhZG1pbkBnbWFpbC5jb20ifQ.HvU5F3WoQahB0zNtTZQdE21aaihqOZ4kzKlqjXqB80I`,formData,{withCredentials:true})
+        // .then(res=>{console.log(res.status,res.data)}).catch(err=>{console.log(res.status,err.message)})
+        fetch(`${phpUrl}/authentication/admin-auth.php`,{method: 'POST',credentials:'include'})
         .then(res=>{console.log(res.status,res.data)}).catch(err=>{console.log(res.status,err.message)})
+
+        
         //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
         axios.post(`${phpUrl}/authentication/staff-login.php`,formData,{withCredentials:true})
         .then(res=>{
