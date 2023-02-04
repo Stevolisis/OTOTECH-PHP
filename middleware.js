@@ -19,7 +19,7 @@ export default async function middleware(req) {
 
         const res=await fetch(`${phpUrl}/authentication/admin-auth.php`,{method: 'POST',credentials:'include'})
       //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
-        if(res.status!==404){
+        if(res.status==404){
         return NextResponse.next();
       }else if(res.status==200){
         return NextResponse.next();
