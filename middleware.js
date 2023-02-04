@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 import { baseUrl, phpUrl } from "./components/BaseUrl"
 
 export default async function middleware(req) {
-  let cookie=req.cookies.get('adminPass');
+  let cookie=req.cookies.get('adminPass2');
   let next=req.url.split(baseUrl)[1];
 
 
@@ -11,11 +11,11 @@ export default async function middleware(req) {
         return NextResponse.error();
       }
 
-      // if(req.cookies.get('adminPass')== undefined){
+      if(req.cookies.get('adminPass2')== undefined){
 
-      //   return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
+        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`); 
 
-      // }else{
+      }else{
 
         const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`)
       //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
@@ -25,7 +25,7 @@ export default async function middleware(req) {
         return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
       }
 
-      // }
+      }
 
     }
 
