@@ -15,6 +15,9 @@ function handleSubmit(e){
         e.preventDefault();
         setloading(true)
         const formData=new FormData(e.target);
+        axios.get(`${phpUrl}/authentication/admin-auth.php?cookie=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovLzIzNDU2NzkwOTAuMDAwd2ViaG9zdGFwcC5jb20iLCJpYXQiOjE2NzU1NDg3OTUsIm5iZiI6MTY3NTU0ODc5NSwiZXhwIjoxNjc1NTQ5NTE1LCJhdWQiOiJodHRwczovL290b3RlY2gtYmxvZy52ZXJjZWwuYXBwLyIsImRhdGEiOiJhZG1pbkBnbWFpbC5jb20ifQ.ylmR65ttZlmX6BX979kX5PROEwv4puf-Vs24TnOFqQA`,formData,{withCredentials:true})
+        .then(res=>{console.log(res.status,res.data)}).catch(err=>{console.log(res.status,err.message)})
+        //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
         axios.post(`${phpUrl}/authentication/staff-login.php`,formData,{withCredentials:true})
         .then(res=>{
             let status=res.data.status;
