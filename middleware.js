@@ -19,13 +19,16 @@ export default async function middleware(req) {
 
         const res=await fetch(`${phpUrl}/authentication/admin-auth.php`,{method: 'POST',credentials:'include'})
       //  const res=await fetch(`${baseUrl}/api/authentication/adminAuth?cookie=${cookie}`)
-        if(res.status==404){
-          return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
-        }else if(res.status==200){
-        return NextResponse.next();
-      }else{
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
-      }
+      //   if(res.status==404){
+      //     return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+      //   }else if(res.status==200){
+      //   return NextResponse.next();
+      // }else{
+      //   return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+      // }
+      const response = NextResponse.redirect(`${baseUrl}/login?next=${next}&from=adminRoutes`)
+      response.cookies.set("myCookie", res.status);
+      return response;
 
       // }
 
