@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 import { baseUrl, phpUrl } from "./components/BaseUrl"
 
 export default async function middleware(req) {
-  let cookie=req.cookies.get('adminPass');
+  let cookie=req.cookies.get('adminPass2');
   let next=req.url.split(baseUrl)[1];
 
 
