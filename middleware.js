@@ -7,7 +7,7 @@ export default async function middleware(req) {
   let next=req.url.split(baseUrl)[1];
 
 
-    if (req.url.includes('/admin')) {
+    if (req.url.includes('/admin/')) {
       if (req.method == "HEAD") {
         return NextResponse.error();
       }
