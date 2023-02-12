@@ -15,7 +15,7 @@ export default async function middleware(req) {
         return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
       } else {
         try {
-          const res=await fetch(`${phpUrl}/authentication/admin-auth.php`,{method: 'POST',credentials:'include'})
+          const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie.value}`)
           if (res.status !== 404) {
             return NextResponse.next();
           } else {
