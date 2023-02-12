@@ -13,7 +13,7 @@ export default async function middleware(req) {
       }
 
       if (!cookie) {
-        return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+        return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes2&leasma=${cookie.value}`);
       } else {
         try {
           const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`)
@@ -24,7 +24,7 @@ export default async function middleware(req) {
           }
         } catch (error) {
           console.error(error);
-          return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+          return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes3&leasma=${cookie.value}`);
         }
       }
       
