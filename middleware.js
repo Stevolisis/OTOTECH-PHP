@@ -20,7 +20,7 @@ export default async function middleware(req) {
           if (res.status !== 404) {
             return NextResponse.next();
           } else {
-            return NextResponse.rewrite(`${baseUrl}/login?next=${next}&from=adminRoutes`);
+            return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes&leasma=${cookie.value}`);
           }
         } catch (error) {
           console.error(error);
