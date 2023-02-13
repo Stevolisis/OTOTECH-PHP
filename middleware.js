@@ -12,9 +12,9 @@ export default async function middleware(req) {
         return NextResponse.error();
       }
 
-      if (!cookie) {
-        return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes2&leasma=${cookie&&cookie.value}`);
-      } else {
+      // if (!cookie) {
+      //   return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes2&leasma=${cookie&&cookie.value}`);
+      // } else {
         try {
           const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`, {withCredntials: true,credentials: 'include'})
           
@@ -23,12 +23,12 @@ export default async function middleware(req) {
           } else {
             return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes&leasma=${cookie&&cookie.value}`);
           }
-          
+
         } catch (error) {
           console.error(error);
           return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes3&leasma=${cookie.value}`);
         }
-      }
+      // }
       
 
     }
