@@ -16,12 +16,14 @@ export default async function middleware(req) {
         return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes2&leasma=${cookie&&cookie.value}`);
       } else {
         try {
-          const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`)
+          const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`, {withCredntials: true,credentials: 'include'})
+          
           if (res.status !== 404) {
             return NextResponse.next();
           } else {
             return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes&leasma=${cookie&&cookie.value}`);
           }
+          
         } catch (error) {
           console.error(error);
           return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes3&leasma=${cookie.value}`);
