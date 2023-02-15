@@ -390,9 +390,10 @@ padding-bottom: 30px;
 }
 
 .blogCon{
-    max-width: 22%;
-    box-shadow:$color6;
+    max-width: 30%;
+    width: 30%;
     margin:12px;
+    min-width: 300px;
 }
 
 .blogImg{

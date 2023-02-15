@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 import { baseUrl, phpUrl } from "./components/BaseUrl"
 
 export default async function middleware(req) {
-  let cookie=req.cookies.get('adminPass2');
+  // let cookie=req.cookies.get('adminPass2');
   let next=req.url.split(baseUrl)[1];
 
 
@@ -16,7 +16,7 @@ export default async function middleware(req) {
       //   return NextResponse.redirect(`${baseUrl}/login?next=${cookie}&from=adminRoutes2&leasma=${cookie&&cookie.value}`);
       // } else {
         try {
-          const res=await fetch(`${phpUrl}/authentication/admin-auth.php?cookie=${cookie}`, {withCredntials: true,credentials: 'include'})
+          const res=await fetch(`${phpUrl}/authentication/admin-auth.php`, {withCredntials: true,credentials: 'include'})
           
           if (res.status !== 404) {
             return NextResponse.next();
